@@ -1,0 +1,7 @@
+.link--primary {
+    @apply font-semibold text-blue-800;
+}
+
+.link--primary:hover {
+    @apply underline;
+}

@@ -1,0 +1,34 @@
+includes:
+    - ./vendor/nunomaduro/larastan/extension.neon
+
+parameters:
+    level: 8
+
+    paths:
+        - app
+
+    ignoreErrors:
+        # Ignore property errors, since those can not be detected by Larastan
+        - '#Access to an undefined property App\\Nova\\[a-zA-Z0-9\\_]+::\$[a-zA-Z0-9\\_]+.#'
+        - '#Access to an undefined property App\\Models\\[a-zA-Z0-9\\_]+::\$[a-zA-Z0-9\\_]+.#'
+
+        # ¯\_(ツ)_/¯
+        - '#Method App\\Http\\Middleware\\Authenticate::redirectTo\(\) should return string#'
+
+        # Ignore return typehints
+        - '#has no return typehint specified.#'
+
+        # Ignore translation method errors
+        - '#Parameter \#1 \$message of function flash expects string\|null, array\|string\|null given.#'
+        - '#Parameter \#1 \$subject of method Illuminate\\Notifications\\Messages\\SimpleMessage::subject\(\) expects string, array\|string\|null given#'
+        - '#Parameter \#1 \$text of method Illuminate\\Notifications\\Messages\\SimpleMessage::action\(\) expects string, array\|string\|null given#'
+        - '#Parameter \#1 \$message of static method Laravel\\Nova\\Actions\\Action::message\(\) expects string, array\|string\|null given.#'
+        - '#Parameter \#1 \$subject of method Illuminate\\Mail\\Mailable::subject\(\) expects string, array\|string\|null given.#'
+        - '#Method App\\Http\\Requests\\(.*)::attributes\(\) should return array but returns array\|string\|null.#'
+        - '#Method App\\Nova\\Actions\\(.*)::name\(\) should return string but returns array\|string\|null.#'
+        - '#Method App\\Nova\\(.*)::group\(\) should return string but returns array\|string\|null.#'
+        - '#Method App\\Nova\\(.*)::label\(\) should return string but returns array\|string\|null.#'
+        - '#Method App\\Nova\\(.*)::singularLabel\(\) should return string but returns array\|string\|null.#'
+        - '#Method App\\Rules\\(.*)::message\(\) should return string but returns array\|string\|null.#'
+
+    checkMissingIterableValueType: false

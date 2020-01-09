@@ -1,0 +1,22 @@
+/*
+    #BASE
+*/
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+/*
+    #COMPONENTS
+*/
+@import './components/alert.css';
+@import './components/body.css';
+@import './components/content.css';
+@import './components/nprogress.css';
+@import './components/button.css';
+@import './components/input.css';
+@import './components/link.css';
+
+/*
+    #UTILITIES
+*/
+@import './utilities/underline.css';

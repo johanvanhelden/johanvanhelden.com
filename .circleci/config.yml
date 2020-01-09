@@ -1,0 +1,160 @@
+version: 2
+
+defaults: &defaults
+  working_directory: /root/johanvanhelden.com
+  docker:
+    - image: johanvanhelden/circleci-laravel:latest
+
+jobs:
+  build:
+    <<: *defaults
+    steps:
+      - run:
+          name: Fix Yarn globally
+          command: echo 'export PATH=/root/.yarn/bin/:$PATH' >> $BASH_ENV
+      - run:
+          name: Fix Composer globally
+          command: echo 'export PATH=/root/.composer/vendor/bin/:$PATH' >> $BASH_ENV
+      - run:
+          name: Fix NVM globally
+          command: echo 'export NVM_DIR=/root/.nvm' && echo 'source /root/.nvm/nvm.sh' >> $BASH_ENV
+
+      - checkout
+
+      - run:
+          name: Check for syntax errors
+          command: find app database tests config routes -name "*.php" -print0 | xargs -0 -n1 -P8 php -l
+      - run:
+          name: Prepare the environment file
+          command: cp ./.circleci/.env.circleci ./.env && cp ./.circleci/.env.circleci ./.env.testing
+
+      - restore_cache:
+          keys:
+            - composer-v1-{{ checksum "composer.lock" }}-{{ arch }}
+      - run: composer install -n --prefer-dist
+      - save_cache:
+          key: composer-v1-{{ checksum "composer.lock" }}-{{ arch }}
+          paths:
+              - vendor
+
+      - run:
+          name: PHP_CodeSniffer
+          command: phpcs --standard=phpcs.xml -vps
+      - run:
+          name: PHP Mess Detector
+          command: phpmd app text phpmd.xml
+      - run:
+          name: PHP Copy/Paste Detector
+          command: phpcpd app config
+      - run:
+          name: Analyse code
+          command: ./vendor/bin/phpstan analyse --memory-limit=2G
+
+      - run:
+          name: Prepare the database
+          command: ./.circleci/initialize-database.sh
+      - run:
+          name: Run migrations
+          command: php artisan migrate --env=testing --no-interaction
+      - run:
+          name: Run seeders
+          command: php artisan db:seed --env=testing --no-interaction
+
+      - restore_cache:
+          keys:
+            - node-v1-{{ checksum "yarn.lock" }}-{{ arch }}
+
+      - run:
+          name: Compile assets
+          command: ./buildHook.sh $PWD
+
+      - save_cache:
+          key: node-v1-{{ checksum "yarn.lock" }}-{{ arch }}
+          paths:
+            - node_modules
+            - /usr/local/share/.cache/yarn/v1
+
+      - persist_to_workspace:
+          root: /root
+          paths:
+            - johanvanhelden.com
+
+  feature_tests:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: /root
+      - run:
+          name: Initialize the database
+          command: ./.circleci/initialize-database.sh
+      - run:
+          name: Run fresh tests
+          command: composer test-fresh
+
+  browser_tests:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: /root
+      - run:
+          name: Initialize the database
+          command: ./.circleci/initialize-database.sh
+      - run:
+          name: Run migrations
+          command: php artisan migrate --env=testing --no-interaction
+      - run:
+          name: Run seeders
+          command: php artisan db:seed --env=testing --no-interaction
+      - run:
+          name: Dusk tests
+          command: ./.circleci/browser-tests.sh
+      - store_artifacts:
+          path: ./tests/Browser/console
+      - store_artifacts:
+          path: ./tests/Browser/screenshots
+
+  deploy_staging:
+    <<: *defaults
+    steps:
+      - run: curl -X GET ${STAGE_DEPLOY_WEBOOK}
+
+  deploy_production:
+    <<: *defaults
+    steps:
+      - run: curl -X GET ${PRODUCTION_DEPLOY_WEBOOK}
+
+workflows:
+    version: 2
+    build-test-and-deploy:
+      jobs:
+        - build
+        - feature_tests:
+            requires:
+              - build
+        - browser_tests:
+            requires:
+              - build
+              - feature_tests
+            filters:
+              branches:
+                only:
+                  - develop
+                  - master
+        - deploy_staging:
+           requires:
+             - build
+             - feature_tests
+             - browser_tests
+           filters:
+             branches:
+               only:
+                 - develop
+        - deploy_production:
+           requires:
+             - build
+             - feature_tests
+             - browser_tests
+           filters:
+             branches:
+               only:
+                 - master

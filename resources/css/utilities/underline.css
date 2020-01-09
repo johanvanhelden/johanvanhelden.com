@@ -1,0 +1,16 @@
+.underline-dotted {
+    border-bottom-width: 1px;
+    border-style: dotted;
+}
+
+.underline-dotted.hover\:underline:hover {
+    border-bottom: none;
+}
+
+.underline-dotted-blue {
+    @apply underline-dotted border-blue-800;
+}
+
+.underline-dotted-blue.hover\:underline:hover {
+    border-bottom: none;
+}
