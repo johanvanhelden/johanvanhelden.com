@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Services\UserService;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\App;
 
 /**
  * Bootstraps the users.
@@ -54,7 +55,7 @@ class Users extends Command
         $isFirstBootstrap = User::all()->isEmpty();
 
         foreach ($defaultUsers as $user) {
-            $isProduction = app()->environment(config('constants.environment.production'));
+            $isProduction = App::environment(config('constants.environment.production'));
 
             if ($isProduction && !$user['on-production']) {
                 $this->info('Skipping user ' . $user['data']['email'] . ' on production.');
@@ -62,19 +63,16 @@ class Users extends Command
                 continue;
             }
 
-            $hasDefaultUser = User::whereHas('roles', function ($query) {
-                $query->where('name', 'admin');
-            })->exists();
-
+            $hasDefaultUser = User::where('email', $user['data']['email'])->exists();
             if (!$hasDefaultUser || $isFirstBootstrap) {
                 $newUser = $this->userService->create($user['data']);
 
                 $newUser->email_verified_at = Carbon::now();
                 $newUser->save();
+            }
 
-                foreach ($user['roles'] as $role) {
-                    $newUser->assignRole($role);
-                }
+            foreach ($user['roles'] as $role) {
+                User::where('email', $user['data']['email'])->first()->assignRole($role);
             }
         }
 
