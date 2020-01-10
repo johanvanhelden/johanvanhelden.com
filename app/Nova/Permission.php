@@ -68,7 +68,7 @@ class Permission extends Resource
 
             Text::make(__('permission.attributes.name'), 'name')
                 ->sortable()
-                ->rules('required', 'string', 'db_string')
+                ->rules('required', 'db_string')
                 ->creationRules('unique:permissions,name')
                 ->updateRules('unique:permissions,name,{{resourceId}}'),
 

@@ -47,4 +47,40 @@
     h6 {
         @apply text-base;
     }
+
+    ul {
+        @apply list-disc list-inside mb-4;
+    }
+
+    ol {
+        @apply list-decimal list-inside mb-4;
+    }
+
+    blockquote {
+        @apply relative p-4 text-xl italic border-l-4 mb-4;
+    }
+
+    pre {
+        @apply px-4 py-2 bg-gray-300 text-black mb-4;
+    }
+
+    table {
+        @apply table-auto mb-4;
+    }
+
+    table th {
+        @apply px-4 py-2;
+    }
+
+    table td {
+        @apply border px-4 py-2;
+    }
+
+    table tr:nth-child(odd) {
+        @apply bg-white;
+    }
+
+    table tr:nth-child(even) {
+        @apply bg-gray-100;
+    }
 }

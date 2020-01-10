@@ -79,15 +79,17 @@ class Project extends Resource
 
             Text::make(__('project.attributes.name'), 'name')
                 ->sortable()
-                ->rules('required', 'string', 'db_string'),
+                ->rules('required', 'db_string'),
 
             Text::make(__('project.attributes.slug'), 'slug')
                 ->sortable()
-                ->rules('required', 'string', 'db_string'),
+                ->rules('required', 'db_string')
+                ->creationRules('unique:projects,slug')
+                ->updateRules('unique:projects,slug,{{resourceId}}'),
 
             Textarea::make(__('project.attributes.excerpt'), 'excerpt')
                 ->sortable()
-                ->rules('required', 'string', 'db_string'),
+                ->rules('required', 'db_string'),
 
             Markdown::make(__('project.attributes.content'), 'content')
                 ->sortable()

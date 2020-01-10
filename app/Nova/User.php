@@ -77,7 +77,7 @@ class User extends Resource
 
             Text::make(__('user.attributes.name'), 'name')
                 ->sortable()
-                ->rules('required', 'string', 'db_string'),
+                ->rules('required', 'db_string'),
 
             Text::make(__('user.attributes.email'), 'email')
                 ->sortable()
