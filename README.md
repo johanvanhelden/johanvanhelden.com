@@ -69,10 +69,6 @@ If you discover any security-related issues, please email [johan@johanvanhelden.
 
 GNU General Public License v3.0 (gpl-3.0). Please see the [License File](LICENSE.md) for more information.
 
-### Open-source
-- Check test coverage
-- Make repo public
-
 ## TODO
 
 ### Blog module
