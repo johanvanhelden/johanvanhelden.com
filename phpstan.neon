@@ -14,6 +14,7 @@ parameters:
 
         # ¯\_(ツ)_/¯
         - '#Method App\\Http\\Middleware\\Authenticate::redirectTo\(\) should return string#'
+        - '#Cannot call method assignRole\(\) on App\\Models\\User\|null.#'
 
         # Ignore return typehints
         - '#has no return typehint specified.#'
