@@ -77,7 +77,7 @@ class Subscriber extends Resource
 
             Text::make(__('subscriber.attributes.name'), 'name')
                 ->sortable()
-                ->rules('required', 'string', 'db_string'),
+                ->rules('required', 'db_string'),
 
             Text::make(__('subscriber.attributes.email'), 'email')
                 ->sortable()

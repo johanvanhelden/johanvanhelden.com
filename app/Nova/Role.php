@@ -67,7 +67,7 @@ class Role extends Resource
 
             Text::make(__('role.attributes.name'), 'name')
                 ->sortable()
-                ->rules('required', 'string', 'db_string')
+                ->rules('required', 'db_string')
                 ->creationRules('unique:roles,name')
                 ->updateRules('unique:roles,name,{{resourceId}}'),
 
