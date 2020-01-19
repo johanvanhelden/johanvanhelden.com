@@ -19,7 +19,7 @@ use NovaAttachMany\AttachMany;
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class User extends Resource
+class User extends BaseResource
 {
     /**
      * The model the resource corresponds to.

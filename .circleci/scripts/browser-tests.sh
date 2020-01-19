@@ -39,8 +39,8 @@ echo
 echo '==============================='
 echo '| 3. Run Dusk:                 '
 echo '==============================='
-# get the proper chrome driver for the circleci image
-php artisan dusk:chrome-driver 79
+# get the proper chrome driver
+php artisan dusk:chrome-driver ${CHROME_VERSION}
 
 # ensure the chrome driver is executable
 chmod +x ./vendor/laravel/dusk/bin/chromedriver-linux

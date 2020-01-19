@@ -12,7 +12,7 @@ use Laravel\Nova\Fields\Text;
 /**
  * Defines a permission for Nova.
  */
-class Permission extends Resource
+class Permission extends BaseResource
 {
     /**
      * The model the resource corresponds to.

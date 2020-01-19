@@ -38,16 +38,10 @@ class Permissions extends Command
         app()['cache']->forget('spatie.permission.cache');
 
         foreach (config('defaults.roles') as $roleName => $permissions) {
-            $role = Role::where('name', $roleName)->first();
-            if (empty($role)) {
-                $role = Role::create(['name' => $roleName]);
-            }
+            $role = Role::firstOrCreate(['name' => $roleName]);
 
             foreach ($permissions as $permissionName) {
-                $permission = Permission::where('name', $permissionName)->first();
-                if (empty($permission)) {
-                    $permission = Permission::create(['name' => $permissionName]);
-                }
+                Permission::firstOrCreate(['name' => $permissionName]);
             }
 
             $role->givePermissionTo($permissions);
@@ -66,8 +60,6 @@ class Permissions extends Command
         $rolesWithPermissions = config('defaults.roles');
         $permissions = Arr::flatten($rolesWithPermissions);
 
-        Permission::whereNotIn('name', $permissions)->each(function ($permission) {
-            $permission->delete();
-        });
+        Permission::whereNotIn('name', $permissions)->delete();
     }
 }

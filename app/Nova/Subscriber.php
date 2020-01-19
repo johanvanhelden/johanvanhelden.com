@@ -12,7 +12,7 @@ use Laravel\Nova\Fields\Text;
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Subscriber extends Resource
+class Subscriber extends BaseResource
 {
     /**
      * The model the resource corresponds to.

@@ -14,7 +14,7 @@ use Laravel\Nova\Fields\Textarea;
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Project extends Resource
+class Project extends BaseResource
 {
     /**
      * The model the resource corresponds to.
