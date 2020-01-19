@@ -52,11 +52,9 @@ class Users extends Command
         $this->info('Bootstrapping users...');
 
         $defaultUsers = config('defaults.users');
-        $isFirstBootstrap = User::all()->isEmpty();
+        $isProduction = App::environment(config('constants.environment.production'));
 
         foreach ($defaultUsers as $user) {
-            $isProduction = App::environment(config('constants.environment.production'));
-
             if ($isProduction && !$user['on-production']) {
                 $this->info('Skipping user ' . $user['data']['email'] . ' on production.');
 
@@ -64,7 +62,7 @@ class Users extends Command
             }
 
             $hasDefaultUser = User::where('email', $user['data']['email'])->exists();
-            if (!$hasDefaultUser || $isFirstBootstrap) {
+            if (!$hasDefaultUser) {
                 $newUser = $this->userService->create($user['data']);
 
                 $newUser->email_verified_at = Carbon::now();

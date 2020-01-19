@@ -11,7 +11,7 @@ use Laravel\Nova\Fields\Text;
 /**
  * Defines a role for Nova.
  */
-class Role extends Resource
+class Role extends BaseResource
 {
     /**
      * The model the resource corresponds to.

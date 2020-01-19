@@ -12,7 +12,7 @@ use Laravel\Nova\Fields\Text;
 /**
  * Defines an audit for Nova.
  */
-class Audit extends Resource
+class Audit extends BaseResource
 {
     /**
      * The model the resource corresponds to.

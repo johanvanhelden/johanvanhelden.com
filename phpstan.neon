@@ -8,28 +8,25 @@ parameters:
         - app
 
     ignoreErrors:
-        # Ignore property errors, since those can not be detected by Larastan
-        - '#Access to an undefined property App\\Nova\\[a-zA-Z0-9\\_]+::\$[a-zA-Z0-9\\_]+.#'
-        - '#Access to an undefined property App\\Models\\[a-zA-Z0-9\\_]+::\$[a-zA-Z0-9\\_]+.#'
+        # Allow fetching properties from mixed.
+        # For example "$this->route('user')" will return a user, so we can fetch an "id" from it
+        - '#Cannot access property (.*) on mixed.#'
 
-        # ¯\_(ツ)_/¯
-        - '#Method App\\Http\\Middleware\\Authenticate::redirectTo\(\) should return string#'
-        - '#Cannot call method assignRole\(\) on App\\Models\\User\|null.#'
-
-        # Ignore return typehints
+        # We don't allow void returns, so we have to disable this rule to prevent false positives
         - '#has no return typehint specified.#'
 
-        # Ignore translation method errors
-        - '#Parameter \#1 \$message of function flash expects string\|null, array\|string\|null given.#'
-        - '#Parameter \#1 \$subject of method Illuminate\\Notifications\\Messages\\SimpleMessage::subject\(\) expects string, array\|string\|null given#'
-        - '#Parameter \#1 \$text of method Illuminate\\Notifications\\Messages\\SimpleMessage::action\(\) expects string, array\|string\|null given#'
-        - '#Parameter \#1 \$message of static method Laravel\\Nova\\Actions\\Action::message\(\) expects string, array\|string\|null given.#'
-        - '#Parameter \#1 \$subject of method Illuminate\\Mail\\Mailable::subject\(\) expects string, array\|string\|null given.#'
-        - '#Method App\\Http\\Requests\\(.*)::attributes\(\) should return array but returns array\|string\|null.#'
-        - '#Method App\\Nova\\Actions\\(.*)::name\(\) should return string but returns array\|string\|null.#'
-        - '#Method App\\Nova\\(.*)::group\(\) should return string but returns array\|string\|null.#'
-        - '#Method App\\Nova\\(.*)::label\(\) should return string but returns array\|string\|null.#'
-        - '#Method App\\Nova\\(.*)::singularLabel\(\) should return string but returns array\|string\|null.#'
-        - '#Method App\\Rules\\(.*)::message\(\) should return string but returns array\|string\|null.#'
+        # Unexplainable errors
+        - '#Method App\\Http\\Middleware\\Authenticate::redirectTo\(\) should return string#'
 
     checkMissingIterableValueType: false
+    checkUnionTypes: false
+
+    universalObjectCratesClasses:
+        - Illuminate\Http\Resources\Json\Resource
+
+        # Nova uses some unresolvable magic
+        - Laravel\Nova\Fields\ActionFields
+        - Laravel\Nova\Resource
+
+        # This can be removed once models are annotated, otherwise properties and methods can not be resolved properly
+        - Illuminate\Database\Eloquent\Model

@@ -14,7 +14,7 @@ use OptimistDigital\NovaSortable\Traits\HasSortableRows;
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Tool extends Resource
+class Tool extends BaseResource
 {
     use HasSortableRows;
 

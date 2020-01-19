@@ -6,9 +6,9 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Resource as NovaResource;
 
 /**
- * Defines a nova resource.
+ * Defines a Nova resource.
  */
-abstract class Resource extends NovaResource
+abstract class BaseResource extends NovaResource
 {
     /**
      * Default ordering for index query.

@@ -22,9 +22,6 @@ jobs:
       - checkout
 
       - run:
-          name: Check for syntax errors
-          command: find app database tests config routes -name "*.php" -print0 | xargs -0 -n1 -P8 php -l
-      - run:
           name: Prepare the environment file
           command: cp ./.circleci/.env.circleci ./.env && cp ./.circleci/.env.circleci ./.env.testing
 
@@ -38,21 +35,15 @@ jobs:
               - vendor
 
       - run:
-          name: PHP_CodeSniffer
-          command: phpcs --standard=phpcs.xml -vps
+          name: Code Validation
+          command: ./.circleci/scripts/validation.sh
       - run:
-          name: PHP Mess Detector
-          command: phpmd app text phpmd.xml
-      - run:
-          name: PHP Copy/Paste Detector
-          command: phpcpd app config
-      - run:
-          name: Analyse code
-          command: ./vendor/bin/phpstan analyse --memory-limit=2G
+          name: Code Analysis
+          command: ./.circleci/scripts/code-analysis.sh
 
       - run:
           name: Prepare the database
-          command: ./.circleci/initialize-database.sh
+          command: ./.circleci/scripts/initialize-database.sh
       - run:
           name: Run migrations
           command: php artisan migrate --env=testing --no-interaction
@@ -86,7 +77,7 @@ jobs:
           at: /root
       - run:
           name: Initialize the database
-          command: ./.circleci/initialize-database.sh
+          command: ./.circleci/scripts/initialize-database.sh
       - run:
           name: Run fresh tests
           command: composer test-fresh
@@ -98,7 +89,7 @@ jobs:
           at: /root
       - run:
           name: Initialize the database
-          command: ./.circleci/initialize-database.sh
+          command: ./.circleci/scripts/initialize-database.sh
       - run:
           name: Run migrations
           command: php artisan migrate --env=testing --no-interaction
@@ -107,7 +98,7 @@ jobs:
           command: php artisan db:seed --env=testing --no-interaction
       - run:
           name: Dusk tests
-          command: ./.circleci/browser-tests.sh
+          command: ./.circleci/scripts/browser-tests.sh
       - store_artifacts:
           path: ./tests/Browser/console
       - store_artifacts:
@@ -141,20 +132,20 @@ workflows:
                   - develop
                   - master
         - deploy_staging:
-           requires:
-             - build
-             - feature_tests
-             - browser_tests
-           filters:
-             branches:
-               only:
-                 - develop
+            requires:
+              - build
+              - feature_tests
+              - browser_tests
+            filters:
+              branches:
+                only:
+                  - develop
         - deploy_production:
-           requires:
-             - build
-             - feature_tests
-             - browser_tests
-           filters:
-             branches:
-               only:
-                 - master
+            requires:
+              - build
+              - feature_tests
+              - browser_tests
+            filters:
+              branches:
+                only:
+                  - master
