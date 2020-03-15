@@ -29,7 +29,7 @@ do
         fi
 
         if [ -f webpack.mix.js ]; then
-            npm run prod
+            yarn run prod
 
             if [ $? != 0 ]; then
                 exit 1;
