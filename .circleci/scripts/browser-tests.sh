@@ -39,7 +39,12 @@ echo
 echo '==============================='
 echo '| 3. Run Dusk:                 '
 echo '==============================='
+
+# set the environment variable containing the Chrome version
+CHROME_VERSION=$(cat /root/chrome_version)
+
 # get the proper chrome driver
+echo "Installed Chrome version: ${CHROME_VERSION}"
 php artisan dusk:chrome-driver ${CHROME_VERSION}
 
 # ensure the chrome driver is executable
