@@ -21,7 +21,7 @@ do
         find . -maxdepth 1 -name package.json | grep package > /dev/null 2>&1
         if [ $? == 0 ]; then
             echo "Running yarn install"
-            yarn install
+            yarn install  --frozen-lockfile
 
             if [ $? != 0 ]; then
                 exit 1;
