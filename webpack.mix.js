@@ -23,6 +23,9 @@ mix
     })
     .options({
         processCssUrls: false,
+        terser: {
+            extractComments: false,
+        }
     })
     .setPublicPath('public_html');
 
