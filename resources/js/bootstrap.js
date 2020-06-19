@@ -17,5 +17,3 @@ if (token) {
 /* eslint-disable camelcase */
 Vue.prototype.route = route;
 /* eslint-enable camelcase */
-
-require('./legacy-app');
