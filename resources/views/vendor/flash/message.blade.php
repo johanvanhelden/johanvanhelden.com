@@ -6,11 +6,11 @@
             'body'       => $message['message']
         ])
     @else
-        <article class="message is-{{ $message['level'] }} | js-delete-message-{{ $index }}">
+        <article class="message is-{{ $message['level'] }}">
             @if ($message['important'])
                 <div class="message-header">
                     <p></p>
-                    <button class="delete | js-delete" data-target="js-delete-message-{{ $index }}" aria-label="delete"></button>
+                    <button class="delete" aria-label="delete"></button>
                 </div>
             @endif
             <div class="message-body">
