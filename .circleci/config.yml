@@ -111,7 +111,7 @@ jobs:
     working_directory: ~/
     steps:
       - run: apk add curl
-      - run: curl -X GET ${STAGE_DEPLOY_WEBOOK}
+      - run: curl -X GET ${STAGE_DEPLOY_WEBHOOK}
 
   deploy_production:
     <<: *defaults
@@ -120,7 +120,7 @@ jobs:
     working_directory: ~/
     steps:
       - run: apk add curl
-      - run: curl -X GET ${PRODUCTION_DEPLOY_WEBOOK}
+      - run: curl -X GET ${PRODUCTION_DEPLOY_WEBHOOK}
 
   notify_sentry_deploy:
     <<: *defaults
