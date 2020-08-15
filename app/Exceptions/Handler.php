@@ -1,14 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Exceptions;
 
-use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Support\Facades\App;
 use Inertia\Inertia;
+use Throwable;
 
-/**
- * The exception handler.
- */
 class Handler extends ExceptionHandler
 {
     /**
@@ -33,16 +33,14 @@ class Handler extends ExceptionHandler
     /**
      * Report or log an exception.
      *
-     * This is a great spot to send exceptions to Sentry, Bugsnag, etc.
-     *
-     * @param \Exception $exception
+     * @throws \Exception
      */
-    public function report(Exception $exception)
+    public function report(Throwable $exception): void
     {
-        $skipSentry = in_array(app()->environment(), config('constants.environment.development'));
+        $skipSentry = App::environment(config('constants.environment.development'));
 
         if (!$skipSentry && $this->shouldReport($exception)) {
-            app('sentry')->captureException($exception);
+            App::get('sentry')->captureException($exception);
         }
 
         parent::report($exception);
@@ -52,20 +50,21 @@ class Handler extends ExceptionHandler
      * Render an exception into an HTTP response.
      *
      * @param \Illuminate\Http\Request $request
-     * @param \Exception               $exception
      *
-     * @return \Illuminate\Http\Response
+     * @return \Symfony\Component\HttpFoundation\Response
+     *
+     * @throws \Throwable
      */
-    public function render($request, Exception $exception)
+    public function render($request, Throwable $exception)
     {
         $response = parent::render($request, $exception);
 
         if ($this->shouldGoToInertiaErrorPage($request, $response)) {
             return Inertia::render('Error', [
-                    'status' => $response->getStatusCode(),
-                ])
-                ->toResponse($request)
-                ->setStatusCode($response->getStatusCode());
+                'status' => $response->getStatusCode(),
+            ])
+            ->toResponse($request)
+            ->setStatusCode($response->getStatusCode());
         }
 
         return $response;
@@ -76,13 +75,11 @@ class Handler extends ExceptionHandler
      *
      * @param \Illuminate\Http\Request                                             $request
      * @param \Illuminate\Http\Response|\Symfony\Component\HttpFoundation\Response $response
-     *
-     * @return bool
      */
-    public function shouldGoToInertiaErrorPage($request, $response)
+    public function shouldGoToInertiaErrorPage($request, $response): bool
     {
         // on development environments we want to see the actual error
-        if (app()->environment(config('constants.environment.development'))) {
+        if (App::environment(config('constants.environment.development'))) {
             return false;
         }
 

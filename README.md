@@ -61,6 +61,20 @@ Bootstraps the application, refreshes the database and runs the tests (`artisan 
 composer test-fresh
 ```
 
+### Test coverage
+
+Generates a test coverage report.
+
+Please install pcov first:
+
+```bash
+sudo apt install php-pcov
+```
+
+``` bash
+composer test-fresh
+```
+
 ## Security
 
 If you discover any security-related issues, please email [johan@johanvanhelden.com](mailto:johan@johanvanhelden.com) instead of using the issue tracker.

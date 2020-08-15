@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Feature\Subscriber;
 
 use App\Mail\ConfirmSubscription;
@@ -7,15 +9,10 @@ use App\Models\Subscriber;
 use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
 
-/**
- * Test to ensure subscriptions can be created properly.
- *
- * @SuppressWarnings(PHPMD.CamelCaseMethodName)
- */
 class CreateTest extends TestCase
 {
     /** @test */
-    public function it_can_be_created()
+    public function it_can_be_created(): void
     {
         $subscriber = factory(Subscriber::class)->make();
 
@@ -37,7 +34,7 @@ class CreateTest extends TestCase
     }
 
     /** @test */
-    public function it_is_not_created_if_the_email_already_exists()
+    public function it_is_not_created_if_the_email_already_exists(): void
     {
         factory(Subscriber::class)->create([
             'email' => 'existing@address.test',
@@ -48,11 +45,11 @@ class CreateTest extends TestCase
             'email' => 'existing@address.test',
         ]);
 
-        $this->assertEquals(1, Subscriber::all()->count());
+        $this->assertEquals(1, Subscriber::count());
     }
 
     /** @test */
-    public function a_confirmation_link_is_sent()
+    public function a_confirmation_link_is_sent(): void
     {
         Mail::fake();
 
@@ -68,7 +65,7 @@ class CreateTest extends TestCase
     }
 
     /** @test */
-    public function if_already_exists_but_not_confirmed_a_confirmation_mail_is_sent_again()
+    public function if_already_exists_but_not_confirmed_a_confirmation_mail_is_sent_again(): void
     {
         Mail::fake();
 

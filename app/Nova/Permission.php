@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Nova;
 
 use App\Nova\Actions\ClearPermissionsCache;
@@ -9,59 +11,25 @@ use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\MorphedByMany;
 use Laravel\Nova\Fields\Text;
 
-/**
- * Defines a permission for Nova.
- */
 class Permission extends BaseResource
 {
-    /**
-     * The model the resource corresponds to.
-     *
-     * @var string
-     */
-    public static $model = \Spatie\Permission\Models\Permission::class;
+    public static string $model = \Spatie\Permission\Models\Permission::class;
 
-    /**
-     * The single value that should be used to represent the resource when being displayed.
-     *
-     * @var string
-     */
+    /** @var string */
     public static $title = 'name';
 
-    /**
-     * Key for the translation group used to get the labels.
-     *
-     * @var string
-     */
-    public static $translateKey = 'permission';
+    public static string $translateKey = 'permission';
 
-    /**
-     * The main menu group.
-     *
-     * @return string
-     */
-    public static function group()
+    public static function group(): string
     {
         return __('nova-group.users');
     }
 
-    /**
-     * The columns that should be searched.
-     *
-     * @var array
-     */
+    /** @var array */
     public static $search = ['name'];
 
-    /**
-     * Get the fields displayed by the resource.
-     *
-     * @param Request $request
-     *
-     * @return array
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-     */
-    public function fields(Request $request)
+    /** @SuppressWarnings(PHPMD.UnusedFormalParameter) */
+    public function fields(Request $request): array
     {
         return [
             ID::make()->sortable(),
@@ -77,16 +45,7 @@ class Permission extends BaseResource
         ];
     }
 
-    /**
-     * Get the actions available for the resource.
-     *
-     * @param Request $request
-     *
-     * @return array
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-     */
-    public function actions(Request $request)
+    public function actions(Request $request): array
     {
         return [
             (new ClearPermissionsCache())

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Feature\Subscriber;
 
 use App\Mail\ConfirmSubscription;
@@ -8,15 +10,10 @@ use App\Models\Subscriber;
 use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
 
-/**
- * Test to ensure subscriptions can be deleted properly.
- *
- * @SuppressWarnings(PHPMD.CamelCaseMethodName)
- */
 class DeleteTest extends TestCase
 {
     /** @test */
-    public function it_can_be_deleted()
+    public function it_can_be_deleted(): void
     {
         $subscriber = factory(Subscriber::class)->state('confirmed')->create();
 
@@ -33,7 +30,7 @@ class DeleteTest extends TestCase
     }
 
     /** @test */
-    public function a_notification_is_sent()
+    public function a_notification_is_sent(): void
     {
         Mail::fake();
 
@@ -47,7 +44,7 @@ class DeleteTest extends TestCase
     }
 
     /** @test */
-    public function if_not_confirmed_a_confirmation_mail_is_sent_instead()
+    public function if_not_confirmed_a_confirmation_mail_is_sent_instead(): void
     {
         Mail::fake();
 

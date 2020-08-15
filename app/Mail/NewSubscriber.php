@@ -1,23 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Mail;
 
-use App\Models\Subscriber;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-/**
- * Defines the "new subscriber" mail.
- */
 class NewSubscriber extends Mailable
 {
     use SerializesModels;
 
-    /**
-     * Build the message.
-     *
-     * @return $this
-     */
+    /** @return $this */
     public function build()
     {
         return $this

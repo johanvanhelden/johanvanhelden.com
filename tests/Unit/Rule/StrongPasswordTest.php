@@ -1,58 +1,36 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Unit\Rule;
 
 use App\Rules\StrongPassword;
-use Tests\TestCase;
 
-/**
- * Tests to ensure the StrongPassword validation rule is working properly.
- *
- * @SuppressWarnings(PHPMD.CamelCaseMethodName)
- */
-class StrongPasswordTest extends TestCase
+class StrongPasswordTest extends BaseRuleTest
 {
-    /** @var StrongPassword */
-    protected $rule;
-
-    /**
-     * Initialize the test.
-     */
-    public function setUp() : void
-    {
-        parent::setUp();
-
-        $this->rule = new StrongPassword();
-    }
+    protected string $ruleClass = StrongPassword::class;
 
     /**
      * @test
-     * @dataProvider valid
      *
-     * @param string $string
+     * @dataProvider valid
      */
-    public function it_passes($string)
+    public function it_passes(string $string): void
     {
         $this->assertTrue($this->rule->passes('test', $string));
     }
 
     /**
      * @test
-     * @dataProvider invalid
      *
-     * @param string $string
+     * @dataProvider invalid
      */
-    public function it_fails($string)
+    public function it_fails(string $string): void
     {
         $this->assertFalse($this->rule->passes('test', $string));
     }
 
-    /**
-     * Provides the valid data.
-     *
-     * @return array
-     */
-    public function valid()
+    public function valid(): array
     {
         return [
             ['Testi0ng!1'],
@@ -62,22 +40,14 @@ class StrongPasswordTest extends TestCase
         ];
     }
 
-    /**
-     * Provides the invalid data.
-     *
-     * @return array
-     */
-    public function invalid()
+    public function invalid(): array
     {
         return [
-            ['123!1'],
-            ['asd!1'],
-            ['x@#!'],
-            ['12312312'],
-            ['!@#!@#!@#'],
-            ['strong'],
-            ['admin123'],
-            ['password'],
+            ['short'],
+            ['nouppercase'],
+            ['NOLOWERCASE'],
+            ['noDigits'],
+            ['n0Sp3cialChars'],
         ];
     }
 }

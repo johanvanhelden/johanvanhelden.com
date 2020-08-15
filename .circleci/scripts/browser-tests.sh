@@ -1,13 +1,14 @@
-#!/bin/bash
+#!/usr/bin/env bash
+
 echo '========================='
-echo '== Running Tests       =='
+echo '== Browser Tests       =='
 echo '========================='
 
 echo
 echo '==============================='
-echo '| 1. Run Xvfb :                '
+echo '| Run Xvfb                     '
 echo '==============================='
-pgrep Xvfb
+pidof Xvfb
 
 exitcode=`echo $?`
 if [[ $exitcode != 0 ]]; then
@@ -20,7 +21,7 @@ fi
 
 echo
 echo '==============================='
-echo '| 2. Artisan Serve:            '
+echo '| Artisan Serve                '
 echo '==============================='
 # check if serve is running
 curl 127.0.0.1:8080
@@ -37,7 +38,7 @@ fi
 
 echo
 echo '==============================='
-echo '| 3. Run Dusk:                 '
+echo '| Run Dusk                     '
 echo '==============================='
 
 # set the environment variable containing the Chrome version

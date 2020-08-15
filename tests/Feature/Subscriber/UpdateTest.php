@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Feature\Subscriber;
 
 use App\Mail\ConfirmSubscription;
@@ -7,15 +9,22 @@ use App\Models\Subscriber;
 use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
 
-/**
- * Test to ensure subscriptions can be updated properly.
- *
- * @SuppressWarnings(PHPMD.CamelCaseMethodName)
- */
 class UpdateTest extends TestCase
 {
     /** @test */
-    public function it_can_be_updated()
+    public function a_user_can_view_the_page(): void
+    {
+        $subscriber = factory(Subscriber::class)->state('confirmed')->create();
+
+        $this
+            ->followingRedirects()
+            ->get(route('subscriber.edit', [$subscriber->uuid, $subscriber->secret]))
+
+            ->assertOk();
+    }
+
+    /** @test */
+    public function it_can_be_updated(): void
     {
         $subscriber = factory(Subscriber::class)->state('confirmed')->create([
             'name'  => 'Original',
@@ -40,7 +49,25 @@ class UpdateTest extends TestCase
     }
 
     /** @test */
-    public function the_secret_and_uuid_remain_the_same()
+    public function if_the_users_views_the_page_whilst_unconfirmed_a_mail_will_be_sent(): void
+    {
+        Mail::fake();
+
+        $subscriber = factory(Subscriber::class)->state('unconfirmed')->create();
+
+        $this
+            ->followingRedirects()
+            ->get(route('subscriber.edit', [$subscriber->uuid, $subscriber->secret]))
+
+            ->assertOk();
+
+        Mail::assertSent(ConfirmSubscription::class, function ($mail) use ($subscriber) {
+            return $mail->hasTo($subscriber->email);
+        });
+    }
+
+    /** @test */
+    public function the_secret_and_uuid_remain_the_same(): void
     {
         $subscriber = factory(Subscriber::class)->state('confirmed')->create([
             'email' => 'original@address.test',
@@ -49,13 +76,13 @@ class UpdateTest extends TestCase
         $uuid = $subscriber->uuid;
         $secret = $subscriber->secret;
 
-        $response = $this
+        $this
             ->followingRedirects()
             ->put(route('subscriber.update', [$subscriber->uuid, $subscriber->secret]), [
                 'email' => 'updated@address.test',
-            ]);
+            ])
 
-        $response->assertOk();
+            ->assertOk();
 
         $subscriber->refresh();
 
@@ -64,11 +91,11 @@ class UpdateTest extends TestCase
     }
 
     /** @test */
-    public function it_is_not_updated_if_the_email_already_exists()
+    public function it_is_not_updated_if_the_email_already_exists(): void
     {
         $existingSubscriber = factory(Subscriber::class)->create();
         $subscriber = factory(Subscriber::class)->state('confirmed')->create([
-            'email'  => 'original@address.test',
+            'email' => 'original@address.test',
         ]);
 
         $response = $this
@@ -89,24 +116,27 @@ class UpdateTest extends TestCase
     }
 
     /** @test */
-    public function if_not_confirmed_a_confirmation_mail_is_sent_instead()
+    public function if_not_confirmed_a_confirmation_mail_is_sent_instead(): void
     {
         Mail::fake();
 
         $subscriber = factory(Subscriber::class)->state('unconfirmed')->create([
-            'name' => 'Original',
+            'name'  => 'Original name',
+            'email' => 'existing@address.test',
         ]);
 
         $this
             ->followingRedirects()
             ->put(route('subscriber.update', [$subscriber->uuid, $subscriber->secret]), [
                 'name'  => 'Updated name',
-                'email' => $subscriber->email,
-            ]);
+                'email' => 'existing@address.test',
+            ])
+
+            ->assertOk();
 
         $this->assertDatabaseHas('subscribers', [
-            'id'    => $subscriber->id,
-            'name'  => $subscriber->name,
+            'id'   => $subscriber->id,
+            'name' => $subscriber->name,
         ]);
 
         Mail::assertSent(ConfirmSubscription::class, function ($mail) use ($subscriber) {

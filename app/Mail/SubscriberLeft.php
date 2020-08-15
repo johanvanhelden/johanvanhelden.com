@@ -1,22 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Mail;
 
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-/**
- * Defines the "subscriber left" mail.
- */
 class SubscriberLeft extends Mailable
 {
     use SerializesModels;
 
-    /**
-     * Build the message.
-     *
-     * @return $this
-     */
+    /** @return $this */
     public function build()
     {
         return $this

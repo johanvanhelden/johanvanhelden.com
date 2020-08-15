@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use App\Traits\Publishable;
@@ -9,9 +11,6 @@ use OwenIt\Auditing\Contracts\Auditable;
 use Spatie\EloquentSortable\Sortable;
 use Spatie\EloquentSortable\SortableTrait;
 
-/**
- * Defines a tool.
- */
 class Tool extends Model implements Auditable, Sortable
 {
     use AuditTrait, Publishable, SortableTrait;

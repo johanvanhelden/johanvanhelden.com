@@ -1,34 +1,25 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Actions\Subscriber;
 
 use App\Models\Subscriber;
 use Illuminate\Support\Str;
+use Spatie\QueueableAction\QueueableAction;
 
-/**
- * The action to create a subscriber.
- */
 class CreateSubscriber
 {
-    /** @var AskForConfirmation */
-    private $confirmationAction;
+    use QueueableAction;
 
-    /**
-     * Constructs the action.
-     *
-     * @param AskForConfirmation $action
-     */
+    private AskForConfirmation $confirmationAction;
+
     public function __construct(AskForConfirmation $action)
     {
         $this->confirmationAction = $action;
     }
 
-    /**
-     * Perform the action.
-     *
-     * @param array $data
-     */
-    public function execute(array $data)
+    public function execute(array $data): void
     {
         $subscriber = new Subscriber($data);
 

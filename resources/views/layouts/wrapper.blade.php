@@ -24,9 +24,9 @@
     </script>
 
     @routes
-    <script src="{{ url('/js/manifest.js') }}"></script>
-    <script src="{{ url('/js/vendor.js') }}"></script>
-    <script src="{{ url(mix('js/app.js')) }}"></script>
+    <script src="{{ mix('/js/manifest.js') }}"></script>
+    <script src="{{ mix('/js/vendor.js') }}"></script>
+    <script src="{{ mix('js/app.js') }}"></script>
     {!! NoCaptcha::renderJs(Lang::locale()) !!}
 </body>
 </html>

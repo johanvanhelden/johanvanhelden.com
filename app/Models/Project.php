@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use App\Traits\Publishable;
@@ -8,9 +10,6 @@ use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Auditable as AuditTrait;
 use OwenIt\Auditing\Contracts\Auditable;
 
-/**
- * Defines a project.
- */
 class Project extends Model implements Auditable
 {
     use AuditTrait, Publishable;
@@ -24,24 +23,13 @@ class Project extends Model implements Auditable
         'url',
     ];
 
-    /**
-     * Bind the route to the slug.
-     *
-     * @return string
-     */
-    public function getRouteKeyName()
+    public function getRouteKeyName(): string
     {
         return 'slug';
     }
 
-    /**
-     * Determines if a project has been updated after publishing.
-     *
-     * @return bool
-     *
-     * @SuppressWarnings(PHPMD.BooleanGetMethodName)
-     */
-    public function getIsUpdatedAttribute()
+    /** @SuppressWarnings(PHPMD.BooleanGetMethodName) */
+    public function getIsUpdatedAttribute(): bool
     {
         if (!$this->publish_at) {
             return false;
@@ -54,14 +42,8 @@ class Project extends Model implements Auditable
         return true;
     }
 
-    /**
-     * Determines if a project has been recently updated.
-     *
-     * @return bool
-     *
-     * @SuppressWarnings(PHPMD.BooleanGetMethodName)
-     */
-    public function getIsRecentlyUpdatedAttribute()
+    /** @SuppressWarnings(PHPMD.BooleanGetMethodName) */
+    public function getIsRecentlyUpdatedAttribute(): bool
     {
         if (!$this->is_updated) {
             return false;

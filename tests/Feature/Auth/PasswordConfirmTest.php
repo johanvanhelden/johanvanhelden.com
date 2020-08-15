@@ -1,42 +1,43 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Feature\Auth;
 
-use Tests\Helpers\User;
+use App\Models\User;
+use Illuminate\Support\Facades\Session;
 use Tests\TestCase;
 
-/**
- * Tests to ensure the password confirmation module is functioning properly.
- *
- * @SuppressWarnings(PHPMD.CamelCaseMethodName)
- */
 class PasswordConfirmTest extends TestCase
 {
     /** @test */
-    public function a_user_can_view_the_page()
+    public function a_user_can_view_the_page(): void
     {
-        $response = $this->actingAs(User::getUser())
-            ->get(route('password.confirm'));
+        $this
+            ->actingAs($this->user)
+            ->get(route('password.confirm'))
 
-        $response->assertViewIs('auth.passwords.confirm');
+            ->assertOk();
     }
 
     /** @test */
-    public function a_user_password_gets_confirmed()
+    public function a_user_password_gets_confirmed(): void
     {
-        $user = User::getUser();
+        $user = factory(User::class)->state('user')->create();
 
-        $this->actingAs($user)
+        $this
+            ->actingAs($user)
             ->get(route('page.home'));
 
-        $confirmedAt = session()->get('auth.password_confirmed_at');
+        $confirmedAt = Session::get('auth.password_confirmed_at');
 
-        $this->actingAs($user)
+        $this
+            ->actingAs($user)
             ->post(route('password.confirm'), ['password' => 'password']);
 
         $this->assertNotEquals(
             $confirmedAt,
-            session()->get('auth.password_confirmed_at')
+            Session::get('auth.password_confirmed_at')
         );
     }
 }

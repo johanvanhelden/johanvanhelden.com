@@ -1,5 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
+use App\Enums\Audit\Event;
+
 return [
     'enabled' => env('AUDITING_ENABLED', true),
 
@@ -12,7 +16,7 @@ return [
     |
     */
 
-    'implementation' => OwenIt\Auditing\Models\Audit::class,
+    'implementation' => App\Models\Audit::class,
 
     /*
     |--------------------------------------------------------------------------
@@ -56,10 +60,10 @@ return [
     */
 
     'events' => [
-        'created',
-        'updated',
-        'deleted',
-        'restored',
+        Event::CREATED,
+        Event::UPDATED,
+        Event::DELETED,
+        Event::RESTORED,
     ],
 
     /*

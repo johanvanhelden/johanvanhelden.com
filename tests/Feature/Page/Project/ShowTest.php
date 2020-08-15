@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Feature\Page\Project;
 
 use App\Http\Resources\ProjectResource;
@@ -8,15 +10,10 @@ use Carbon\Carbon;
 use Illuminate\Auth\Access\AuthorizationException;
 use Tests\TestCase;
 
-/**
- * Test to ensure the project show page is working properly.
- *
- * @SuppressWarnings(PHPMD.CamelCaseMethodName)
- */
 class ShowTest extends TestCase
 {
     /** @test */
-    public function it_works()
+    public function it_works(): void
     {
         $project = factory(Project::class)->state('published')->create();
 
@@ -26,17 +23,17 @@ class ShowTest extends TestCase
     }
 
     /** @test */
-    public function it_contains_the_project_data()
+    public function it_contains_the_project_data(): void
     {
         $project = factory(Project::class)->state('published')->create();
 
         $response = $this->get(route('project.show', $project));
 
-        $response->assertPropResourceCollection('project', new ProjectResource($project));
+        $response->assertPropValue('project', new ProjectResource($project));
     }
 
     /** @test */
-    public function an_unpublished_project_can_not_be_viewed()
+    public function an_unpublished_project_can_not_be_viewed(): void
     {
         $this->withoutExceptionHandling();
         $this->expectException(AuthorizationException::class);
@@ -47,7 +44,7 @@ class ShowTest extends TestCase
     }
 
     /** @test */
-    public function a_published_project_can_not_be_viewed_if_in_the_future()
+    public function a_published_project_can_not_be_viewed_if_in_the_future(): void
     {
         $this->withoutExceptionHandling();
         $this->expectException(AuthorizationException::class);

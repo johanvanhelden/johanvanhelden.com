@@ -1,36 +1,28 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
 
-/**
- * Ensures the given string fits in the database.
- */
 class DbString implements Rule
 {
     /** @var int */
     private $length;
 
-    /**
-     * Create a new rule instance.
-     */
     public function __construct()
     {
         $this->length = config('validation.db_string.length');
     }
 
     /**
-     * Determine if the validation rule passes.
-     *
      * @param string $attribute
      * @param mixed  $value
      *
-     * @return bool
-     *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function passes($attribute, $value)
+    public function passes($attribute, $value): bool
     {
         if (empty($value)) {
             return true;
@@ -39,12 +31,7 @@ class DbString implements Rule
         return is_string($value) && (strlen($value) <= $this->length);
     }
 
-    /**
-     * Get the validation error message.
-     *
-     * @return string
-     */
-    public function message()
+    public function message(): string
     {
         return __('validation.db_string', ['length' => $this->length]);
     }

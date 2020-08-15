@@ -6,7 +6,7 @@
             </h2>
             <div class="flex flex-wrap items-center justify-center">
                 <ToolCard
-                    v-for="(tool, index) in tools.data"
+                    v-for="(tool, index) in tools"
                     :key="index"
                     :name="tool.name"
                     :image-url="tool.image_url"
@@ -27,7 +27,7 @@ export default {
     },
     props: {
         tools: {
-            type: Object,
+            type: Array,
             default: null
         }
     }

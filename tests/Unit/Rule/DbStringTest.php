@@ -1,56 +1,35 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Unit\Rule;
 
 use App\Rules\DbString;
 use Illuminate\Support\Str;
-use Tests\TestCase;
 
-/**
- * Tests to ensure the DbString validation rule is working properly.
- *
- * @SuppressWarnings(PHPMD.CamelCaseMethodName)
- */
-class DbStringTest extends TestCase
+class DbStringTest extends BaseRuleTest
 {
-    /** @var DbString */
-    protected $rule;
-
-    /**
-     * Initialize the test.
-     */
-    public function setUp() : void
-    {
-        parent::setUp();
-
-        $this->rule = new DbString();
-    }
+    protected string $ruleClass = DbString::class;
 
     /**
      * @test
-     * @dataProvider valid
      *
-     * @param string $string
+     * @dataProvider valid
      */
-    public function it_passes($string)
+    public function it_passes(string $string): void
     {
         $this->assertTrue($this->rule->passes('test', $string));
     }
 
     /** @test */
-    public function it_fails()
+    public function it_fails(): void
     {
         $longString = Str::random(config('validation.db_string.length') + 1);
 
         $this->assertFalse($this->rule->passes('test', $longString));
     }
 
-    /**
-     * Provides the valid data.
-     *
-     * @return array
-     */
-    public function valid()
+    public function valid(): array
     {
         return [
             ['123'],

@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 use App\Models\User;
-use Faker\Generator;
+use Faker\Generator as Faker;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
-$factory->define(User::class, function (Generator $faker) {
+$factory->define(User::class, function (Faker $faker) {
     $createdAt = $faker->dateTimeBetween('-3 months', '-2 hours');
     $updatedAt = $createdAt;
 
@@ -27,7 +29,7 @@ $factory->define(User::class, function (Generator $faker) {
 });
 
 foreach (array_keys(config('defaults.roles')) as $role) {
-    $factory->afterCreatingState(User::class, $role, function ($user) use ($role) {
+    $factory->afterCreatingState(User::class, $role, function (User $user) use ($role): void {
         $user->assignRole($role);
     });
 }

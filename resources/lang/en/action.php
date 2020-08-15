@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     'cancel'          => 'Cancel',
     'confirm'         => 'Confirm',
@@ -9,5 +11,4 @@ return [
     'set_password'    => 'Set password',
     'send_reset_link' => 'Send reset link',
     'save'            => 'Save',
-    'sign_up'         => 'Sign up',
 ];

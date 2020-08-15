@@ -1,20 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Actions\Subscriber;
 
 use App\Models\Subscriber;
+use Spatie\QueueableAction\QueueableAction;
 
-/**
- * The action to update a subscriber.
- */
 class UpdateSubscriber
 {
-    /**
-     * Perform the action.
-     *
-     * @param array $data
-     */
-    public function execute(Subscriber $subscriber, array $data)
+    use QueueableAction;
+
+    public function execute(Subscriber $subscriber, array $data): void
     {
         $subscriber->update($data);
     }

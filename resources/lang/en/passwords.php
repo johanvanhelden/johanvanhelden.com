@@ -1,7 +1,8 @@
 <?php
 
-return [
+declare(strict_types=1);
 
+return [
     /*
     |--------------------------------------------------------------------------
     | Password Reset Language Lines
@@ -13,8 +14,11 @@ return [
     |
     */
 
-    'reset' => 'Your password has been reset!',
-    'sent'  => 'We have e-mailed your password reset link!',
-    'token' => 'This password reset token is invalid.',
-    'user'  => "We can't find a user with that e-mail address.",
+    'reset'     => 'Your password has been reset!',
+    'sent'      => 'We have emailed your password reset link!',
+    'throttled' => 'Please wait before retrying.',
+    'token'     => 'The link to set the password has expired. Please request a new one and try it again.',
+    'user'      => 'The link to set the password has expired. Please request a new one and try it again.',
+
+    'set' => 'Your password has been set!',
 ];

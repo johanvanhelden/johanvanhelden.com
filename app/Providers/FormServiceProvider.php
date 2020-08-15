@@ -1,19 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Providers;
 
 use Form;
 use Illuminate\Support\ServiceProvider;
 
-/**
- * Form component provider.
- */
 class FormServiceProvider extends ServiceProvider
 {
-    /**
-     * Boot.
-     */
-    public function boot()
+    public function boot(): void
     {
         $defaultComponents = [
             'email',

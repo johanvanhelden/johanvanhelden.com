@@ -1,25 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Resources;
 
-use Illuminate\Http\Resources\Json\Resource;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Storage;
 
-/**
- * Defines a tool.
- */
-class ToolResource extends Resource
+/** @extends JsonResource<\App\Models\Tool> */
+class ToolResource extends JsonResource
 {
     /**
-     * Transform the resource into an array.
-     *
      * @param \Illuminate\Http\Request $request
-     *
-     * @return array
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function toArray($request)
+    public function toArray($request): array
     {
         return [
             'name'         => $this->name,
