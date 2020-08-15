@@ -9,6 +9,11 @@ fi
 
 echo "====== Running $project build hook ======="
 
+echo "====== Set the proper node version ======="
+if [ -f ~/.nvm/nvm.sh ]; then
+    . ~/.nvm/nvm.sh
+fi
+
 paths=(
     $path
 )
@@ -21,7 +26,7 @@ do
         find . -maxdepth 1 -name package.json | grep package > /dev/null 2>&1
         if [ $? == 0 ]; then
             echo "Running yarn install"
-            yarn install  --frozen-lockfile
+            yarn install --frozen-lockfile
 
             if [ $? != 0 ]; then
                 exit 1;

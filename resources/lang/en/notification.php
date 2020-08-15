@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     'greeting'        => 'Hello!',
     'greeting_error'  => 'Whoops!',
@@ -12,6 +14,6 @@ return [
         'body'    => 'An account has been created for you at :appName. Please click the button below to set a password.',
         'footer'  => 'Thank you for using our application!',
 
-        'action_text'  => 'Set your password',
+        'action_text' => 'Set your password',
     ],
 ];

@@ -1,20 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-/**
- * Creates the subscribers table.
- */
 class CreateSubscribersTable extends Migration
 {
-    /**
-     * Run the migrations.
-     */
-    public function up()
+    public function up(): void
     {
-        Schema::create('subscribers', function (Blueprint $table) {
+        Schema::create('subscribers', function (Blueprint $table): void {
             $table->bigIncrements('id');
 
             $table->uuid('uuid');
@@ -28,10 +24,7 @@ class CreateSubscribersTable extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('subscribers');
     }

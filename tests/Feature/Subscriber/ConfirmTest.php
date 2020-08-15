@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Feature\Subscriber;
 
 use App\Mail\NewSubscriber;
@@ -8,15 +10,10 @@ use App\Models\Subscriber;
 use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
 
-/**
- * Test to ensure subscriptions can be created properly.
- *
- * @SuppressWarnings(PHPMD.CamelCaseMethodName)
- */
 class ConfirmTest extends TestCase
 {
     /** @test */
-    public function it_can_be_confirmed()
+    public function it_can_be_confirmed(): void
     {
         $subscriber = factory(Subscriber::class)->state('unconfirmed')->create();
 
@@ -32,7 +29,7 @@ class ConfirmTest extends TestCase
     }
 
     /** @test */
-    public function a_confirmation_is_sent()
+    public function a_confirmation_is_sent(): void
     {
         Mail::fake();
 
@@ -48,7 +45,7 @@ class ConfirmTest extends TestCase
     }
 
     /** @test */
-    public function a_notification_is_sent()
+    public function a_notification_is_sent(): void
     {
         Mail::fake();
 

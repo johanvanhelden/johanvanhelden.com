@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Nova\Actions;
 
 use Illuminate\Bus\Queueable;
@@ -11,29 +13,16 @@ use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
 use Spatie\Permission\PermissionRegistrar;
 
-/**
- * Clears the permissions cache.
- */
 class ClearPermissionsCache extends Action
 {
     use InteractsWithQueue, Queueable, SerializesModels;
 
-    /**
-     * Get the displayable name of the action.
-     *
-     * @return string
-     */
-    public function name()
+    public function name(): string
     {
         return __('nova-action.clear_permission_cache');
     }
 
     /**
-     * Perform the action on the given models.
-     *
-     * @param \Laravel\Nova\Fields\ActionFields $fields
-     * @param \Illuminate\Support\Collection    $models
-     *
      * @return mixed
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)

@@ -1,18 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App;
 
-/**
- * The custom bootstrapper.
- */
 class Bootstrapper extends \Illuminate\Foundation\Application
 {
-    /**
-     * Sets the new public path.
-     *
-     * @return string
-     */
-    public function publicPath()
+    /** Adds support for a `public_html` folder instead of the default `public`. */
+    public function publicPath(): string
     {
         $path = $this->basePath . DIRECTORY_SEPARATOR . 'public_html';
 

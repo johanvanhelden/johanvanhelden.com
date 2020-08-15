@@ -1,24 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Models\Subscriber;
 use Illuminate\Database\Seeder;
 
-/**
- * Generate subscribers.
- */
 class SubscriberSeeder extends Seeder
 {
-    /**
-     * Run the seeder.
-     */
-    public function run()
+    public function run(): void
     {
         $amount = 8;
         $progressBar = $this->command->getOutput()->createProgressBar($amount);
 
         $this->command->info('Seeding ' . $amount . ' subscribers');
 
-        factory(Subscriber::class, $amount)->create()->each(function () use ($progressBar) {
+        factory(Subscriber::class, $amount)->create()->each(function () use ($progressBar): void {
             $progressBar->advance();
         });
 

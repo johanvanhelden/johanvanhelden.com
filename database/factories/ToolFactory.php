@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 use App\Models\Tool;
-use Faker\Generator;
+use Faker\Generator as Faker;
 
-$factory->define(Tool::class, function (Generator $faker) {
+$factory->define(Tool::class, function (Faker $faker) {
     $createdAt = $faker->dateTimeBetween('-3 months', '-2 hours');
     $updatedAt = $createdAt;
 
@@ -28,7 +30,7 @@ $factory->define(Tool::class, function (Generator $faker) {
     ];
 });
 
-$factory->state(Tool::class, 'published', function (Generator $faker) {
+$factory->state(Tool::class, 'published', function (Faker $faker) {
     return [
         'publish_at' => $faker->dateTimeThisYear('now'),
     ];

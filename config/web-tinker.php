@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     // The web tinker page will be available on this path.
     'path' => '/tinker',
@@ -13,7 +15,7 @@ return [
      */
     'enabled' => env('APP_ENV') === 'local',
 
-   /*
+    /*
     * This class can modify the output returned by Tinker. You can replace this with
     * any class that implements \Spatie\WebTinker\OutputModifiers\OutputModifier.
     */

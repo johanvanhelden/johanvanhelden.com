@@ -1,12 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Providers;
 
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
-/**
- * Default auth service provider.
- */
 class AuthServiceProvider extends ServiceProvider
 {
     /**
@@ -20,18 +19,14 @@ class AuthServiceProvider extends ServiceProvider
         \App\Models\Tool::class       => \App\Policies\ToolPolicy::class,
         \App\Models\Subscriber::class => \App\Policies\SubscriberPolicy::class,
 
+        \Laravel\Nova\Actions\ActionEvent::class    => \App\Policies\ActionEventPolicy::class,
         \OwenIt\Auditing\Models\Audit::class        => \App\Policies\AuditPolicy::class,
         \Spatie\Permission\Models\Permission::class => \App\Policies\PermissionPolicy::class,
         \Spatie\Permission\Models\Role::class       => \App\Policies\RolePolicy::class,
     ];
 
-    /**
-     * Register any authentication / authorization services.
-     */
-    public function boot()
+    public function boot(): void
     {
         $this->registerPolicies();
-
-        //
     }
 }

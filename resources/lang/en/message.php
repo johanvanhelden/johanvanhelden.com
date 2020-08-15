@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     'error' => 'Something went wrong. Please try again later.',
     'saved' => 'The changes have been succesfully saved.',

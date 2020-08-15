@@ -1,41 +1,28 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Console\Commands\Bootstrap;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\App;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
-/**
- * Bootstraps the permissions.
- */
 class Permissions extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
+    /** @var string */
     protected $signature = 'bootstrap:permissions';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
+    /** @var string */
     protected $description = 'Bootstraps the permissions.';
 
-    /**
-     * Execute the console command.
-     *
-     * @return mixed
-     */
-    public function handle()
+    public function handle(): void
     {
         $this->info('Bootstrapping permissions...');
 
-        app()['cache']->forget('spatie.permission.cache');
+        App::get('cache')->forget('spatie.permission.cache');
 
         foreach (config('defaults.roles') as $roleName => $permissions) {
             $role = Role::firstOrCreate(['name' => $roleName]);
@@ -52,10 +39,7 @@ class Permissions extends Command
         $this->info('Bootstrapping permissions done');
     }
 
-    /**
-     * Removes permissions that are no longer used.
-     */
-    private function deleteDeprecatedPermissions()
+    private function deleteDeprecatedPermissions(): void
     {
         $rolesWithPermissions = config('defaults.roles');
         $permissions = Arr::flatten($rolesWithPermissions);

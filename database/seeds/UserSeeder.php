@@ -1,24 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
-/**
- * Generate users.
- */
 class UserSeeder extends Seeder
 {
-    /**
-     * Run the seeder.
-     */
-    public function run()
+    public function run(): void
     {
         $amount = 8;
         $progressBar = $this->command->getOutput()->createProgressBar($amount);
 
         $this->command->info('Seeding ' . $amount . ' users');
 
-        factory(User::class, $amount)->create()->each(function ($user) use ($progressBar) {
+        factory(User::class, $amount)->create()->each(function ($user) use ($progressBar): void {
             $user->assignRole('user');
 
             $progressBar->advance();

@@ -1,100 +1,56 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests;
 
-use Anhskohbo\NoCaptcha\Facades\NoCaptcha;
+use App\Models\User as UserModel;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
-use Illuminate\Foundation\Testing\TestResponse;
-use Illuminate\Support\Arr;
-use PHPUnit\Framework\Assert;
+use ReflectionClass;
+use Tests\Helpers\User;
+use Tests\Traits\TestsInertia;
 
-/**
- * General test case.
- */
 abstract class TestCase extends BaseTestCase
 {
-    use CreatesApplication, DatabaseTransactions;
+    use CreatesApplication, DatabaseTransactions, TestsInertia;
 
-    /**
-     * Set up the test suite.
-     */
-    public function setUp() : void
+    protected UserModel $admin;
+
+    protected UserModel $user;
+
+    protected function setUp(): void
     {
         parent::setUp();
+
+        $this->admin = User::getDefaultAdmin();
+        $this->user = User::getDefaultUser();
 
         $this->registerInertiaMacros();
     }
 
     /**
-     * Ignores the captcha.
+     * @param mixed ...$parameters
      *
-     * @param string $name
-     *
-     * @return $this
+     * @return mixed
      */
-    protected function ignoreCaptcha($name = 'g-recaptcha-response')
+    protected function invokeMethod(object &$instance, string $methodName, ...$parameters)
     {
-        // prevent validation error on captcha
-        NoCaptcha::shouldReceive('verifyResponse')
-            ->andReturn(true);
+        $reflection = new ReflectionClass(get_class($instance));
 
-        // provide hidden input for the 'required' validation
-        NoCaptcha::shouldReceive('display')
-            ->zeroOrMoreTimes()
-            ->andReturn('<input type="hidden" name="' . $name . '" value="1" />');
+        $method = $reflection->getMethod($methodName);
+        $method->setAccessible(true);
 
-        return $this;
+        return $method->invokeArgs($instance, $parameters);
     }
 
-    /**
-     * Register macros that help with testing Inertia.
-     *
-     * Source: https://github.com/inertiajs/pingcrm/blob/master/tests/TestCase.php
-     */
-    public function registerInertiaMacros()
+    /** @return mixed */
+    protected function getProperty(object &$instance, string $property)
     {
-        TestResponse::macro('props', function ($key = null) {
-            $props = json_decode(json_encode($this->original->getData()['page']['props']), JSON_OBJECT_AS_ARRAY);
-            if ($key) {
-                return Arr::get($props, $key);
-            }
+        $reflection = new ReflectionClass(get_class($instance));
+        $property = $reflection->getProperty($property);
+        $property->setAccessible(true);
 
-            return $props;
-        });
-
-        TestResponse::macro('assertHasProp', function ($key) {
-            Assert::assertTrue(Arr::has($this->props(), $key));
-
-            return $this;
-        });
-
-        TestResponse::macro('assertPropValue', function ($key, $value) {
-            $this->assertHasProp($key);
-            if (is_callable($value)) {
-                $value($this->props($key));
-            } else {
-                Assert::assertEquals($this->props($key), $value);
-            }
-
-            return $this;
-        });
-
-        TestResponse::macro('assertPropCount', function ($key, $count) {
-            $this->assertHasProp($key);
-            Assert::assertCount($count, $this->props($key));
-
-            return $this;
-        });
-
-        TestResponse::macro('assertPropResourceCollection', function ($key, $resourceCollection) {
-            $this->assertHasProp($key);
-
-            $resourceContent = $resourceCollection->response()->getContent();
-
-            Assert::assertSame($resourceContent, json_encode($this->props($key)));
-
-            return $this;
-        });
+        return $property->getValue($instance);
     }
 }

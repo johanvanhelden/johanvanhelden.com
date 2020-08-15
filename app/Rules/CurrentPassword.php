@@ -1,46 +1,35 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Rules;
 
+use App\Helpers\Auth;
 use Illuminate\Contracts\Validation\Rule;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
-/**
- * Ensures the given value matches the current password.
- */
 class CurrentPassword implements Rule
 {
     /**
-     * Determine if the validation rule passes.
-     *
      * @param string $attribute
      * @param mixed  $value
      *
-     * @return bool
-     *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function passes($attribute, $value)
+    public function passes($attribute, $value): bool
     {
         if (empty($value)) {
             return true;
         }
 
-        $currentUser = Auth::user();
-        if (empty($currentUser)) {
+        if (!Auth::check()) {
             return false;
         }
 
-        return Hash::check($value, $currentUser->password);
+        return Hash::check($value, Auth::user()->password);
     }
 
-    /**
-     * Get the validation error message.
-     *
-     * @return string
-     */
-    public function message()
+    public function message(): string
     {
         return __('validation.current_password');
     }

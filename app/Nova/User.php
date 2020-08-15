@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Nova;
 
 use App\Nova\Actions\SendSetAccountPassword;
@@ -14,61 +16,25 @@ use Laravel\Nova\Fields\Password;
 use Laravel\Nova\Fields\Text;
 use NovaAttachMany\AttachMany;
 
-/**
- * Defines a user for Nova.
- *
- * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
- */
 class User extends BaseResource
 {
-    /**
-     * The model the resource corresponds to.
-     *
-     * @var string
-     */
-    public static $model = \App\Models\User::class;
+    public static string $model = \App\Models\User::class;
 
-    /**
-     * The single value that should be used to represent the resource when being displayed.
-     *
-     * @var string
-     */
+    /** @var string */
     public static $title = 'name';
 
-    /**
-     * Key for the translation group used to get the labels.
-     *
-     * @var string
-     */
-    public static $translateKey = 'user';
+    public static string $translateKey = 'user';
 
-    /**
-     * The main menu group.
-     *
-     * @return string
-     */
-    public static function group()
+    public static function group(): string
     {
         return __('nova-group.users');
     }
 
-    /**
-     * The columns that should be searched.
-     *
-     * @var array
-     */
+    /** @var array */
     public static $search = ['name', 'email'];
 
-    /**
-     * Get the fields displayed by the resource.
-     *
-     * @param Request $request
-     *
-     * @return array
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-     */
-    public function fields(Request $request)
+    /** @SuppressWarnings(PHPMD.UnusedFormalParameter) */
+    public function fields(Request $request): array
     {
         return [
             ID::make()->sortable(),
@@ -90,13 +56,13 @@ class User extends BaseResource
                 ->rules('nullable', 'string', 'strong_password'),
 
             DateTime::make(__('user.attributes.created_at'), 'created_at')
-                ->format(config('constants.format.datetime_moment'))
+                ->format(config('format.datetime_moment'))
                 ->sortable()
                 ->exceptOnForms(),
 
             DateTime::make(__('user.attributes.email_verified_at'), 'email_verified_at')
-                ->rules('required', 'date_format:' . config('constants.format.datetime_nova'))
-                ->format(config('constants.format.datetime_moment'))
+                ->rules('required', 'date_format:' . config('format.datetime_nova'))
+                ->format(config('format.datetime_moment'))
                 ->sortable(),
 
             AttachMany::make(__('role.plural'), 'roles', Role::class)
@@ -107,16 +73,8 @@ class User extends BaseResource
         ];
     }
 
-    /**
-     * Get the cards available for the request.
-     *
-     * @param Request $request
-     *
-     * @return array
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-     */
-    public function cards(Request $request)
+    /** @SuppressWarnings(PHPMD.UnusedFormalParameter) */
+    public function cards(Request $request): array
     {
         return [
             new NewUsers(),
@@ -124,16 +82,8 @@ class User extends BaseResource
         ];
     }
 
-    /**
-     * Get the actions available for the resource.
-     *
-     * @param Request $request
-     *
-     * @return array
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-     */
-    public function actions(Request $request)
+    /** @SuppressWarnings(PHPMD.UnusedFormalParameter)*/
+    public function actions(Request $request): array
     {
         return [
             new SendSetAccountPassword(),

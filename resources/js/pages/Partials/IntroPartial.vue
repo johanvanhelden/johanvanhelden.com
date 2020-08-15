@@ -5,8 +5,8 @@
                 Welcome
             </h2>
             <p class="text-center">
-                Thank you for taking the time to check out my website.
-                Here I will try to give you some more information about myself and the projects that I work on in my free time.
+                Thank you for taking the time to check out my website. Here I will try to give you some more information
+                about myself and the projects that I work on in my free time.
             </p>
         </div>
     </section>
@@ -15,4 +15,3 @@
 <script>
 export default {};
 </script>
-

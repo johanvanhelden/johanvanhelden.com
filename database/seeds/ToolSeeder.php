@@ -1,17 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Models\Tool;
 use Illuminate\Database\Seeder;
 
-/**
- * Generate tools.
- */
 class ToolSeeder extends Seeder
 {
-    /**
-     * Run the seeder.
-     */
-    public function run()
+    public function run(): void
     {
         $tools = [
             'ubuntu'    => 'Ubuntu',
@@ -31,7 +27,7 @@ class ToolSeeder extends Seeder
         foreach ($tools as $name) {
             factory(Tool::class)
                 ->create(['name' => $name])
-                ->each(function () use ($progressBar) {
+                ->each(function () use ($progressBar): void {
                     $progressBar->advance();
                 });
         }

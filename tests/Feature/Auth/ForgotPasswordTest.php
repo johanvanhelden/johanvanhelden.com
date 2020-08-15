@@ -1,60 +1,57 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Feature\Auth;
 
+use App\Models\User;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Notification;
-use Illuminate\Support\Facades\Password;
-use Tests\Helpers\User as User;
 use Tests\TestCase;
 
-/**
- * Tests to ensure the forgot password module is functioning properly.
- *
- * @SuppressWarnings(PHPMD.CamelCaseMethodName)
- */
 class ForgotPasswordTest extends TestCase
 {
     /** @test */
-    public function a_visitor_can_view_the_page()
+    public function a_visitor_can_view_the_page(): void
     {
-        $response = $this->get(route('password.request'));
+        $this
+            ->get(route('password.request'))
 
-        $response->assertViewIs('auth.passwords.email');
+            ->assertOk();
     }
 
     /** @test */
-    public function an_invalid_email_shows_a_generic_message()
+    public function an_invalid_email_shows_a_generic_message(): void
     {
         Notification::fake();
 
-        $response = $this
+        $this
             ->followingRedirects()
             ->from(route('password.request'))
             ->post(route('password.email'), [
                 'email' => 'fake@user.com',
-            ]);
+            ])
 
-        $response->assertSee(__('auth.message.forgotten_status', ['email' => 'fake@user.com']));
+            ->assertSee(__('auth.message.forgotten_status', ['email' => 'fake@user.com']));
     }
 
     /** @test */
-    public function a_link_can_be_requested_for_a_valid_user()
+    public function a_link_can_be_requested_for_a_valid_user(): void
     {
         Notification::fake();
 
-        $user = User::getUser();
+        $user = factory(User::class)->state('user')->create();
 
-        $response = $this
+        $this
             ->followingRedirects()
             ->from(route('password.request'))
             ->post(route('password.email'), [
                 'email' => $user->email,
-            ]);
+            ])
 
-        $response->assertSee(__('auth.message.forgotten_status', ['email' => $user->email]));
+            ->assertSee(__('auth.message.forgotten_status', ['email' => $user->email]));
 
         $token = DB::table('password_resets')->first();
         $this->assertNotNull($token);
@@ -62,31 +59,5 @@ class ForgotPasswordTest extends TestCase
         Notification::assertSentTo($user, ResetPassword::class, function ($notification) use ($token) {
             return Hash::check($notification->token, $token->token) === true;
         });
-    }
-
-    /** @test */
-    public function a_user_can_reset_his_password()
-    {
-        $user = User::getUser();
-        $token = Password::broker()->createToken($user);
-        $newPassword = 'Mynewpassw0rd!';
-
-        $this
-            ->from(route('password.reset', [
-                'token' => $token,
-            ]))
-            ->post(route('password.update'), [
-                'email'                 => $user->email,
-                'token'                 => $token,
-                'password'              => $newPassword,
-                'password_confirmation' => $newPassword,
-            ]);
-
-        $this->post(route('login'), [
-            'email'    => $user->email,
-            'password' => $newPassword,
-        ]);
-
-        $this->assertAuthenticatedAs($user);
     }
 }

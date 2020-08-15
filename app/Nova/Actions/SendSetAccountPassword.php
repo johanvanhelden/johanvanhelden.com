@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Nova\Actions;
 
-use App\Services\UserService;
+use App\Actions\User\SendSetAccountPassword as SendSetAccountPasswordAction;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
@@ -11,19 +13,11 @@ use Illuminate\Support\Facades\App;
 use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
 
-/**
- * Sends the set account password notification.
- */
 class SendSetAccountPassword extends Action
 {
     use InteractsWithQueue, Queueable, SerializesModels;
 
-    /**
-     * Get the displayable name of the action.
-     *
-     * @return string
-     */
-    public function name()
+    public function name(): string
     {
         return __('nova-action.send_set_account_password');
     }
@@ -31,19 +25,16 @@ class SendSetAccountPassword extends Action
     /**
      * Perform the action on the given models.
      *
-     * @param \Laravel\Nova\Fields\ActionFields $fields
-     * @param \Illuminate\Support\Collection    $models
-     *
      * @return mixed
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function handle(ActionFields $fields, Collection $models)
     {
-        $userService = App::make(UserService::class);
+        $action = App::make(SendSetAccountPasswordAction::class);
 
         foreach ($models as $user) {
-            $userService->sendSetAccountPassword($user);
+            $action->execute($user);
         }
     }
 }

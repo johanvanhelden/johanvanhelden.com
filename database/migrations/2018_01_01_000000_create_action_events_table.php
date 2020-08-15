@@ -1,20 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-/**
- * Creates the action events table.
- */
 class CreateActionEventsTable extends Migration
 {
-    /**
-     * Run the migrations.
-     */
-    public function up()
+    public function up(): void
     {
-        Schema::create('action_events', function (Blueprint $table) {
+        Schema::create('action_events', function (Blueprint $table): void {
             $table->bigIncrements('id');
             $table->char('batch_id', 36);
             $table->unsignedInteger('user_id')->index();
@@ -35,10 +31,7 @@ class CreateActionEventsTable extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('action_events');
     }

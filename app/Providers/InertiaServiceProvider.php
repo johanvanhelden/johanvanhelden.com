@@ -1,28 +1,23 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Providers;
 
 use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\ServiceProvider;
 use Inertia\Inertia;
 
-/**
- * Inertia service provider.
- */
 class InertiaServiceProvider extends ServiceProvider
 {
-    /**
-     * Bootstrap any application services.
-     */
-    public function boot()
+    public function boot(): void
     {
         Inertia::setRootView('layouts.app');
 
         Inertia::share([
             'app' => [
-                'name'  => Config::get('app.name'),
+                'name'  => config('app.name'),
                 'isDev' => App::environment(config('constants.environment.development')),
             ],
             'errors' => function () {
@@ -43,7 +38,7 @@ class InertiaServiceProvider extends ServiceProvider
             'expandedHeader' => false,
         ]);
 
-        if (!app()->environment(config('constants.environment.testing'))) {
+        if (!App::environment(config('constants.environment.testing'))) {
             Inertia::version(function () {
                 return md5_file(public_path('mix-manifest.json'));
             });

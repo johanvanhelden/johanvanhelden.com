@@ -1,16 +1,13 @@
 <?php
 
-use Illuminate\Database\Seeder;
+declare(strict_types=1);
 
-/**
- * Runs the bootstrappers.
- */
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Artisan;
+
 class Bootstrapper extends Seeder
 {
-    /**
-     * Bootstrap the application.
-     */
-    public function run()
+    public function run(): void
     {
         $this->command->info('Running the application bootstrapper');
 

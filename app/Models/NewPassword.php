@@ -1,23 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Str;
 
-/**
- * Defines a new password token.
- */
 class NewPassword extends Model
 {
-    /**
-     * Create a new password token.
-     *
-     * @param User $user
-     *
-     * @return string
-     */
-    public static function createToken(User $user)
+    public static function createToken(User $user): string
     {
         $user->newPasswords->each->delete();
 
@@ -29,12 +22,7 @@ class NewPassword extends Model
         return $token->token;
     }
 
-    /**
-     * Relation with the user.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }

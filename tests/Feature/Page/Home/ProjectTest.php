@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Feature\Page\Home;
 
 use App\Http\Resources\ProjectResource;
@@ -7,15 +9,10 @@ use App\Models\Project;
 use Carbon\Carbon;
 use Tests\TestCase;
 
-/**
- * Test to ensure the home page's projects are working properly.
- *
- * @SuppressWarnings(PHPMD.CamelCaseMethodName)
- */
 class ProjectTest extends TestCase
 {
     /** @test */
-    public function it_only_lists_published()
+    public function it_only_lists_published(): void
     {
         $projects = factory(Project::class, 2)->state('published')->create();
         factory(Project::class, 4)->state('unpublished')->create();
@@ -24,12 +21,12 @@ class ProjectTest extends TestCase
 
         $response = $this->get(route('page.home'));
 
-        $response->assertPropCount('projects.data', 2);
-        $response->assertPropResourceCollection('projects', ProjectResource::collection($sortedProjects));
+        $response->assertPropCount('projects', 2);
+        $response->assertPropValue('projects', ProjectResource::collection($sortedProjects));
     }
 
     /** @test */
-    public function are_sorted_by_publish_date()
+    public function are_sorted_by_publish_date(): void
     {
         $projects = collect();
 
@@ -55,7 +52,7 @@ class ProjectTest extends TestCase
 
         $response = $this->get(route('page.home'));
 
-        $response->assertPropCount('projects.data', 3);
-        $response->assertPropResourceCollection('projects', ProjectResource::collection($sortedProjects));
+        $response->assertPropCount('projects', 3);
+        $response->assertPropValue('projects', ProjectResource::collection($sortedProjects));
     }
 }

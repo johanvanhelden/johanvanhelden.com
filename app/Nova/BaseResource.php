@@ -1,38 +1,29 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Nova;
 
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Resource as NovaResource;
+use Laravel\Scout\Builder as ScoutBuilder;
 
-/**
- * Defines a Nova resource.
- */
 abstract class BaseResource extends NovaResource
 {
-    /**
-     * Default ordering for index query.
-     *
-     * @var array
-     */
-    public static $indexDefaultOrder = [
+    public static array $indexDefaultOrder = [
         'id' => 'desc',
     ];
 
-    /**
-     * Key for the translation group used to get the labels.
-     *
-     * @var string|null
-     */
-    public static $translateKey;
+    public static string $translateKey;
 
     /**
      * Build an "index" query for the given resource.
      *
-     * @param NovaRequest                           $request
-     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param Builder $query
      *
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return Builder
      */
     public static function indexQuery(NovaRequest $request, $query)
     {
@@ -51,14 +42,11 @@ abstract class BaseResource extends NovaResource
     /**
      * Build a Scout search query for the given resource.
      *
-     * @param NovaRequest            $request
-     * @param \Laravel\Scout\Builder $query
-     *
-     * @return \Laravel\Scout\Builder
+     * @param ScoutBuilder $query
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public static function scoutQuery(NovaRequest $request, $query)
+    public static function scoutQuery(NovaRequest $request, $query): ScoutBuilder
     {
         return $query;
     }
@@ -66,12 +54,9 @@ abstract class BaseResource extends NovaResource
     /**
      * Build a "detail" query for the given resource.
      *
-     * @param NovaRequest                           $request
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @param Builder $query
      */
-    public static function detailQuery(NovaRequest $request, $query)
+    public static function detailQuery(NovaRequest $request, $query): Builder
     {
         return parent::detailQuery($request, $query);
     }
@@ -81,32 +66,21 @@ abstract class BaseResource extends NovaResource
      *
      * This query determines which instances of the model may be attached to other resources.
      *
-     * @param NovaRequest                           $request
-     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param Builder $query
      *
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return Builder|Model
      */
     public static function relatableQuery(NovaRequest $request, $query)
     {
         return parent::relatableQuery($request, $query);
     }
 
-    /**
-     * Get the displayable label of the resource.
-     *
-     * @return string
-     */
-    public static function label()
+    public static function label(): string
     {
         return __(static::$translateKey . '.plural');
     }
 
-    /**
-     * Get the displayable singular label of the resource.
-     *
-     * @return string
-     */
-    public static function singularLabel()
+    public static function singularLabel(): string
     {
         return __(static::$translateKey . '.singular');
     }

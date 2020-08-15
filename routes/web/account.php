@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Http\Controllers\Auth\SetPasswordController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::group([
     'prefix' => 'account',
-], function () {
+], function (): void {
     Auth::routes([
         'register' => false,
         'verify'   => true,

@@ -1,72 +1,63 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Policies;
 
 use App\Models\User;
+use Illuminate\Auth\Access\HandlesAuthorization;
+use Spatie\Permission\Models\Role;
 
-/**
- * The role policy.
- */
-class RolePolicy extends BasePolicy
+class RolePolicy
 {
-    /**
-     * Set the permission that is needed.
-     */
-    public function __construct()
+    use HandlesAuthorization;
+
+    protected string $permission = 'manage-roles';
+
+    public function viewAny(User $user): bool
     {
-        $this->permission = 'manage-roles';
+        return $user->can($this->permission);
     }
 
-    /**
-     * Determines if the user can update the entity.
-     *
-     * @param User  $user
-     * @param mixed $entity
-     *
-     * @return bool
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-     */
-    public function update(User $user, $entity)
+    /** @SuppressWarnings(PHPMD.UnusedFormalParameter) */
+    public function view(User $user, Role $role): bool
+    {
+        return $user->can($this->permission);
+    }
+
+    public function create(User $user): bool
+    {
+        return $user->can($this->permission);
+    }
+
+    public function update(User $user, Role $role): bool
     {
         $can = $user->can($this->permission);
-        $isDefault = in_array($entity->name, array_keys(config('defaults.roles')));
+        $isDefault = in_array($role->name, array_keys(config('defaults.roles')));
 
         return $can && !$isDefault;
     }
 
-    /**
-     * Determines if the user can delete the entity.
-     *
-     * @param User  $user
-     * @param mixed $entity
-     *
-     * @return bool
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-     */
-    public function delete(User $user, $entity)
+    public function delete(User $user, Role $role): bool
     {
         $can = $user->can($this->permission);
-        $isDefault = in_array($entity->name, array_keys(config('defaults.roles')));
+        $isDefault = in_array($role->name, array_keys(config('defaults.roles')));
 
         return $can && !$isDefault;
     }
 
-    /**
-     * Determines if the user can force-delete the entity.
-     *
-     * @param User  $user
-     * @param mixed $entity
-     *
-     * @return bool
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-     */
-    public function forceDelete(User $user, $entity)
+    public function restore(User $user, Role $role): bool
     {
         $can = $user->can($this->permission);
-        $isDefault = in_array($entity->name, array_keys(config('defaults.roles')));
+        $isDefault = in_array($role->name, array_keys(config('defaults.roles')));
+
+        return $can && !$isDefault;
+    }
+
+    public function forceDelete(User $user, Role $role): bool
+    {
+        $can = $user->can($this->permission);
+        $isDefault = in_array($role->name, array_keys(config('defaults.roles')));
 
         return $can && !$isDefault;
     }

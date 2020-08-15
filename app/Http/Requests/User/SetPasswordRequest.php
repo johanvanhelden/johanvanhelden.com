@@ -1,18 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Requests\User;
 
-/**
- * The set password request.
- */
-class SetPasswordRequest extends BaseRequest
+use Illuminate\Foundation\Http\FormRequest;
+
+class SetPasswordRequest extends FormRequest
 {
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
-    public function rules()
+    public function authorize(): bool
+    {
+        return true;
+    }
+
+    public function rules(): array
     {
         return [
             'token'                 => 'required',
@@ -20,5 +21,10 @@ class SetPasswordRequest extends BaseRequest
             'password'              => 'required|confirmed|strong_password',
             'password_confirmation' => 'required',
         ];
+    }
+
+    public function attributes(): array
+    {
+        return __('user.attributes');
     }
 }

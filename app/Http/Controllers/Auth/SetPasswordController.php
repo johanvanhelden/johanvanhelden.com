@@ -1,43 +1,27 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\SetPasswordRequest;
 use App\Models\NewPassword;
 use App\Models\User;
+use Illuminate\Contracts\Auth\CanResetPassword;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
+use Illuminate\View\View;
+use Symfony\Component\HttpFoundation\Response as HttpFoundationResponse;
 
-/**
- * Set password controller.
- */
 class SetPasswordController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Password Reset Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller is responsible for handling password reset requests
-    | and uses a simple trait to include this behavior. You're free to
-    | explore this trait and override any methods you wish to tweak.
-    |
-    */
-
     use ResetsPasswords;
 
-    /**
-     * Where to redirect users after resetting their password.
-     *
-     * @var string
-     */
+    /** @var string */
     protected $redirectTo = '/';
 
-    /**
-     * Create a new controller instance.
-     */
     public function __construct()
     {
         $this->middleware('guest');
@@ -45,38 +29,20 @@ class SetPasswordController extends Controller
         $this->redirectTo = url(config('nova.path'));
     }
 
-    /**
-     * Display the password set form.
-     *
-     * @param Request     $request
-     * @param string|null $token
-     *
-     * @return \Illuminate\View\View|\Illuminate\Http\RedirectResponse
-     */
-    public function show(Request $request, $token = null)
+    public function show(Request $request, string $token): View
     {
-        if (empty($token)) {
-            return redirect()->route('login');
-        }
-
-        $email = $request->email;
-
-        return view('auth.passwords.set', compact('token', 'email'));
+        return view('auth.passwords.set', [
+            'token' => $token,
+            'email' => $request->email,
+        ]);
     }
 
-    /**
-     * Set the given user's password.
-     *
-     * @param SetPasswordRequest $request
-     *
-     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
-     */
-    public function post(SetPasswordRequest $request)
+    public function post(SetPasswordRequest $request): HttpFoundationResponse
     {
         $credentials = $this->credentials($request);
 
         $user = $this->validateSet($credentials);
-        if (!$user instanceof User) {
+        if (empty($user)) {
             return $this->sendResetFailedResponse($request, Password::INVALID_TOKEN);
         }
 
@@ -85,21 +51,14 @@ class SetPasswordController extends Controller
 
         NewPassword::whereToken($credentials['token'])->delete();
 
-        return $this->sendResetResponse($request, Password::PASSWORD_RESET);
+        return $this->sendResetResponse($request, 'passwords.set');
     }
 
-    /**
-     * Validate a password set for the given credentials.
-     *
-     * @param array $credentials
-     *
-     * @return \Illuminate\Contracts\Auth\CanResetPassword|string
-     */
-    protected function validateSet(array $credentials)
+    protected function validateSet(array $credentials): ?CanResetPassword
     {
         $user = User::whereEmail($credentials['email'])->first();
         if (empty($user)) {
-            return Password::INVALID_TOKEN;
+            return null;
         }
 
         $tokenRequirements = [
@@ -109,7 +68,7 @@ class SetPasswordController extends Controller
 
         $token = NewPassword::where($tokenRequirements)->count();
         if (empty($token)) {
-            return Password::INVALID_TOKEN;
+            return null;
         }
 
         return $user;

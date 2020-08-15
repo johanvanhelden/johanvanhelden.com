@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Actions\Subscriber\AskForConfirmation;
@@ -11,27 +13,17 @@ use App\Http\Requests\Subscriber\StoreRequest;
 use App\Http\Requests\Subscriber\UpdateRequest;
 use App\Http\Resources\SubscriberResource;
 use App\Models\Subscriber;
+use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
+use Inertia\Response;
 
-/**
- * The subscription controller.
- */
 class SubscriberController extends Controller
 {
-    /**
-     * Executes the request to store a subscriber, if not yet subscribed.
-     *
-     * @param StoreRequest       $request
-     * @param CreateSubscriber   $createAction
-     * @param AskForConfirmation $confirmationAction
-     *
-     * @return \Illuminate\Http\RedirectResponse
-     */
     public function store(
         StoreRequest $request,
         CreateSubscriber $createAction,
         AskForConfirmation $confirmationAction
-    ) {
+    ): RedirectResponse {
         $subscriber = Subscriber::where('email', $request->email)->first();
         if ($subscriber && !$subscriber->is_confirmed) {
             $confirmationAction->execute($subscriber);
@@ -46,14 +38,7 @@ class SubscriberController extends Controller
         return redirect()->back();
     }
 
-    /**
-     * Renders the subscriber's management page.
-     *
-     * @param string $uuid
-     * @param string $secret
-     *
-     * @return \Inertia\Response
-     */
+    /** @return RedirectResponse|Response */
     public function edit(string $uuid, string $secret)
     {
         $subscriber = $this->getSubscriber($uuid, $secret);
@@ -62,25 +47,17 @@ class SubscriberController extends Controller
             return $this->handleNotConfirmed($subscriber);
         }
 
-        SubscriberResource::withoutWrapping();
-
         return Inertia::render('Subscriber/Edit', [
             'subscriber' => new SubscriberResource($subscriber),
         ]);
     }
 
-    /**
-     * Executes the request to update a subscriber.
-     *
-     * @param string           $uuid
-     * @param string           $secret
-     * @param UpdateRequest    $request
-     * @param UpdateSubscriber $action
-     *
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function update(string $uuid, string $secret, UpdateRequest $request, UpdateSubscriber $action)
-    {
+    public function update(
+        string $uuid,
+        string $secret,
+        UpdateRequest $request,
+        UpdateSubscriber $action
+    ): RedirectResponse {
         $subscriber = $this->getSubscriber($uuid, $secret);
 
         if (!$subscriber->is_confirmed) {
@@ -96,16 +73,7 @@ class SubscriberController extends Controller
         return redirect($subscriber->manage_subscription_url);
     }
 
-    /**
-     * Executes the request to delete a subscriber.
-     *
-     * @param string           $uuid
-     * @param string           $secret
-     * @param DeleteSubscriber $action
-     *
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function destroy(string $uuid, string $secret, DeleteSubscriber $action)
+    public function destroy(string $uuid, string $secret, DeleteSubscriber $action): RedirectResponse
     {
         $subscriber = $this->getSubscriber($uuid, $secret);
 
@@ -120,16 +88,7 @@ class SubscriberController extends Controller
         return redirect()->route('page.home');
     }
 
-    /**
-     * Executes the request to confirm a subscriber.
-     *
-     * @param string            $uuid
-     * @param string            $secret
-     * @param ConfirmSubscriber $action
-     *
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function confirm(string $uuid, string $secret, ConfirmSubscriber $action)
+    public function confirm(string $uuid, string $secret, ConfirmSubscriber $action): RedirectResponse
     {
         $subscriber = $this->getSubscriber($uuid, $secret);
 
@@ -140,26 +99,13 @@ class SubscriberController extends Controller
         return redirect($subscriber->manage_subscription_url);
     }
 
-    /**
-     * Get the subscriber.
-     *
-     * @param string $uuid
-     * @param string $secret
-     *
-     * @return Subscriber
-     */
-    private function getSubscriber(string $uuid, string $secret)
+    private function getSubscriber(string $uuid, string $secret): Subscriber
     {
         return Subscriber::where('uuid', $uuid)->where('secret', $secret)
             ->firstOrFail();
     }
 
-    /**
-     * Handles a unconfirmed subscriber visit.
-     *
-     * @param Subscriber $subscriber
-     */
-    private function handleNotConfirmed(Subscriber $subscriber)
+    private function handleNotConfirmed(Subscriber $subscriber): RedirectResponse
     {
         (new AskForConfirmation())->execute($subscriber);
 

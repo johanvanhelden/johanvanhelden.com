@@ -9,9 +9,7 @@
                         </h1>
                     </div>
                     <p class="block text-xs uppercase text-gray-600">
-                        <span class="block md:inline">
-                            Published on {{ project.publish_at | date }}
-                        </span>
+                        <span class="block md:inline"> Published on {{ project.publish_at | date }} </span>
 
                         <span
                             v-if="project.is_updated"
@@ -88,7 +86,7 @@ export default {
                 return;
             }
 
-            return marked(content, { sanitize: true });
+            return marked(content);
         },
         /**
          * Determines the update meta text classes.

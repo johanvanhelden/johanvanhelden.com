@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     'password_confirm' => [
         'page_title' => 'Confirm your password',
@@ -40,15 +42,6 @@ return [
 
         'headings' => [
             'form' => 'Set your password',
-        ],
-    ],
-
-    'sign_up' => [
-        'page_title' => 'Sign up',
-
-        'headings' => [
-            'form'         => 'Create your account',
-            'account_info' => 'Account information',
         ],
     ],
 
