@@ -1,14 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Providers;
 
-use Illuminate\Auth\Events\Registered;
-use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
+use App\Listeners\Auth\AfterLogin;
+use App\Listeners\Auth\AfterLogout;
+use Illuminate\Auth\Events\Login;
+use Illuminate\Auth\Events\Logout;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
-/**
- * Default event service provider.
- */
 class EventServiceProvider extends ServiceProvider
 {
     /**
@@ -17,15 +18,15 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        Registered::class => [
-            SendEmailVerificationNotification::class,
+        Login::class => [
+            AfterLogin::class,
+        ],
+        Logout::class => [
+            AfterLogout::class,
         ],
     ];
 
-    /**
-     * Register any events for your application.
-     */
-    public function boot()
+    public function boot(): void
     {
         parent::boot();
     }

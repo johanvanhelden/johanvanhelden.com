@@ -1,17 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Models\Project;
 use Illuminate\Database\Seeder;
 
-/**
- * Generate projects.
- */
 class ProjectSeeder extends Seeder
 {
-    /**
-     * Run the seeder.
-     */
-    public function run()
+    public function run(): void
     {
         $progressBar = $this->command->getOutput()->createProgressBar(6);
 
@@ -20,14 +16,14 @@ class ProjectSeeder extends Seeder
         factory(Project::class, 3)
             ->state('published')
             ->create()
-            ->each(function () use ($progressBar) {
+            ->each(function () use ($progressBar): void {
                 $progressBar->advance();
             });
 
         factory(Project::class, 3)
             ->state('unpublished')
             ->create()
-            ->each(function () use ($progressBar) {
+            ->each(function () use ($progressBar): void {
                 $progressBar->advance();
             });
 

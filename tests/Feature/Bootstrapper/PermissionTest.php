@@ -1,28 +1,26 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Feature\Bootstrapper;
 
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
-/**
- * Tests to ensure the permission bootstrapper is working properly.
- *
- * @SuppressWarnings(PHPMD.CamelCaseMethodName)
- */
 class PermissionTest extends BaseBootstrapperTest
 {
     /** @test */
-    public function it_works()
+    public function it_works(): void
     {
         $this->artisan('bootstrap:permissions')
+
             ->expectsOutput('Bootstrapping permissions...')
             ->expectsOutput('Bootstrapping permissions done')
             ->assertExitCode(0);
     }
 
     /** @test */
-    public function permissions_are_created()
+    public function permissions_are_created(): void
     {
         $this->artisan('bootstrap:permissions');
 
@@ -36,7 +34,7 @@ class PermissionTest extends BaseBootstrapperTest
     }
 
     /** @test */
-    public function deprecated_permissions_are_deleted()
+    public function deprecated_permissions_are_deleted(): void
     {
         Permission::create(['name' => 'deprecated-permission']);
 
@@ -48,7 +46,7 @@ class PermissionTest extends BaseBootstrapperTest
     }
 
     /** @test */
-    public function roles_are_given_permissions()
+    public function roles_are_given_permissions(): void
     {
         $this->artisan('bootstrap:permissions');
 

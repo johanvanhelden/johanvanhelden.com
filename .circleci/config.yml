@@ -10,77 +10,73 @@ jobs:
     <<: *defaults
     steps:
       - run:
-          name: Fix Yarn globally
+          name: Add Yarn globally
           command: echo 'export PATH=/root/.yarn/bin/:$PATH' >> $BASH_ENV
       - run:
-          name: Fix Composer globally
+          name: Add Composer globally
           command: echo 'export PATH=/root/.composer/vendor/bin/:$PATH' >> $BASH_ENV
       - run:
-          name: Fix NVM globally
+          name: Add NVM globally
           command: echo 'export NVM_DIR=/root/.nvm' && echo 'source /root/.nvm/nvm.sh' >> $BASH_ENV
-
       - checkout
-
       - run:
           name: Prepare the environment file
           command: cp ./.circleci/.env.circleci ./.env && cp ./.circleci/.env.circleci ./.env.testing
-
       - restore_cache:
           keys:
             - composer-v1-{{ checksum "composer.lock" }}-{{ arch }}
-      - run: composer install -n --prefer-dist
+      - run:
+          name: Composer install
+          command: composer install -n --prefer-dist
       - save_cache:
           key: composer-v1-{{ checksum "composer.lock" }}-{{ arch }}
           paths:
             - vendor
-
       - run:
-          name: Code Validation
+          name: Security
+          command: ./.circleci/scripts/security.sh
+      - run:
+          name: Validation
           command: ./.circleci/scripts/validation.sh
       - run:
-          name: Code Analysis
-          command: ./.circleci/scripts/code-analysis.sh
-
-      - run:
-          name: Prepare the database
-          command: ./.circleci/scripts/initialize-database.sh
-      - run:
-          name: Run migrations
-          command: php artisan migrate --env=testing --no-interaction
-      - run:
-          name: Run seeders
-          command: php artisan db:seed --env=testing --no-interaction
-
+          name: Analysis
+          command: ./.circleci/scripts/analysis.sh
       - restore_cache:
           keys:
             - node-v1-{{ checksum "yarn.lock" }}-{{ arch }}
-
       - run:
-          name: Compile assets
+          name: Install NPM dependencies
+          command: yarn install
+      - run:
+          name: Lint assets
+          command: yarn lint
+      - run:
+          name: Build assets
           command: ./buildHook.sh $PWD
-
       - save_cache:
           key: node-v1-{{ checksum "yarn.lock" }}-{{ arch }}
           paths:
             - node_modules
             - /usr/local/share/.cache/yarn/v1
-
+      - run:
+          name: Initialize database
+          command: ./.circleci/scripts/initialize-database.sh
+      - run:
+          name: Unit and Feature Tests
+          command: composer test-fresh
+      - run:
+          name: Test coverage
+          command: ./.circleci/scripts/test-coverage.sh
+      - run:
+          name: Migrations
+          command: php artisan migrate:fresh --env=testing --no-interaction
+      - run:
+          name: Seeders
+          command: php artisan db:seed --env=testing --no-interaction
       - persist_to_workspace:
           root: /root
           paths:
             - johanvanhelden.com
-
-  feature_tests:
-    <<: *defaults
-    steps:
-      - attach_workspace:
-          at: /root
-      - run:
-          name: Initialize the database
-          command: ./.circleci/scripts/initialize-database.sh
-      - run:
-          name: Run fresh tests
-          command: composer test-fresh
 
   browser_tests:
     <<: *defaults
@@ -88,16 +84,16 @@ jobs:
       - attach_workspace:
           at: /root
       - run:
-          name: Initialize the database
+          name: Initialize database
           command: ./.circleci/scripts/initialize-database.sh
       - run:
-          name: Run migrations
+          name: Migrations
           command: php artisan migrate --env=testing --no-interaction
       - run:
-          name: Run seeders
+          name: Seeders
           command: php artisan db:seed --env=testing --no-interaction
       - run:
-          name: Dusk tests
+          name: Browser tests
           command: ./.circleci/scripts/browser-tests.sh
       - store_artifacts:
           path: ./tests/Browser/console
@@ -133,7 +129,7 @@ jobs:
       SENTRY_ENVIRONMENT: production
     steps:
       - checkout
-      - run: apk add curl && apk add bash
+      - run: apk add curl && apk add bash && apk add git && apk add openssh
       - run:
           name: Create release and notify Sentry of deploy
           command: |
@@ -149,13 +145,9 @@ workflows:
   build-test-and-deploy:
     jobs:
       - build
-      - feature_tests:
-          requires:
-            - build
       - browser_tests:
           requires:
             - build
-            - feature_tests
           filters:
             branches:
               only:
@@ -164,7 +156,6 @@ workflows:
       - deploy_staging:
           requires:
             - build
-            - feature_tests
             - browser_tests
           filters:
             branches:
@@ -173,7 +164,6 @@ workflows:
       - deploy_production:
           requires:
             - build
-            - feature_tests
             - browser_tests
           filters:
             branches:
@@ -182,7 +172,6 @@ workflows:
       - notify_sentry_deploy:
           requires:
             - build
-            - feature_tests
             - browser_tests
             - deploy_production
           filters:

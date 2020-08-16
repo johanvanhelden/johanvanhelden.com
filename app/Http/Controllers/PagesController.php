@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Http\Resources\ProjectResource;
@@ -8,18 +10,11 @@ use App\Models\Project;
 use App\Models\Tool;
 use Illuminate\Support\Facades\Session;
 use Inertia\Inertia;
+use Inertia\Response;
 
-/**
- * The pages controller.
- */
 class PagesController extends Controller
 {
-    /**
-     * Renders the homepage.
-     *
-     * @return \Inertia\Response
-     */
-    public function home()
+    public function home(): Response
     {
         $projects = Project::published()->latestPublished()->get();
         $tools = Tool::published()->ordered()->get();

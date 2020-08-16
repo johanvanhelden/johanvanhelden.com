@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 use App\Models\Subscriber;
-use Faker\Generator;
+use Faker\Generator as Faker;
 use Illuminate\Support\Str;
 
-$factory->define(Subscriber::class, function (Generator $faker) {
+$factory->define(Subscriber::class, function (Faker $faker) {
     $createdAt = $faker->dateTimeBetween('-3 months', '-2 hours');
     $updatedAt = $createdAt;
 
@@ -26,7 +28,7 @@ $factory->define(Subscriber::class, function (Generator $faker) {
     ];
 });
 
-$factory->state(Subscriber::class, 'confirmed', function (Generator $faker) {
+$factory->state(Subscriber::class, 'confirmed', function (Faker $faker) {
     return [
         'confirmed_at' => $faker->dateTimeThisYear('now'),
     ];

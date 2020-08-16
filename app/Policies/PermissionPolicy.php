@@ -1,92 +1,56 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Policies;
 
 use App\Models\User;
+use Illuminate\Auth\Access\HandlesAuthorization;
+use Spatie\Permission\Models\Permission;
 
-/**
- * The permission policy.
- */
-class PermissionPolicy extends BasePolicy
+class PermissionPolicy
 {
-    /**
-     * Set the permission that is needed.
-     */
-    public function __construct()
+    use HandlesAuthorization;
+
+    protected string $permission = 'manage-permissions';
+
+    public function viewAny(User $user): bool
     {
-        $this->permission = 'manage-permissions';
+        return $user->can($this->permission);
     }
 
-    /**
-     * Determines if the user can create a new entity.
-     *
-     * @param User $user
-     *
-     * @return bool
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-     */
-    public function create(User $user)
+    /** @SuppressWarnings(PHPMD.UnusedFormalParameter) */
+    public function view(User $user, Permission $permission): bool
     {
-        return false;
+        return $user->can($this->permission);
     }
 
-    /**
-     * Determines if the user can update the entity.
-     *
-     * @param User  $user
-     * @param mixed $entity
-     *
-     * @return bool
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-     */
-    public function update(User $user, $entity)
+    /** @SuppressWarnings(PHPMD.UnusedFormalParameter) */
+    public function create(User $user): bool
     {
         return false;
     }
 
-    /**
-     * Determines if the user can delete the entity.
-     *
-     * @param User  $user
-     * @param mixed $entity
-     *
-     * @return bool
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-     */
-    public function delete(User $user, $entity)
+    /** @SuppressWarnings(PHPMD.UnusedFormalParameter) */
+    public function update(User $user, Permission $permission): bool
     {
         return false;
     }
 
-    /**
-     * Determines if the user can restore the entity.
-     *
-     * @param User  $user
-     * @param mixed $entity
-     *
-     * @return bool
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-     */
-    public function restore(User $user, $entity)
+    /** @SuppressWarnings(PHPMD.UnusedFormalParameter) */
+    public function delete(User $user, Permission $permission): bool
     {
         return false;
     }
 
-    /**
-     * Determines if the user can force-delete the entity.
-     *
-     * @param User  $user
-     * @param mixed $entity
-     *
-     * @return bool
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-     */
-    public function forceDelete(User $user, $entity)
+    /** @SuppressWarnings(PHPMD.UnusedFormalParameter) */
+    public function restore(User $user, Permission $permission): bool
+    {
+        return false;
+    }
+
+    /** @SuppressWarnings(PHPMD.UnusedFormalParameter) */
+    public function forceDelete(User $user, Permission $permission): bool
     {
         return false;
     }

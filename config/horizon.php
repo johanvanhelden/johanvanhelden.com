@@ -1,5 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
+use Illuminate\Support\Str;
+
 return [
     /*
     |--------------------------------------------------------------------------
@@ -51,7 +55,10 @@ return [
     |
     */
 
-    'prefix' => env('HORIZON_PREFIX', 'horizon:'),
+    'prefix' => env(
+        'HORIZON_PREFIX',
+        Str::slug(env('APP_NAME', 'laravel'), '_') . '_horizon:'
+    ),
 
     /*
     |--------------------------------------------------------------------------
@@ -94,9 +101,29 @@ return [
 
     'trim' => [
         'recent'        => 60,
+        'pending'       => 60,
+        'completed'     => 60,
         'recent_failed' => 10080,
         'failed'        => 10080,
         'monitored'     => 10080,
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Metrics
+    |--------------------------------------------------------------------------
+    |
+    | Here you can configure how many snapshots should be kept to display in
+    | the metrics graph. This will get used in combination with Horizon's
+    | `horizon:snapshot` schedule to define how long to retain metrics.
+    |
+    */
+
+    'metrics' => [
+        'trim_snapshots' => [
+            'job'   => 24,
+            'queue' => 24,
+        ],
     ],
 
     /*
@@ -145,7 +172,7 @@ return [
                 'queue'      => [env('QUEUE_NAME_DEFAULT', 'default')],
                 'balance'    => 'simple',
                 'processes'  => 10,
-                'tries'      => 3,
+                'tries'      => 1,
             ],
         ],
 
@@ -155,7 +182,7 @@ return [
                 'queue'      => [env('QUEUE_NAME_DEFAULT', 'default')],
                 'balance'    => 'simple',
                 'processes'  => 3,
-                'tries'      => 3,
+                'tries'      => 1,
             ],
         ],
     ],

@@ -1,0 +1,47 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Tests\Unit\Exception\Handler;
+
+use App\Exceptions\Handler;
+use Exception;
+use Illuminate\Support\Facades\App;
+use Mockery;
+use stdClass;
+use Tests\TestCase;
+
+class SentryTest extends TestCase
+{
+    private Handler $handler;
+
+    private Exception $exception;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->handler = $this->app->make(Handler::class);
+        $this->exception = new Exception('This is a test!');
+    }
+
+    /** @test */
+    public function will_skip_sentry_on_local(): void
+    {
+        App::shouldReceive('environment')->once()->andReturn(true);
+
+        $this->handler->report($this->exception);
+    }
+
+    /** @test */
+    public function will_trigger_sentry_on_production(): void
+    {
+        $sentry = Mockery::mock(stdClass::class);
+        $sentry->shouldReceive('captureException')->andReturn(true);
+
+        App::shouldReceive('environment')->once()->andReturn(false);
+        App::shouldReceive('get')->once()->andReturn($sentry);
+
+        $this->handler->report($this->exception);
+    }
+}

@@ -1,27 +1,24 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
 
-/**
- * Enforces a strong password.
- *
- * At least 8 characters, a lowercase, uppercase, digit and special character.
- */
 class StrongPassword implements Rule
 {
     /**
      * Determine if the validation rule passes.
      *
+     * At least 8 characters, a lowercase, uppercase, digit and special character.
+     *
      * @param string $attribute
      * @param mixed  $value
      *
-     * @return bool
-     *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function passes($attribute, $value)
+    public function passes($attribute, $value): bool
     {
         if (strlen($value) < 8) {
             return false;
@@ -47,12 +44,7 @@ class StrongPassword implements Rule
         return true;
     }
 
-    /**
-     * Get the validation error message.
-     *
-     * @return string
-     */
-    public function message()
+    public function message(): string
     {
         return __('validation.strong_password');
     }

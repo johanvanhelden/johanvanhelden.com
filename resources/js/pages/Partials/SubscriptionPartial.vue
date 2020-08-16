@@ -5,7 +5,8 @@
                 Subscribe For Updates
             </h2>
             <p class="text-center mb-4">
-                Would you like to receive an update when I release something new or when I have something to announce? <br>
+                Would you like to receive an update when I release something new or when I have something to announce?
+                <br>
                 Simply fill in the form below with your name and email address, submit it, and I will send you an email!
             </p>
 
@@ -91,4 +92,3 @@ export default {
     }
 };
 </script>
-

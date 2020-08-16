@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     /*
      |--------------------------------------------------------------------------
@@ -16,6 +18,7 @@ return [
     'enabled' => env('DEBUGBAR_ENABLED', null),
     'except'  => [
         'telescope*',
+        'horizon*',
     ],
 
     /*
@@ -32,7 +35,7 @@ return [
      */
     'storage' => [
         'enabled'    => true,
-        'driver'     => 'file', // redis, file, pdo, custom
+        'driver'     => 'redis', // redis, file, pdo, custom
         'path'       => storage_path('debugbar'), // For file driver
         'connection' => null,   // Leave null for default connection (Redis/PDO)
         'provider'   => '', // Instance of StorageInterface for custom driver
@@ -104,23 +107,25 @@ return [
         'messages'        => true,  // Messages
         'time'            => true,  // Time Datalogger
         'memory'          => true,  // Memory usage
-        'exceptions'      => false,  // Exception displayer
-        'log'             => false,  // Logs from Monolog (merged in messages if enabled)
+        'exceptions'      => true,  // Exception displayer
+        'log'             => env('DEBUGBAR_SHOW_LOGS', false),  // Logs from Monolog (merged in messages if enabled)
         'db'              => true,  // Show database (PDO) queries and bindings
         'views'           => true,  // Views with their data
         'route'           => true,  // Current route information
-        'auth'            => true, // Display Laravel authentication status
-        'gate'            => true, // Display Laravel Gate checks
+        'auth'            => false, // Display Laravel authentication status
+        'gate'            => env('DEBUGBAR_SHOW_GATES', false),  // Display Laravel Gate checks
         'session'         => true,  // Display session data
         'symfony_request' => true,  // Only one can be enabled..
         'mail'            => false,  // Catch mail messages
         'laravel'         => true, // Laravel version and environment
-        'events'          => false, // All events fired
+        'events'          => env('DEBUGBAR_SHOW_EVENTS', false), // All events fired
         'default_request' => false, // Regular or special Symfony request logger
         'logs'            => false, // Add the latest log messages
         'files'           => false, // Show the included files
         'config'          => false, // Display config settings
         'cache'           => false, // Display cache events
+        'models'          => true,  // Display models
+        'livewire'        => true,  // Display Livewire (when available)
     ],
 
     /*
@@ -137,20 +142,21 @@ return [
             'show_name' => true,   // Also show the users name/email in the debugbar
         ],
         'db' => [
-            'with_params'       => true,   // Render SQL with the parameters substituted
-            'backtrace'         => true,   // Use a backtrace to find the origin of the query in your files.
-            'timeline'          => false,  // Add the queries to the timeline
-            'explain'           => [                 // Show EXPLAIN output on queries
+            'with_params'             => true,   // Render SQL with the parameters substituted
+            'backtrace'               => env('DEBUGBAR_SHOW_BACKTRACE', true),
+            'backtrace_exclude_paths' => [],   // Paths to exclude from backtrace. (in addition to defaults)
+            'timeline'                => false,  // Add the queries to the timeline
+            'explain'                 => [ // Show EXPLAIN output on queries
                 'enabled' => false,
-                'types'   => ['SELECT'], // workaround ['SELECT'] only. github.com/barryvdh/laravel-debugbar/issues/888
+                'types'   => ['SELECT', 'INSERT', 'UPDATE', 'DELETE'], // workaround ['SELECT'] only for MySQL 5.6.2<
             ],
-            'hints'             => true,    // Show hints for common mistakes
+            'hints' => false,    // Show hints for common mistakes
         ],
         'mail' => [
             'full_log' => false,
         ],
         'views' => [
-            'data' => false,    //Note: Can slow down the application, because the data can be quite large..
+            'data' => env('DEBUGBAR_SHOW_VIEW_DATA'), //Note: Can slow down the application
         ],
         'route' => [
             'label' => true,  // show complete route on bar
@@ -197,4 +203,14 @@ return [
      | To override default domain, specify it as a non-empty value.
      */
     'route_domain' => null,
+
+    /*
+     |--------------------------------------------------------------------------
+     | DebugBar theme
+     |--------------------------------------------------------------------------
+     |
+     | Switches between light and dark theme. If set to auto it will respect system preferences
+     | Possible values: auto, light, dark
+     */
+    'theme' => env('DEBUGBAR_THEME', 'dark'),
 ];

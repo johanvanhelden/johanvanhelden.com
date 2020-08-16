@@ -8,8 +8,10 @@
         'route'  => 'password.email',
         'method' => 'post',
     ]) !!}
-        @if (session('status'))
-            <p class="text-blue-800 mb-4">{{ session('status') }}</p>
+        @if (session()->has('flash_notification'))
+            <p class="text-blue-800 mb-4">
+                {{ session('flash_notification', collect())->first()->message }}
+            </p>
         @endif
 
         {{ Form::uiEmail('email', null, __('user.attributes.email'), [], true) }}

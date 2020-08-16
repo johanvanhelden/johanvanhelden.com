@@ -1,24 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Resources;
 
-use Illuminate\Http\Resources\Json\Resource;
+use Illuminate\Http\Resources\Json\JsonResource;
 
-/**
- * Defines a project.
- */
-class ProjectResource extends Resource
+/** @extends JsonResource<\App\Models\Project> */
+class ProjectResource extends JsonResource
 {
     /**
-     * Transform the resource into an array.
-     *
      * @param \Illuminate\Http\Request $request
-     *
-     * @return array
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function toArray($request)
+    public function toArray($request): array
     {
         return [
             'slug'         => $this->slug,

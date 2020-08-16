@@ -5,10 +5,17 @@
         "development": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
         "watch": "npm run development -- --watch",
         "watch-poll": "npm run watch -- --watch-poll",
-        "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
+        "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --disable-host-check --config=node_modules/laravel-mix/setup/webpack.config.js",
         "prod": "npm run production",
         "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
-        "fix:scripts": "./node_modules/.bin/eslint ./resources/js --ext .js,.vue --fix"
+        "lint": "npm run lint:prettier && npm run lint:scripts && npm run lint:styles",
+        "lint:prettier": "./node_modules/.bin/prettier --check \"resources/css/**/*.css\"",
+        "lint:scripts": "./node_modules/.bin/eslint ./resources/js --ext .js,.vue",
+        "lint:styles": "./node_modules/.bin/stylelint \"resources/css/**/*.css\"",
+        "fix": "npm run fix:prettier && npm run fix:scripts && npm run fix:styles ",
+        "fix:prettier": "./node_modules/.bin/prettier --write \"resources/css/**/*.css\"",
+        "fix:scripts": "./node_modules/.bin/eslint ./resources/js --ext .js,.vue --fix",
+        "fix:styles": "./node_modules/.bin/stylelint \"resources/css/**/*.css\" --fix"
     },
     "dependencies": {
         "@fortawesome/fontawesome-free": "^5.10.2",
@@ -21,7 +28,7 @@
         "@inertiajs/inertia-vue": "^0.1.2",
         "axios": "^0.19.0",
         "dayjs": "^1.8.18",
-        "lodash": "^4.17.15",
+        "lodash": "^4.17.19",
         "marked": "^0.8.0",
         "moment": "^2.24.0",
         "tailwindcss": "^1.1.2",

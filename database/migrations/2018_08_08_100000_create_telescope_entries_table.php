@@ -1,41 +1,33 @@
 <?php
 
+declare(strict_types=1);
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Schema\Builder;
 use Illuminate\Support\Facades\Schema;
 
-/**
- * Creates the telescope entries table.
- */
 class CreateTelescopeEntriesTable extends Migration
 {
-    /**
-     * The database schema.
-     *
-     * @var Schema
-     */
-    protected $schema;
+    protected Builder $schema;
 
-    /**
-     * Create a new migration instance.
-     */
     public function __construct()
     {
-        $this->schema = Schema::connection(
-            config('telescope.storage.database.connection')
-        );
+        $this->schema = Schema::connection($this->getConnection());
     }
 
-    /**
-     * Run the migrations.
-     */
-    public function up()
+    public function getConnection(): ?string
     {
-        $this->schema->create('telescope_entries', function (Blueprint $table) {
+        return config('telescope.storage.database.connection');
+    }
+
+    public function up(): void
+    {
+        $this->schema->create('telescope_entries', function (Blueprint $table): void {
             $table->bigIncrements('sequence');
             $table->uuid('uuid');
             $table->uuid('batch_id');
-            $table->string('family_hash')->nullable()->index();
+            $table->string('family_hash')->nullable();
             $table->boolean('should_display_on_index')->default(true);
             $table->string('type', 20);
             $table->longText('content');
@@ -43,10 +35,12 @@ class CreateTelescopeEntriesTable extends Migration
 
             $table->unique('uuid');
             $table->index('batch_id');
+            $table->index('family_hash');
+            $table->index('created_at');
             $table->index(['type', 'should_display_on_index']);
         });
 
-        $this->schema->create('telescope_entries_tags', function (Blueprint $table) {
+        $this->schema->create('telescope_entries_tags', function (Blueprint $table): void {
             $table->uuid('entry_uuid');
             $table->string('tag');
 
@@ -59,15 +53,12 @@ class CreateTelescopeEntriesTable extends Migration
                   ->onDelete('cascade');
         });
 
-        $this->schema->create('telescope_monitoring', function (Blueprint $table) {
+        $this->schema->create('telescope_monitoring', function (Blueprint $table): void {
             $table->string('tag');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down()
+    public function down(): void
     {
         $this->schema->dropIfExists('telescope_entries_tags');
         $this->schema->dropIfExists('telescope_entries');

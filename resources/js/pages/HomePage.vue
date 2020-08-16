@@ -39,11 +39,11 @@ export default {
     },
     props: {
         projects: {
-            type: Object,
+            type: Array,
             default: null
         },
         tools: {
-            type: Object,
+            type: Array,
             default: null
         }
     },

@@ -9,7 +9,7 @@
             </h2>
             <div class="flex flex-wrap">
                 <ProjectCard
-                    v-for="(project, index) in projects.data"
+                    v-for="(project, index) in projects"
                     :key="index"
                     :title="project.name"
                     :text="project.excerpt"
@@ -31,7 +31,7 @@ export default {
     },
     props: {
         projects: {
-            type: Object,
+            type: Array,
             default: null
         }
     }

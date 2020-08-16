@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     'new_users'     => 'New users',
     'users_per_day' => 'Users per day',

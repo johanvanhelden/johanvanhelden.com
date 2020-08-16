@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     'users' => [
         [
@@ -11,6 +13,16 @@ return [
             ],
             'roles' => [
                 'admin',
+                'user',
+            ],
+        ], [
+            'on-production' => false,
+            'data'          => [
+                'name'     => 'Johan User',
+                'email'    => 'user@johanvanhelden.com',
+                'password' => 'user',
+            ],
+            'roles' => [
                 'user',
             ],
         ],
@@ -25,6 +37,7 @@ return [
             'manage-roles',
             'manage-permissions',
             'manage-audits',
+            'manage-action-events',
 
             'manage-projects',
             'manage-tools',

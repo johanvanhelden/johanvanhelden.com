@@ -1,12 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Middleware;
 
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
 
-/**
- * Authenticate middleware.
- */
 class Authenticate extends Middleware
 {
     /**
@@ -14,7 +13,7 @@ class Authenticate extends Middleware
      *
      * @param \Illuminate\Http\Request $request
      *
-     * @return string
+     * @return string|void
      */
     protected function redirectTo($request)
     {

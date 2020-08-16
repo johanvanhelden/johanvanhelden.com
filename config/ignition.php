@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     /*
     |--------------------------------------------------------------------------
@@ -26,7 +28,7 @@ return [
     |
     */
 
-    'theme' => env('IGNITION_THEME', 'light'),
+    'theme' => env('IGNITION_THEME', 'dark'),
 
     /*
     |--------------------------------------------------------------------------
@@ -68,7 +70,7 @@ return [
     */
 
     'ignored_solution_providers' => [
-        //
+        \Facade\Ignition\SolutionProviders\MissingPackageSolutionProvider::class,
     ],
 
     /*

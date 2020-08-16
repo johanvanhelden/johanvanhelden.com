@@ -1,22 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Actions\Subscriber;
 
 use App\Mail\SubscriberLeft;
 use App\Models\Subscriber;
 use Illuminate\Support\Facades\Mail;
+use Spatie\QueueableAction\QueueableAction;
 
-/**
- * The action to delete a subscriber.
- */
 class DeleteSubscriber
 {
-    /**
-     * Perform the action.
-     *
-     * @param Subscriber $subscriber
-     */
-    public function execute(Subscriber $subscriber)
+    use QueueableAction;
+
+    public function execute(Subscriber $subscriber): void
     {
         $subscriber->delete();
 

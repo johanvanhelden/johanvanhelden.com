@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     'singular' => 'Tool',
     'plural'   => 'Tools',

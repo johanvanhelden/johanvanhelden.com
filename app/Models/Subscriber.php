@@ -1,14 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Auditable as AuditTrait;
 use OwenIt\Auditing\Contracts\Auditable;
 
-/**
- * Defines a subsriber.
- */
 class Subscriber extends Model implements Auditable
 {
     use AuditTrait;
@@ -29,29 +28,17 @@ class Subscriber extends Model implements Auditable
         'secret',
     ];
 
-    /** @var array */
-    protected $auditExclude = [
+    protected array $auditExclude = [
         'secret',
     ];
 
-    /**
-     * Builds the is_confirmed attribute to determine if the subscription has been confirmed.
-     *
-     * @return bool
-     *
-     * @SuppressWarnings(PHPMD.BooleanGetMethodName)
-     */
-    public function getIsConfirmedAttribute()
+    /** @SuppressWarnings(PHPMD.BooleanGetMethodName) */
+    public function getIsConfirmedAttribute(): bool
     {
         return !empty($this->confirmed_at);
     }
 
-    /**
-     * Builds the subscription management URL.
-     *
-     * @return string
-     */
-    public function getManageSubscriptionUrlAttribute()
+    public function getManageSubscriptionUrlAttribute(): string
     {
         return route('subscriber.edit', [
             'uuid'   => urlencode($this->uuid),
@@ -59,12 +46,7 @@ class Subscriber extends Model implements Auditable
         ]);
     }
 
-    /**
-     * Builds the subscription confirm URL.
-     *
-     * @return string
-     */
-    public function getConfirmSubscriptionUrlAttribute()
+    public function getConfirmSubscriptionUrlAttribute(): string
     {
         return route('subscriber.confirm', [
             'uuid'   => urlencode($this->uuid),

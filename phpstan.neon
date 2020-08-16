@@ -2,28 +2,38 @@ includes:
     - ./vendor/nunomaduro/larastan/extension.neon
 
 parameters:
-    level: 8
+    level: max
 
     paths:
         - app
+        - config
+        - tests
+        - database
+        - routes
 
     ignoreErrors:
-        # Allow fetching properties from mixed.
-        # For example "$this->route('user')" will return a user, so we can fetch an "id" from it
-        - '#Cannot access property (.*) on mixed.#'
+        # Unexplainable false positives
+        - '#Access to an undefined property Tests\\TestCase::\$original.#'
 
-        # We don't allow void returns, so we have to disable this rule to prevent false positives
-        - '#has no return typehint specified.#'
+        # There is not proper Macro support yet
+        - '#Call to an undefined method (Tests\\TestCase|Illuminate\\Testing\\TestResponse)::props\(\).#'
+        - '#Call to an undefined method (Tests\\TestCase|Illuminate\\Testing\\TestResponse)::assertHasProp\(\).#'
+        - '#Call to an undefined method (Tests\\TestCase|Illuminate\\Testing\\TestResponse)::assertHasProps\(\).#'
+        - '#Call to an undefined method (Tests\\TestCase|Illuminate\\Testing\\TestResponse)::assertPropCount\(\).#'
+        - '#Call to an undefined method (Tests\\TestCase|Illuminate\\Testing\\TestResponse)::assertPropValue\(\).#'
 
-        # Unexplainable errors
-        - '#Method App\\Http\\Middleware\\Authenticate::redirectTo\(\) should return string#'
+        # Mockery causes issues
+        - '#Call to an undefined method Mockery\\ExpectationInterface\|Mockery\\HigherOrderMessage::(.*).#'
+        - '#Parameter (.*) expects (.*), Mockery\\LegacyMockInterface given.#'
+        - '#Access to an undefined property Mockery\\LegacyMockInterface::(.*).#'
+
+        - path: database/factories/*
+          message: '#Variable \$factory might not be defined.#'
 
     checkMissingIterableValueType: false
     checkUnionTypes: false
 
     universalObjectCratesClasses:
-        - Illuminate\Http\Resources\Json\Resource
-
         # Nova uses some unresolvable magic
         - Laravel\Nova\Fields\ActionFields
         - Laravel\Nova\Resource

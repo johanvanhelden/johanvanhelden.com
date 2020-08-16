@@ -1,13 +1,13 @@
-#!/bin/bash
-echo '========================='
-echo '== Initializing the DB =='
-echo '========================='
+#!/usr/bin/env bash
+
+echo '============================='
+echo '== Initialize database     =='
+echo '============================='
 
 echo
 echo '============================='
-echo '| 1. Starting MySQL:         '
+echo '| Starting MySQL             '
 echo '============================='
-#start MySQL
 /usr/bin/mysqld_safe --user=mysql &
 
 maxAttempts=10
@@ -40,7 +40,7 @@ fi
 
 echo
 echo '============================='
-echo '| 2. Create database:        '
+echo '| Create database            '
 echo '============================='
 mysql -h 127.0.0.1 -u root -proot -e "CREATE DATABASE circleci;"
 if [ $? != 0 ]; then

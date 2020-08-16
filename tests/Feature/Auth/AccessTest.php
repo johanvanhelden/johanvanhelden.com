@@ -1,55 +1,54 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Feature\Auth;
 
+use App\Models\User;
 use Laravel\Nova\Nova;
-use Tests\Helpers\User;
 use Tests\TestCase;
 
-/**
- * Tests to ensure users without proper access can not enter certain areas of the app.
- *
- * @SuppressWarnings(PHPMD.CamelCaseMethodName)
- */
 class AccessTest extends TestCase
 {
     /** @test */
-    public function a_user_can_not_access_nova()
+    public function a_user_can_not_access_nova(): void
     {
-        $user = User::getUser();
+        $user = factory(User::class)->state('user')->create();
 
-        $response = $this->post(route('login'), [
-            'email'    => $user->email,
-            'password' => 'password',
-        ]);
+        $this
+            ->post(route('login'), [
+                'email'    => $user->email,
+                'password' => 'password',
+            ])
+
+            ->assertRedirect(url(config('nova.path')));
 
         $this->assertAuthenticatedAs($user);
 
-        $response = $this->get(Nova::path());
+        $this
+            ->getJson(Nova::path())
 
-        $response->assertStatus(403);
+            ->assertForbidden();
     }
 
     /** @test */
-    public function a_visitor_can_not_access_nova()
+    public function a_visitor_can_not_access_nova(): void
     {
-        $response = $this
+        $this
             ->followingRedirects()
-            ->get(Nova::path());
+            ->getJson(Nova::path())
 
-        $response
-            ->assertViewIs('auth.login');
+            ->assertUnauthorized();
     }
 
     /** @test */
-    public function an_admin_can_access_nova()
+    public function an_admin_can_access_nova(): void
     {
-        $response = $this
-            ->actingAs(User::getAdmin())
+        $this
+            ->actingAs($this->admin)
             ->followingRedirects()
-            ->get(Nova::path());
+            ->get(Nova::path())
 
-        $response
             ->assertViewIs('nova::router');
     }
 }

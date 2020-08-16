@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Feature\Bootstrapper;
 
 use App\Models\User;
@@ -7,17 +9,9 @@ use Illuminate\Support\Facades\Config;
 use Spatie\Permission\Models\Permission;
 use Tests\TestCase;
 
-/**
- * The base bootstrapper test.
- *
- * @SuppressWarnings(PHPMD.CamelCaseMethodName)
- */
 abstract class BaseBootstrapperTest extends TestCase
 {
-    /**
-     * Initialize the test.
-     */
-    public function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -27,10 +21,7 @@ abstract class BaseBootstrapperTest extends TestCase
         $this->setFakeDefaults();
     }
 
-    /**
-     * Sets predictable defaults for testing purposes.
-     */
-    protected function setFakeDefaults()
+    protected function setFakeDefaults(): void
     {
         Config::set('defaults.users', [
             [

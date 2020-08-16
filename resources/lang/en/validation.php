@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     /*
     |--------------------------------------------------------------------------
@@ -39,7 +41,7 @@ return [
     'dimensions'     => 'The :attribute has invalid image dimensions.',
     'distinct'       => 'The :attribute field has a duplicate value.',
     'email'          => 'The :attribute must be a valid email address.',
-    'ends_with'      => 'The :attribute must end with one of the following: :values',
+    'ends_with'      => 'The :attribute must end with one of the following: :values.',
     'exists'         => 'The selected :attribute is invalid.',
     'file'           => 'The :attribute must be a file.',
     'filled'         => 'The :attribute field must have a value.',
@@ -109,7 +111,7 @@ return [
         'string'  => 'The :attribute must be :size characters.',
         'array'   => 'The :attribute must contain :size items.',
     ],
-    'starts_with' => 'The :attribute must start with one of the following: :values',
+    'starts_with' => 'The :attribute must start with one of the following: :values.',
     'string'      => 'The :attribute must be a string.',
     'timezone'    => 'The :attribute must be a valid zone.',
     'unique'      => 'The :attribute has already been taken.',
@@ -131,7 +133,7 @@ return [
     'custom' => [
         'g-recaptcha-response' => [
             'required' => 'Please verify that you are not a robot.',
-            'captcha'  => 'Captcha error! try again later or contact site admin.',
+            'captcha'  => 'Captcha error! Please try again later.',
         ],
     ],
 
@@ -155,7 +157,6 @@ return [
     */
     'strong_password' => 'The password must contain the following: a minimum of 8 characters,
         an uppercase letter, a lowercase letter, a digit and a special character (!@#$%^&*_-).',
-    'current_password'   => 'The current password is invalid.',
-    'db_string'          => 'The given value is to long. The maximum allowed length is :max.',
-    'signup_not_allowed' => 'Registration is currently closed. Please try again at a later date.',
+    'current_password' => 'The current password is invalid.',
+    'db_string'        => 'The given value is to long. The maximum allowed length is :max.',
 ];

@@ -1,31 +1,24 @@
 <?php
 
+declare(strict_types=1);
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-/**
- * Adds the fields to the action events table.
- */
 class AddFieldsToActionEventsTable extends Migration
 {
-    /**
-     * Run the migrations.
-     */
-    public function up()
+    public function up(): void
     {
-        Schema::table('action_events', function (Blueprint $table) {
+        Schema::table('action_events', function (Blueprint $table): void {
             $table->text('original')->nullable();
             $table->text('changes')->nullable();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down()
+    public function down(): void
     {
-        Schema::table('action_events', function (Blueprint $table) {
+        Schema::table('action_events', function (Blueprint $table): void {
             $table->dropColumn('original', 'changes');
         });
     }
