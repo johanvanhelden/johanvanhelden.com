@@ -3,7 +3,6 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title') - {{ config('app.name')}}</title>
     <link rel="stylesheet" href="{{ mix('/css/app.css') }}">
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-77808450-1"></script>
@@ -16,12 +15,6 @@
 </head>
 <body class="body @yield('body-class')">
     @yield('body')
-
-    <script>
-        window.Laravel = {!! json_encode([
-            'csrfToken' => csrf_token(),
-        ]) !!};
-    </script>
 
     @routes
     <script src="{{ mix('/js/manifest.js') }}"></script>

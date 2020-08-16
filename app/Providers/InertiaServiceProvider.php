@@ -32,9 +32,6 @@ class InertiaServiceProvider extends ServiceProvider
             'flashNotifications' => function () {
                 return Session::get('flash_notification');
             },
-            'csrfToken' => function () {
-                return Session::token();
-            },
             'expandedHeader' => false,
         ]);
 
