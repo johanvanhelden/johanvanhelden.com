@@ -12,7 +12,7 @@ class SubscriberPolicy
 {
     use HandlesAuthorization;
 
-    protected string $permission = 'manage-tools';
+    protected string $permission = 'manage-subscribers';
 
     public function viewAny(User $user): bool
     {
