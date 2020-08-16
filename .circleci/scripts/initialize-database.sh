@@ -8,7 +8,6 @@ echo
 echo '============================='
 echo '| Starting MySQL             '
 echo '============================='
-#start MySQL
 /usr/bin/mysqld_safe --user=mysql &
 
 maxAttempts=10
