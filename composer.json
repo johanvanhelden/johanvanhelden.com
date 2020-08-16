@@ -1,8 +1,8 @@
 {
-    "name": "johanvanhelden/laravel-template",
-    "description": "My personal Laravel template for new projects.",
+    "name": "johanvanhelden/johanvanhelden.com",
+    "description": "My personal website.",
     "type": "project",
-    "license": "proprietary",
+    "license": "gpl-3.0",
     "require": {
         "php": "^7.4",
         "anhskohbo/no-captcha": "^3.1",
