@@ -22,17 +22,15 @@ class AfterLogoutTest extends BaseListenerTest
     {
         User::observe(AuditableObserver::class);
 
-        $user = factory(User::class)->create();
-
-        $this->event->user = $user;
+        $this->event->user = $this->user;
 
         $this->listener->handle($this->event);
 
         $this->assertDatabaseHas('audits', [
-            'user_id'        => $user->id,
+            'user_id'        => $this->user->id,
             'event'          => Event::LOGGED_OUT,
             'auditable_type' => User::class,
-            'auditable_id'   => $user->id,
+            'auditable_id'   => $this->user->id,
         ]);
     }
 

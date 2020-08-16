@@ -40,9 +40,7 @@ class UserTest extends BaseTest
     /** @test */
     public function it_exists_for_the_update_action(): void
     {
-        $user = factory(User::class)->state('user')->create();
-
-        $data = array_merge($user->toArray(), [
+        $data = array_merge($this->user->toArray(), [
             'email'             => 'updated@email.com',
             'roles'             => 2,
             'email_verified_at' => Carbon::now()->format(config('format.datetime_nova')),
@@ -50,7 +48,7 @@ class UserTest extends BaseTest
 
         $this
             ->actingAs($this->admin)
-            ->putJson('nova-api/users/' . $user->id, $data)
+            ->putJson('nova-api/users/' . $this->user->id, $data)
 
             ->assertOk();
 
@@ -59,25 +57,23 @@ class UserTest extends BaseTest
             'user_id'        => $this->admin->id,
             'event'          => Event::UPDATED,
             'auditable_type' => User::class,
-            'auditable_id'   => $user->id,
+            'auditable_id'   => $this->user->id,
         ]);
     }
 
     /** @test */
     public function it_exists_for_the_delete_action(): void
     {
-        $user = factory(User::class)->state('user')->create();
-
         $this
             ->actingAs($this->admin)
-            ->delete('nova-api/users/', ['resources' => $user->id]);
+            ->delete('nova-api/users/', ['resources' => $this->user->id]);
 
         $this->assertDatabaseHas('audits', [
             'user_type'      => User::class,
             'user_id'        => $this->admin->id,
             'event'          => Event::DELETED,
             'auditable_type' => User::class,
-            'auditable_id'   => $user->id,
+            'auditable_id'   => $this->user->id,
         ]);
     }
 }

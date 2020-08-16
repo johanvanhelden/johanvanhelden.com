@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Tests\Unit\Middleware;
 
 use App\Http\Middleware\VerifyCsrfToken;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Tests\TestCase;
@@ -31,7 +30,7 @@ class VerifyCsrfTokenTest extends TestCase
     /** @test */
     public function if_the_token_is_invalid_the_user_is_logged_out_and_shown_a_message(): void
     {
-        $user = factory(User::class)->create();
+        $user = $this->user;
 
         $this->partialMock(Request::class, function ($mock): void {
             $mock->shouldAllowMockingProtectedMethods(true);

@@ -40,7 +40,6 @@ class ResetPasswordTest extends TestCase
     /** @test */
     public function a_user_can_not_set_a_password_with_an_invalid_token(): void
     {
-        $user = factory(User::class)->state('user')->create();
         $newPassword = 'Mynewpassw0rd!';
 
         $this
@@ -48,7 +47,7 @@ class ResetPasswordTest extends TestCase
                 'token' => 'test-token',
             ]))
             ->postJson(route('password.update'), [
-                'email'                 => $user->email,
+                'email'                 => $this->user->email,
                 'token'                 => 'test-token',
                 'password'              => $newPassword,
                 'password_confirmation' => $newPassword,
@@ -61,12 +60,11 @@ class ResetPasswordTest extends TestCase
     public function a_user_can_not_reset_a_password_with_a_token_for_a_different_user(): void
     {
         $user = factory(User::class)->state('user')->create();
-        $tokenUser = factory(User::class)->state('user')->create();
         $newPassword = 'Mynewpassw0rd!';
 
         /** @var \Illuminate\Auth\Passwords\PasswordBroker */
         $broker = Password::broker();
-        $token = $broker->createToken($tokenUser);
+        $token = $broker->createToken($this->user);
 
         $this
             ->from(route('password.reset', [
@@ -85,12 +83,11 @@ class ResetPasswordTest extends TestCase
     /** @test */
     public function a_user_can_not_set_a_password_with_an_invalid_email(): void
     {
-        $user = factory(User::class)->state('user')->create();
         $newPassword = 'Mynewpassw0rd!';
 
         /** @var \Illuminate\Auth\Passwords\PasswordBroker */
         $broker = Password::broker();
-        $token = $broker->createToken($user);
+        $token = $broker->createToken($this->user);
 
         $this
             ->from(route('password.reset', [
@@ -109,19 +106,18 @@ class ResetPasswordTest extends TestCase
     /** @test */
     public function a_user_can_reset_his_password(): void
     {
-        $user = factory(User::class)->state('user')->create();
         $newPassword = 'Mynewpassw0rd!';
 
         /** @var \Illuminate\Auth\Passwords\PasswordBroker */
         $broker = Password::broker();
-        $token = $broker->createToken($user);
+        $token = $broker->createToken($this->user);
 
         $this
             ->from(route('password.reset', [
                 'token' => $token,
             ]))
             ->post(route('password.update'), [
-                'email'                 => $user->email,
+                'email'                 => $this->user->email,
                 'token'                 => $token,
                 'password'              => $newPassword,
                 'password_confirmation' => $newPassword,
@@ -129,12 +125,12 @@ class ResetPasswordTest extends TestCase
 
         $this
             ->post(route('login'), [
-                'email'    => $user->email,
+                'email'    => $this->user->email,
                 'password' => $newPassword,
             ])
 
             ->assertRedirect(url(config('nova.path')));
 
-        $this->assertAuthenticatedAs($user);
+        $this->assertAuthenticatedAs($this->user);
     }
 }

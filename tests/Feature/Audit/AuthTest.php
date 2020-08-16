@@ -35,19 +35,17 @@ class AuthTest extends BaseTest
     /** @test */
     public function it_is_created_when_a_user_logged_out(): void
     {
-        $user = factory(User::class)->state('user')->create();
-
         $this
-            ->actingAs($user)
+            ->actingAs($this->user)
             ->post(route('logout'))
 
             ->assertRedirect(route('page.home'));
 
         $this->assertDatabaseHas('audits', [
-            'user_id'        => $user->id,
+            'user_id'        => $this->user->id,
             'event'          => Event::LOGGED_OUT,
             'auditable_type' => User::class,
-            'auditable_id'   => $user->id,
+            'auditable_id'   => $this->user->id,
         ]);
     }
 }

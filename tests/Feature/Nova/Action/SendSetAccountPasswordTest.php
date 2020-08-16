@@ -17,10 +17,8 @@ class SendSetAccountPasswordTest extends TestCase
     /** @test */
     public function an_admin_can_run_it(): void
     {
-        $user = factory(User::class)->state('user')->create();
-
         $this
-            ->performAction($this->admin, $user)
+            ->performAction($this->admin, $this->user)
 
             ->assertOk();
     }
@@ -28,10 +26,8 @@ class SendSetAccountPasswordTest extends TestCase
     /** @test */
     public function a_user_can_not_run_it(): void
     {
-        $user = factory(User::class)->state('user')->create();
-
         $this
-            ->performAction($this->user, $user)
+            ->performAction($this->user, $this->user)
 
             ->assertForbidden();
     }
@@ -39,13 +35,11 @@ class SendSetAccountPasswordTest extends TestCase
     /** @test */
     public function a_token_is_created_for_the_user(): void
     {
-        $user = factory(User::class)->state('user')->create();
-
-        $this->performAction($this->admin, $user);
+        $this->performAction($this->admin, $this->user);
 
         $token = NewPassword::latest()->first();
 
-        $this->assertTrue($user->is($token->user));
+        $this->assertTrue($this->user->is($token->user));
     }
 
     /** @test */
@@ -53,11 +47,9 @@ class SendSetAccountPasswordTest extends TestCase
     {
         Notification::fake();
 
-        $user = factory(User::class)->state('user')->create();
+        $this->performAction($this->admin, $this->user);
 
-        $this->performAction($this->admin, $user);
-
-        Notification::assertSentTo($user, SetAccountPassword::class);
+        Notification::assertSentTo($this->user, SetAccountPassword::class);
     }
 
     private function performAction(User $asUser, User $forUser): TestResponse
