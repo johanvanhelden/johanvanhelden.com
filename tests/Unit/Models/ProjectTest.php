@@ -10,6 +10,13 @@ use Tests\TestCase;
 
 class ProjectTest extends TestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        Carbon::setTestNow(Carbon::parse('10-10-1989 06:45:10'));
+    }
+
     /** @test */
     public function is_not_marked_as_updated_if_not_published(): void
     {
@@ -59,19 +66,19 @@ class ProjectTest extends TestCase
             'updated_at' => Carbon::now()->addDays(8),
         ]);
 
-        $this->assertFalse($project->is_recently_updated);
+        $this->assertFalse($project->is_recently_updated, 'the project is marked is recently updated');
     }
 
     /** @test */
     public function is_not_marked_as_recently_updated_if_not_updated(): void
     {
-        $project = factory(Project::class)->state('published')->create([
+        $project = factory(Project::class)->create([
             'publish_at' => Carbon::now()->startOfDay(),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);
 
-        $this->assertFalse($project->is_updated);
-        $this->assertFalse($project->is_recently_updated);
+        $this->assertFalse($project->is_updated, 'the project is marked is updated');
+        $this->assertFalse($project->is_recently_updated, 'the project is marked is recently updated');
     }
 }
