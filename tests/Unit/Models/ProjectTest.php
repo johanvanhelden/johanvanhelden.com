@@ -72,7 +72,7 @@ class ProjectTest extends TestCase
     /** @test */
     public function is_not_marked_as_recently_updated_if_not_updated(): void
     {
-        $project = factory(Project::class)->create([
+        $project = factory(Project::class)->state('published')->create([
             'publish_at' => Carbon::now()->startOfDay(),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
