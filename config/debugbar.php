@@ -156,7 +156,7 @@ return [
             'full_log' => false,
         ],
         'views' => [
-            'data' => env('DEBUGBAR_SHOW_VIEW_DATA'), //Note: Can slow down the application
+            'data' => env('DEBUGBAR_SHOW_VIEW_DATA', false), //Note: Can slow down the application
         ],
         'route' => [
             'label' => true,  // show complete route on bar
