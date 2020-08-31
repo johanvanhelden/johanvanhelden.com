@@ -15,8 +15,8 @@ jobs:
         service: ["mysql:8", "mysql:5.7"]
 
         include:
-          - service: "mysql:8"
-            db: MySQL8
+          # - service: "mysql:8"
+          #   db: MySQL8
           - service: "mysql:5.7"
             db: MySQL5
 
@@ -65,6 +65,9 @@ jobs:
 
       - name: Install Dependencies
         run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+
+      - name: Prepare database
+        run: artisan migrate --no-interaction
 
       - name: Run tests
         run: ./vendor/bin/phpunit
