@@ -391,7 +391,7 @@ jobs:
 
       - name: Trigger Forge Staging Webhook
         run: |
-          [ -n "${{ secrets.FORGE_WEBHOOK_STAGING }}" ] && curl "${{ secrets.FORGE_WEBHOOK_STAGING }}" || return 0
+          [ -n "${{ secrets.FORGE_WEBHOOK_STAGING }}" ] && curl "${{ secrets.FORGE_WEBHOOK_STAGING }}" || echo "No deploy webhook set"
 
   deploy-production:
     name: "Deploy Production"
@@ -405,4 +405,4 @@ jobs:
 
       - name: Trigger Forge Production Webhook
         run: |
-          [ -n "${{ secrets.FORGE_WEBHOOK_PRODUCTION }}" ] && curl "${{ secrets.FORGE_WEBHOOK_PRODUCTION }}" || return 0
+          [ -n "${{ secrets.FORGE_WEBHOOK_PRODUCTION }}" ] && curl "${{ secrets.FORGE_WEBHOOK_PRODUCTION }}" || echo "No deploy webhook set"
