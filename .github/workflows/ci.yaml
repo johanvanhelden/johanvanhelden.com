@@ -13,6 +13,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - run: echo "Ref ${{ github.ref }}"
+
       - name: Set Up PHP and Tools
         uses: shivammathur/setup-php@master
         with:
@@ -382,7 +384,7 @@ jobs:
   deploy-staging:
     name: "Deploy Staging"
     runs-on: ubuntu-latest
-    if: github.ref == 'ref/head/develop'
+    if: github.ref == 'develop'
     needs:
       [code-analysis, code-style, security-check, phpunit-tests, dusk-tests]
 
@@ -398,7 +400,7 @@ jobs:
   deploy-production:
     name: "Deploy Production"
     runs-on: ubuntu-latest
-    if: github.ref == 'ref/head/master'
+    if: github.ref == 'master'
     needs:
       [code-analysis, code-style, security-check, phpunit-tests, dusk-tests]
 
