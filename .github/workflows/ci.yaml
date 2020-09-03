@@ -1,0 +1,414 @@
+name: CI
+
+on:
+  push:
+  # branches:
+  #   - develop
+  #   - master
+  pull_request:
+
+jobs:
+  code-analysis:
+    name: "Code Analysis"
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set Up PHP and Tools
+        uses: shivammathur/setup-php@master
+        with:
+          php-version: "7.4"
+          tools: composer:v2
+
+      - name: Login to Laravel Nova
+        run: composer config http-basic.nova.laravel.com ${NOVA_USERNAME} ${NOVA_PASSWORD}
+        env:
+          NOVA_USERNAME: ${{ secrets.NOVA_USERNAME }}
+          NOVA_PASSWORD: ${{ secrets.NOVA_PASSWORD }}
+
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - uses: actions/cache@v2
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+
+      - uses: actions/cache@v2
+        id: vendor-cache
+        with:
+          path: "./vendor"
+          key: ${{ runner.os }}-vendor-${{ hashFiles('**/composer.lock') }}
+
+      - name: Install Composer Dependencies
+        if: steps.vendor-cache.outputs.cache-hit != 'true'
+        run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+
+      - name: Static Code Analysis
+        run: ./vendor/bin/phpstan analyse --memory-limit=2G
+
+  code-style:
+    name: "Code Style"
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set Up PHP and Tools
+        uses: shivammathur/setup-php@master
+        with:
+          php-version: "7.4"
+          tools: composer:v2, phpcs, php-cs-fixer, phpmd, phpcpd
+
+      - name: Login to Laravel Nova
+        run: composer config http-basic.nova.laravel.com ${NOVA_USERNAME} ${NOVA_PASSWORD}
+        env:
+          NOVA_USERNAME: ${{ secrets.NOVA_USERNAME }}
+          NOVA_PASSWORD: ${{ secrets.NOVA_PASSWORD }}
+
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - uses: actions/cache@v2
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+
+      - uses: actions/cache@v2
+        id: vendor-cache
+        with:
+          path: "./vendor"
+          key: ${{ runner.os }}-vendor-${{ hashFiles('**/composer.lock') }}
+
+      - name: Install Composer Dependencies
+        if: steps.vendor-cache.outputs.cache-hit != 'true'
+        run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+
+      - name: Get Yarn Cache Directory
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+
+      - uses: actions/cache@v2
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+
+      - uses: actions/cache@v2
+        id: node-modules-cache
+        with:
+          path: "./node_modules"
+          key: ${{ runner.os }}-node_modules-${{ hashFiles('**/yarn.lock') }}
+
+      - name: Install Yarn
+        if: steps.node-modules-cache.outputs.cache-hit != 'true'
+        run: yarn install
+
+      - name: Syntax Errors
+        run: find app database tests config routes -name "*.php" -print0 | xargs -0 -n1 -P8 php -l
+
+      - name: PHP_CodeSniffer
+        run: phpcs
+
+      - name: PHP-CS-Fixer
+        run: php-cs-fixer fix app database config routes tests --dry-run --diff --allow-risky=yes --config=.php_cs
+
+      - name: PHPMD
+        run: phpmd app text phpmd.xml
+
+      - name: PHPCPD
+        run: phpcpd app database config routes
+
+      - name: Lint Assets
+        run: yarn lint
+
+  security-check:
+    name: "Security Check"
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set Up PHP and tools
+        uses: shivammathur/setup-php@master
+        with:
+          php-version: "7.4"
+          tools: composer:v2
+
+      - name: Check Composer Packages
+        uses: symfonycorp/security-checker-action@v2
+
+  phpunit-tests:
+    name: "PHPUnit Tests"
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+          MYSQL_DATABASE: tests_db
+        ports:
+          - 13306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Initialize the Database
+        run: |
+          sudo systemctl start mysql
+          mysql --user="root" --password="root" -e "CREATE DATABASE tests_db character set UTF8mb4 collate utf8mb4_bin;"
+
+      - name: Set Up PHP and Tools
+        uses: shivammathur/setup-php@master
+        with:
+          php-version: "7.4"
+          tools: composer:v2
+          coverage: pcov
+
+      - name: Login to Laravel Nova
+        run: composer config http-basic.nova.laravel.com ${NOVA_USERNAME} ${NOVA_PASSWORD}
+        env:
+          NOVA_USERNAME: ${{ secrets.NOVA_USERNAME }}
+          NOVA_PASSWORD: ${{ secrets.NOVA_PASSWORD }}
+
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - uses: actions/cache@v2
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+
+      - uses: actions/cache@v2
+        id: vendor-cache
+        with:
+          path: "./vendor"
+          key: ${{ runner.os }}-vendor-${{ hashFiles('**/composer.lock') }}
+
+      - name: Install Composer Dependencies
+        if: steps.vendor-cache.outputs.cache-hit != 'true'
+        run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+
+      - name: Get Yarn Cache Directory
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+
+      - uses: actions/cache@v2
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+
+      - uses: actions/cache@v2
+        id: node-modules-cache
+        with:
+          path: "./node_modules"
+          key: ${{ runner.os }}-node_modules-${{ hashFiles('**/yarn.lock') }}
+
+      - name: Install Yarn
+        if: steps.node-modules-cache.outputs.cache-hit != 'true'
+        run: yarn install
+
+      - name: Setup Environment
+        run: cp .env.testing .env
+
+      - name: Build Assets
+        run: ./buildHook.sh $PWD
+
+      - name: Run PHPUnit Tests
+        run: composer test
+        env:
+          DB_HOST: localhost
+          DB_DATABASE: tests_db
+          DB_USERNAME: root
+          DB_PASSWORD: root
+
+      - name: Run Test Coverage Report
+        run: ./vendor/bin/phpunit --coverage-clover ./coverage.xml
+        env:
+          DB_HOST: localhost
+          DB_DATABASE: tests_db
+          DB_USERNAME: root
+          DB_PASSWORD: root
+
+      - name: Check Test Coverage
+        uses: johanvanhelden/gha-clover-test-coverage-check@v1
+        with:
+          percentage: "95"
+          filename: "coverage.xml"
+
+  dusk-tests:
+    name: "Dusk Tests"
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+          MYSQL_DATABASE: tests_db
+        ports:
+          - 13306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Initialize the Database
+        run: |
+          sudo systemctl start mysql
+          mysql --user="root" --password="root" -e "CREATE DATABASE tests_db character set UTF8mb4 collate utf8mb4_bin;"
+
+      - name: Set Up PHP and Tools
+        uses: shivammathur/setup-php@master
+        with:
+          php-version: "7.4"
+          tools: composer:v2
+
+      - name: Login to Laravel Nova
+        run: composer config http-basic.nova.laravel.com ${NOVA_USERNAME} ${NOVA_PASSWORD}
+        env:
+          NOVA_USERNAME: ${{ secrets.NOVA_USERNAME }}
+          NOVA_PASSWORD: ${{ secrets.NOVA_PASSWORD }}
+
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - uses: actions/cache@v2
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+
+      - uses: actions/cache@v2
+        id: vendor-cache
+        with:
+          path: "./vendor"
+          key: ${{ runner.os }}-vendor-${{ hashFiles('**/composer.lock') }}
+
+      - name: Install Composer Dependencies
+        if: steps.vendor-cache.outputs.cache-hit != 'true'
+        run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+
+      - name: Get Yarn Cache Directory
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+
+      - uses: actions/cache@v2
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+
+      - uses: actions/cache@v2
+        id: node-modules-cache
+        with:
+          path: "./node_modules"
+          key: ${{ runner.os }}-node_modules-${{ hashFiles('**/yarn.lock') }}
+
+      - name: Install Yarn
+        if: steps.node-modules-cache.outputs.cache-hit != 'true'
+        run: yarn install
+
+      - name: Setup Environment
+        run: cp .env.testing .env
+
+      - name: Build Assets
+        run: ./buildHook.sh $PWD
+
+      - name: Upgrade Chrome Driver
+        run: php artisan dusk:chrome-driver `/opt/google/chrome/chrome --version | cut -d " " -f3 | cut -d "." -f1`
+
+      - name: Start Chrome Driver
+        run: ./vendor/laravel/dusk/bin/chromedriver-linux &
+
+      - name: "Migrate and Seed"
+        run: php artisan migrate:fresh --seed
+        env:
+          APP_URL: "http://127.0.0.1:8000"
+          DB_HOST: localhost
+          DB_PORT: 13306
+          DB_DATABASE: tests_db
+          DB_USERNAME: root
+          DB_PASSWORD: root
+
+      - name: "Start Server"
+        run: php artisan serve --port=8000 &
+        env:
+          DB_HOST: localhost
+          DB_DATABASE: tests_db
+          DB_USERNAME: root
+          DB_PASSWORD: root
+
+      - name: Run Dusk
+        run: php artisan dusk
+        env:
+          APP_URL: "http://127.0.0.1:8000"
+          DB_HOST: localhost
+          DB_DATABASE: tests_db
+          DB_USERNAME: root
+          DB_PASSWORD: root
+
+      - name: Upload Dusk Artifacts
+        uses: actions/upload-artifact@v2
+        if: failure()
+        with:
+          name: Dusk Artifacts
+          path: |
+            ./tests/Browser/screenshots
+            ./tests/Browser/console
+            ./storage/logs
+
+  sentry-release:
+    name: "Sentry Release"
+    runs-on: ubuntu-latest
+    if: github.ref == 'ref/head/master'
+    needs:
+      [code-analysis, code-style, security-check, phpunit-tests, dusk-tests]
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Sentry Release
+        uses: getsentry/action-release@v1.0.1
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
+          SENTRY_ORG: johan-van-helden
+        with:
+          environment: production
+
+  deploy-staging:
+    name: "Deploy Staging"
+    runs-on: ubuntu-latest
+    if: github.ref == 'ref/head/develop'
+    needs:
+      [code-analysis, code-style, security-check, phpunit-tests, dusk-tests]
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Trigger Forge Staging Webhook
+        run: |
+          [ -n "$WEBHOOK" ] && curl "$WEBHOOK"
+        env:
+          WEBHOOK: ${{ secrets.FORGE_WEBHOOK_STAGING }}
+
+  deploy-production:
+    name: "Deploy Production"
+    runs-on: ubuntu-latest
+    if: github.ref == 'ref/head/master'
+    needs:
+      [code-analysis, code-style, security-check, phpunit-tests, dusk-tests]
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Trigger Forge Production Webhook
+        run: |
+          [ -n "$WEBHOOK" ] && curl "$WEBHOOK"
+        env:
+          WEBHOOK: ${{ secrets.FORGE_WEBHOOK_PRODUCTION }}

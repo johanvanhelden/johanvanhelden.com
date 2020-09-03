@@ -20,5 +20,4 @@
     </rule>
 
     <rule ref="PSR2" />
-    <rule ref="PHPCompatibility" />
 </ruleset>
