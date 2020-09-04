@@ -138,8 +138,8 @@ jobs:
       - name: Check Composer Packages
         uses: symfonycorp/security-checker-action@v2
 
-  phpunit-tests:
-    name: "PHPUnit Tests"
+  tests:
+    name: "Tests"
     runs-on: ubuntu-latest
 
     services:
@@ -239,84 +239,6 @@ jobs:
           percentage: "95"
           filename: "coverage.xml"
 
-  dusk-tests:
-    name: "Dusk Tests"
-    runs-on: ubuntu-latest
-
-    services:
-      mysql:
-        image: mysql:5.7
-        env:
-          MYSQL_ALLOW_EMPTY_PASSWORD: yes
-          MYSQL_DATABASE: tests_db
-        ports:
-          - 13306:3306
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
-
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Initialize the Database
-        run: |
-          sudo systemctl start mysql
-          mysql --user="root" --password="root" -e "CREATE DATABASE tests_db character set UTF8mb4 collate utf8mb4_bin;"
-
-      - name: Set Up PHP and Tools
-        uses: shivammathur/setup-php@master
-        with:
-          php-version: "7.4"
-          tools: composer:v2
-
-      - name: Login to Laravel Nova
-        run: composer config http-basic.nova.laravel.com ${NOVA_USERNAME} ${NOVA_PASSWORD}
-        env:
-          NOVA_USERNAME: ${{ secrets.NOVA_USERNAME }}
-          NOVA_PASSWORD: ${{ secrets.NOVA_PASSWORD }}
-
-      - name: Get Composer Cache Directory
-        id: composer-cache
-        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
-
-      - uses: actions/cache@v2
-        with:
-          path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-
-      - uses: actions/cache@v2
-        id: vendor-cache
-        with:
-          path: "./vendor"
-          key: ${{ runner.os }}-vendor-${{ hashFiles('**/composer.lock') }}
-
-      - name: Install Composer Dependencies
-        if: steps.vendor-cache.outputs.cache-hit != 'true'
-        run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
-
-      - name: Get Yarn Cache Directory
-        id: yarn-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn cache dir)"
-
-      - uses: actions/cache@v2
-        with:
-          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-
-      - uses: actions/cache@v2
-        id: node-modules-cache
-        with:
-          path: "./node_modules"
-          key: ${{ runner.os }}-node_modules-${{ hashFiles('**/yarn.lock') }}
-
-      - name: Install Yarn
-        if: steps.node-modules-cache.outputs.cache-hit != 'true'
-        run: yarn install
-
-      - name: Setup Environment
-        run: cp .env.testing .env
-
-      - name: Build Assets
-        run: ./buildHook.sh $PWD
-
       - name: Upgrade Chrome Driver
         run: php artisan dusk:chrome-driver `/opt/google/chrome/chrome --version | cut -d " " -f3 | cut -d "." -f1`
 
@@ -364,8 +286,7 @@ jobs:
     name: "Sentry Release"
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/master' && (github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action == 'merged'))
-    needs:
-      [code-analysis, code-style, security-check, phpunit-tests, dusk-tests]
+    needs: [code-analysis, code-style, security-check, tests]
 
     steps:
       - uses: actions/checkout@v2
@@ -383,8 +304,7 @@ jobs:
     name: "Deploy Staging"
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/develop' && (github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action == 'merged'))
-    needs:
-      [code-analysis, code-style, security-check, phpunit-tests, dusk-tests]
+    needs: [code-analysis, code-style, security-check, tests]
 
     steps:
       - uses: actions/checkout@v2
@@ -397,8 +317,7 @@ jobs:
     name: "Deploy Production"
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/master' && (github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action == 'merged'))
-    needs:
-      [code-analysis, code-style, security-check, phpunit-tests, dusk-tests]
+    needs: [code-analysis, code-style, security-check, tests]
 
     steps:
       - uses: actions/checkout@v2
