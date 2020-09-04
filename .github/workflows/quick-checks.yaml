@@ -3,12 +3,12 @@ name: Quick Checks
 on:
   push:
     branches-ignore:
-      - "develop"
-      - "master"
+      - develop
+      - master
 
 jobs:
   code-analysis:
-    name: "Code Analysis"
+    name: Code Analysis
     runs-on: ubuntu-latest
 
     steps:
@@ -50,7 +50,7 @@ jobs:
         run: ./vendor/bin/phpstan analyse --memory-limit=2G
 
   code-style:
-    name: "Code Style"
+    name: Code Style
     runs-on: ubuntu-latest
 
     steps:
@@ -126,7 +126,7 @@ jobs:
         run: yarn lint
 
   security-check:
-    name: "Security Check"
+    name: Security Check
     runs-on: ubuntu-latest
 
     steps:

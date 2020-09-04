@@ -3,13 +3,13 @@ name: Continuous Integration
 on:
   push:
     branches:
-      - "develop"
-      - "master"
+      - develop
+      - master
   pull_request:
 
 jobs:
   code-analysis:
-    name: "Code Analysis"
+    name: Code Analysis
     runs-on: ubuntu-latest
 
     steps:
@@ -51,7 +51,7 @@ jobs:
         run: ./vendor/bin/phpstan analyse --memory-limit=2G
 
   code-style:
-    name: "Code Style"
+    name: Code Style
     runs-on: ubuntu-latest
 
     steps:
@@ -127,7 +127,7 @@ jobs:
         run: yarn lint
 
   security-check:
-    name: "Security Check"
+    name: Security Check
     runs-on: ubuntu-latest
 
     steps:
@@ -144,7 +144,7 @@ jobs:
         uses: symfonycorp/security-checker-action@v2
 
   tests:
-    name: "Tests"
+    name: Tests
     runs-on: ubuntu-latest
 
     services:
@@ -253,7 +253,7 @@ jobs:
       - name: Set the Chrome Driver
         run: php artisan dusk:chrome-driver `/opt/google/chrome/chrome --version | cut -d " " -f3 | cut -d "." -f1`
 
-      - name: "Start Server"
+      - name: Start Server
         run: php artisan serve --port=8000 &
         env:
           DB_HOST: localhost
@@ -281,7 +281,7 @@ jobs:
             ./storage/logs
 
   sentry-release:
-    name: "Sentry Release"
+    name: Sentry Release
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/master' && (github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action == 'merged'))
     needs: [code-analysis, code-style, security-check, tests]
@@ -299,7 +299,7 @@ jobs:
           environment: production
 
   deploy-staging:
-    name: "Deploy Staging"
+    name: Deploy Staging
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/develop' && (github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action == 'merged'))
     needs: [code-analysis, code-style, security-check, tests]
@@ -312,7 +312,7 @@ jobs:
           [ -n "${{ secrets.FORGE_WEBHOOK_STAGING }}" ] && curl "${{ secrets.FORGE_WEBHOOK_STAGING }}" || echo "No deploy webhook set"
 
   deploy-production:
-    name: "Deploy Production"
+    name: Deploy Production
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/master' && (github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action == 'merged'))
     needs: [code-analysis, code-style, security-check, tests]
