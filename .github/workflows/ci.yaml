@@ -244,16 +244,6 @@ jobs:
       - name: Start Chrome Driver
         run: ./vendor/laravel/dusk/bin/chromedriver-linux &
 
-      - name: "Seed"
-        run: php artisan db:seed
-        env:
-          APP_URL: "http://127.0.0.1:8000"
-          DB_HOST: localhost
-          DB_PORT: 13306
-          DB_DATABASE: tests_db
-          DB_USERNAME: root
-          DB_PASSWORD: root
-
       - name: "Start Server"
         run: php artisan serve --port=8000 &
         env:
@@ -263,7 +253,7 @@ jobs:
           DB_PASSWORD: root
 
       - name: Run Dusk
-        run: php artisan dusk
+        run: composer test-browser
         env:
           APP_URL: "http://127.0.0.1:8000"
           DB_HOST: localhost
