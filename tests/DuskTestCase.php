@@ -7,19 +7,11 @@ namespace Tests;
 use Facebook\WebDriver\Chrome\ChromeOptions;
 use Facebook\WebDriver\Remote\DesiredCapabilities;
 use Facebook\WebDriver\Remote\RemoteWebDriver;
-use Illuminate\Support\Facades\Artisan;
 use Laravel\Dusk\TestCase as BaseTestCase;
 
 abstract class DuskTestCase extends BaseTestCase
 {
     use CreatesApplication;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        Artisan::call('bootstrap:application');
-    }
 
     /**
      * Prepare for Dusk test execution.

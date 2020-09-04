@@ -211,7 +211,7 @@ jobs:
         run: yarn install
 
       - name: Setup Environment
-        run: cp .env.testing .env
+        run: cp .env.testing.example .env
 
       - name: Build Assets
         run: ./buildHook.sh $PWD
