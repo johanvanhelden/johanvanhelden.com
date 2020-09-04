@@ -1,17 +1,14 @@
-*.pyc
-.dotest
-
-/storage/*.key
-/vendor
-
-# IDE's
-/.idea
 # IDE
+/.idea
 /.vscode
 /.vagrant
 _ide_helper.php
 _ide_helper_models.php
 .phpstorm.meta.php
+
+# app
+/storage/*.key
+/vendor
 
 # assets
 /node_modules
