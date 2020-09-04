@@ -22,30 +22,8 @@ jobs:
           tools: composer:v2
           coverage: none
 
-      - name: Login to Laravel Nova
-        run: composer config http-basic.nova.laravel.com ${NOVA_USERNAME} ${NOVA_PASSWORD}
-        env:
-          NOVA_USERNAME: ${{ secrets.NOVA_USERNAME }}
-          NOVA_PASSWORD: ${{ secrets.NOVA_PASSWORD }}
-
-      - name: Get Composer Cache Directory
-        id: composer-cache
-        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
-
-      - uses: actions/cache@v2
-        with:
-          path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-
-      - uses: actions/cache@v2
-        id: vendor-cache
-        with:
-          path: "./vendor"
-          key: ${{ runner.os }}-vendor-${{ hashFiles('**/composer.lock') }}
-
-      - name: Install Composer Dependencies
-        if: steps.vendor-cache.outputs.cache-hit != 'true'
-        run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+      - name: Initialize Dependencies
+        uses: ./.github/actions/initialize-dependencies
 
       - name: Static Code Analysis
         run: ./vendor/bin/phpstan analyse --memory-limit=2G
@@ -64,49 +42,8 @@ jobs:
           tools: composer:v2, phpcs, php-cs-fixer, phpmd, phpcpd
           coverage: none
 
-      - name: Login to Laravel Nova
-        run: composer config http-basic.nova.laravel.com ${NOVA_USERNAME} ${NOVA_PASSWORD}
-        env:
-          NOVA_USERNAME: ${{ secrets.NOVA_USERNAME }}
-          NOVA_PASSWORD: ${{ secrets.NOVA_PASSWORD }}
-
-      - name: Get Composer Cache Directory
-        id: composer-cache
-        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
-
-      - uses: actions/cache@v2
-        with:
-          path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-
-      - uses: actions/cache@v2
-        id: vendor-cache
-        with:
-          path: "./vendor"
-          key: ${{ runner.os }}-vendor-${{ hashFiles('**/composer.lock') }}
-
-      - name: Install Composer Dependencies
-        if: steps.vendor-cache.outputs.cache-hit != 'true'
-        run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
-
-      - name: Get Yarn Cache Directory
-        id: yarn-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn cache dir)"
-
-      - uses: actions/cache@v2
-        with:
-          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-
-      - uses: actions/cache@v2
-        id: node-modules-cache
-        with:
-          path: "./node_modules"
-          key: ${{ runner.os }}-node_modules-${{ hashFiles('**/yarn.lock') }}
-
-      - name: Install Yarn
-        if: steps.node-modules-cache.outputs.cache-hit != 'true'
-        run: yarn install
+      - name: Initialize Dependencies
+        uses: ./.github/actions/initialize-dependencies
 
       - name: Syntax Errors
         run: find app database tests config routes -name "*.php" -print0 | xargs -0 -n1 -P8 php -l
@@ -172,49 +109,8 @@ jobs:
           tools: composer:v2
           coverage: pcov
 
-      - name: Login to Laravel Nova
-        run: composer config http-basic.nova.laravel.com ${NOVA_USERNAME} ${NOVA_PASSWORD}
-        env:
-          NOVA_USERNAME: ${{ secrets.NOVA_USERNAME }}
-          NOVA_PASSWORD: ${{ secrets.NOVA_PASSWORD }}
-
-      - name: Get Composer Cache Directory
-        id: composer-cache
-        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
-
-      - uses: actions/cache@v2
-        with:
-          path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-
-      - uses: actions/cache@v2
-        id: vendor-cache
-        with:
-          path: "./vendor"
-          key: ${{ runner.os }}-vendor-${{ hashFiles('**/composer.lock') }}
-
-      - name: Install Composer Dependencies
-        if: steps.vendor-cache.outputs.cache-hit != 'true'
-        run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
-
-      - name: Get Yarn Cache Directory
-        id: yarn-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn cache dir)"
-
-      - uses: actions/cache@v2
-        with:
-          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-
-      - uses: actions/cache@v2
-        id: node-modules-cache
-        with:
-          path: "./node_modules"
-          key: ${{ runner.os }}-node_modules-${{ hashFiles('**/yarn.lock') }}
-
-      - name: Install Yarn
-        if: steps.node-modules-cache.outputs.cache-hit != 'true'
-        run: yarn install
+      - name: Initialize Dependencies
+        uses: ./.github/actions/initialize-dependencies
 
       - name: Setup PHPUnit Environment
         run: cp .env.testing.example .env
