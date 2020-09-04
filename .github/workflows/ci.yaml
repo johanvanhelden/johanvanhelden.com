@@ -19,7 +19,6 @@ jobs:
         uses: shivammathur/setup-php@master
         with:
           php-version: "7.4"
-          extensions: bz2, bcmath, curl, exif, gd, imagick, imap, intl, mysqli, pcntl, pcov, pdo_mysql, soap, xmlrpc, xsl, zip, iconv, pdo
           tools: composer:v2
 
       - name: Login to Laravel Nova
@@ -61,7 +60,6 @@ jobs:
         uses: shivammathur/setup-php@master
         with:
           php-version: "7.4"
-          extensions: bz2, bcmath, curl, exif, gd, imagick, imap, intl, mysqli, pcntl, pcov, pdo_mysql, soap, xmlrpc, xsl, zip, iconv, pdo
           tools: composer:v2, phpcs, php-cs-fixer, phpmd, phpcpd
 
       - name: Login to Laravel Nova
@@ -137,7 +135,6 @@ jobs:
         uses: shivammathur/setup-php@master
         with:
           php-version: "7.4"
-          extensions: bz2, bcmath, curl, exif, gd, imagick, imap, intl, mysqli, pcntl, pcov, pdo_mysql, soap, xmlrpc, xsl, zip, iconv, pdo
           tools: composer:v2
 
       - name: Check Composer Packages
