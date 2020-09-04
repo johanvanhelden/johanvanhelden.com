@@ -13,6 +13,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - run: echo ${{ github.ref }}
+
       - name: Set Up PHP and Tools
         uses: shivammathur/setup-php@master
         with:
