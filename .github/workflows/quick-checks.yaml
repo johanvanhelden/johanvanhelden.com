@@ -2,9 +2,9 @@ name: Quick checks
 
 on:
   push:
-    branches:
-      - "!develop"
-      - "!master"
+    branches-ignore:
+      - "develop"
+      - "master"
 
 jobs:
   code-analysis:
@@ -13,6 +13,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+
+      - run: echo "it's working!"
 
       - name: Set Up PHP and Tools
         uses: shivammathur/setup-php@master
