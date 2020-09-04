@@ -93,19 +93,30 @@
             "@php ./vendor/sensiolabs/security-checker/security-checker security:check"
         ],
         "test": [
-            "php artisan migrate --env=testing --ansi",
-            "php artisan bootstrap:application --env=testing --ansi",
+            "@php -r \"file_exists('.env.testing') || copy('.env.testing.example', '.env.testing');\"",
+            "@php artisan migrate --env=testing --ansi",
+            "@php artisan bootstrap:application --env=testing --ansi",
+            "./vendor/bin/phpunit --testsuite Unit",
+            "./vendor/bin/phpunit --testsuite Feature"
+        ],
+        "test-fresh": [
+            "@php -r \"file_exists('.env.testing') || copy('.env.testing.example', '.env.testing');\"",
+            "@php artisan migrate:fresh --env=testing --ansi",
+            "@php artisan bootstrap:application --env=testing --ansi",
             "./vendor/bin/phpunit --testsuite Unit",
             "./vendor/bin/phpunit --testsuite Feature"
         ],
         "test-coverage": [
-            "php -d pcov.enabled=1 ./vendor/bin/phpunit --coverage-html public_html/tests-report"
+            "@php -r \"file_exists('.env.testing') || copy('.env.testing.example', '.env.testing');\"",
+            "@php artisan migrate --env=testing --ansi",
+            "@php artisan bootstrap:application --env=testing --ansi",
+            "@php -d pcov.enabled=1 ./vendor/bin/phpunit --coverage-html public_html/tests-report"
         ],
-        "test-fresh": [
-            "php artisan migrate:fresh --env=testing --ansi",
-            "php artisan bootstrap:application --env=testing --ansi",
-            "./vendor/bin/phpunit --testsuite Unit",
-            "./vendor/bin/phpunit --testsuite Feature"
+        "test-browser": [
+            "@php -r \"file_exists('.env.dusk.local') || copy('.env.dusk.local.example', '.env.dusk.local');\"",
+            "@php artisan migrate --env=testing --ansi",
+            "@php artisan bootstrap:application --env=testing --ansi",
+            "@php artisan dusk --env=testing"
         ]
     },
     "repositories": [

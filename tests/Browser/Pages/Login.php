@@ -20,9 +20,4 @@ class Login extends Page
     {
         $browser->assertRouteIs($this->routeName);
     }
-
-    public function elements(): array
-    {
-        return [];
-    }
 }
