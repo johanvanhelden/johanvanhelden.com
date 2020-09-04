@@ -17,6 +17,7 @@ jobs:
         uses: shivammathur/setup-php@master
         with:
           php-version: "7.4"
+          extensions: bz2, bcmath, curl, exif, gd, imagick, imap, intl, mysqli, pcntl, pcov, pdo_mysql, soap, xmlrpc, xsl, zip, iconv, pdo
           tools: composer:v2
 
       - name: Login to Laravel Nova
@@ -129,7 +130,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Set Up PHP and tools
+      - name: Set Up PHP and Tools
         uses: shivammathur/setup-php@master
         with:
           php-version: "7.4"
