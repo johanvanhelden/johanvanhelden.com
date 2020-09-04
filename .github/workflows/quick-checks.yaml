@@ -1,4 +1,4 @@
-name: Quick checks
+name: Quick Checks
 
 on:
   push:
@@ -13,8 +13,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-
-      - run: echo "it's working!"
 
       - name: Set Up PHP and Tools
         uses: shivammathur/setup-php@master
