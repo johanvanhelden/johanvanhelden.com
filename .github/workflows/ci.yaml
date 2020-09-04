@@ -238,11 +238,13 @@ jobs:
           percentage: "95"
           filename: "coverage.xml"
 
-      - name: Upgrade Chrome Driver
-        run: php artisan dusk:chrome-driver `/opt/google/chrome/chrome --version | cut -d " " -f3 | cut -d "." -f1`
+      - name: Clear Laravel Logs
+        run: rm ./storage/logs/*.log -f
 
-      - name: Start Chrome Driver
-        run: ./vendor/laravel/dusk/bin/chromedriver-linux &
+      - name: Initialize Chrome Driver
+        run: |
+          php artisan dusk:chrome-driver `/opt/google/chrome/chrome --version | cut -d " " -f3 | cut -d "." -f1`
+          ./vendor/laravel/dusk/bin/chromedriver-linux &
 
       - name: "Start Server"
         run: php artisan serve --port=8000 &
@@ -280,7 +282,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Sentry Release
+      - name: Create a Sentry Release
         uses: getsentry/action-release@v1.0.1
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
