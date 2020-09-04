@@ -113,7 +113,7 @@
             "@php -d pcov.enabled=1 ./vendor/bin/phpunit --coverage-html public_html/tests-report"
         ],
         "test-browser": [
-            "@php -r \"file_exists('.env.testing') || copy('.env.testing.example', '.env.testing');\"",
+            "@php -r \"file_exists('.env.dusk.local') || copy('.env.dusk.local.example', '.env.dusk.local');\"",
             "@php artisan migrate --env=testing --ansi",
             "@php artisan bootstrap:application --env=testing --ansi",
             "@php artisan dusk --env=testing"
