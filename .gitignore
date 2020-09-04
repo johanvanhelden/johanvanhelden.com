@@ -6,14 +6,14 @@
 
 # IDE's
 /.idea
+# IDE
 /.vscode
 /.vagrant
+_ide_helper.php
+_ide_helper_models.php
+.phpstorm.meta.php
 
-# Homestead
-Homestead.json
-Homestead.yaml
-
-#assets
+# assets
 /node_modules
 /public_html/storage
 /public_html/hot
@@ -23,18 +23,20 @@ Homestead.yaml
 /public_html/fonts
 /public_html/mix-manifest.json
 
+# logs
 npm-debug.log
 yarn-error.log
 
+# environment
 .env
 .env.backup
+.env.testing
 .env.dusk.local
 
-_ide_helper.php
-_ide_helper_models.php
-.phpstorm.meta.php
+# cache
 .php_cs.cache
+.phpunit.result.cache
 
+# testing
 /public_html/tests-report
 phpunit\.dusk\.xml
-.phpunit.result.cache
