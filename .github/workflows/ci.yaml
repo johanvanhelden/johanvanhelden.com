@@ -210,7 +210,7 @@ jobs:
         if: steps.node-modules-cache.outputs.cache-hit != 'true'
         run: yarn install
 
-      - name: Setup Environment
+      - name: Setup PHPUnit Environment
         run: cp .env.testing.example .env
 
       - name: Build Assets
@@ -240,6 +240,9 @@ jobs:
 
       - name: Clear Laravel Logs
         run: rm ./storage/logs/*.log -f
+
+      - name: Setup Dusk Environment
+        run: cp .env.dusk.local.example .env
 
       - name: Set the Chrome Driver
         run: php artisan dusk:chrome-driver `/opt/google/chrome/chrome --version | cut -d " " -f3 | cut -d "." -f1`
