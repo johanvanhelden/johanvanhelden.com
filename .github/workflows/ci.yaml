@@ -150,7 +150,6 @@ jobs:
           MYSQL_DATABASE: tests_db
         ports:
           - 13306:3306
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
     steps:
       - uses: actions/checkout@v2
@@ -245,8 +244,8 @@ jobs:
       - name: Start Chrome Driver
         run: ./vendor/laravel/dusk/bin/chromedriver-linux &
 
-      - name: "Migrate and Seed"
-        run: php artisan migrate:fresh --seed
+      - name: "Seed"
+        run: php artisan db:seed
         env:
           APP_URL: "http://127.0.0.1:8000"
           DB_HOST: localhost
