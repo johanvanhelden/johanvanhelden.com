@@ -217,7 +217,7 @@ jobs:
         run: yarn install
 
       - name: Setup PHPUnit Environment
-        run: rm .env && cp .env.testing.example .env
+        run: yes | cp .env.testing.example .env
 
       - name: Build Assets
         run: ./buildHook.sh $PWD
@@ -248,7 +248,7 @@ jobs:
         run: rm ./storage/logs/*.log -f
 
       - name: Setup Dusk Environment
-        run: rm .env && cp .env.dusk.local.example .env
+        run: yes | cp .env.dusk.local.example .env
 
       - name: Set the Chrome Driver
         run: php artisan dusk:chrome-driver `/opt/google/chrome/chrome --version | cut -d " " -f3 | cut -d "." -f1`
