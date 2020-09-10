@@ -37,6 +37,6 @@ class SubscriberPolicyTest extends BasePolicyTest
 
     protected function model(): Subscriber
     {
-        return factory(Subscriber::class)->create();
+        return Subscriber::factory()->create();
     }
 }

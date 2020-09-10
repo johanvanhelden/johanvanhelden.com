@@ -6,13 +6,15 @@ namespace App\Models;
 
 use App\Traits\Publishable;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use OwenIt\Auditing\Auditable as AuditTrait;
-use OwenIt\Auditing\Contracts\Auditable;
+use Spatie\Activitylog\Traits\LogsActivity;
 
-class Project extends Model implements Auditable
+class Project extends Model
 {
-    use AuditTrait, Publishable;
+    use HasFactory, Publishable, LogsActivity;
+
+    public static bool $logFillable = true;
 
     /** @var array */
     protected $fillable = [

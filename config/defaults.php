@@ -36,7 +36,7 @@ return [
             'manage-users',
             'manage-roles',
             'manage-permissions',
-            'manage-audits',
+            'manage-activities',
             'manage-action-events',
 
             'manage-projects',

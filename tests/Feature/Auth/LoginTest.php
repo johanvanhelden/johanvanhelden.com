@@ -21,7 +21,7 @@ class LoginTest extends TestCase
     /** @test */
     public function an_admin_can_login(): void
     {
-        $admin = factory(User::class)->state('admin')->create();
+        $admin = User::factory()->create()->assignRole('admin');
 
         $this
             ->post(route('login'), [
@@ -37,7 +37,7 @@ class LoginTest extends TestCase
     /** @test */
     public function a_user_can_login(): void
     {
-        $user = factory(User::class)->state('user')->create();
+        $user = User::factory()->create()->assignRole('user');
 
         $this
             ->post(route('login'), [

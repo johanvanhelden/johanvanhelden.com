@@ -4,17 +4,14 @@
 
 @section('card-header', __('page-auth.forgot.headings.form'))
 @section('card-content')
-    {!! Form::open([
-        'route'  => 'password.email',
-        'method' => 'post',
-    ]) !!}
+    <x-form action="{{ route('password.email') }}">
         @if (session()->has('flash_notification'))
             <p class="text-blue-800 mb-4">
                 {{ session('flash_notification', collect())->first()->message }}
             </p>
         @endif
 
-        {{ Form::uiEmail('email', null, __('user.attributes.email'), [], true) }}
+        <x-forms.inputs.input type="email" name="email" label="{{ __('user.attributes.email') }}" required />
 
         <div class="flex items-center justify-between">
             <button type="submit" class="button button--primary">
@@ -25,5 +22,5 @@
                 {{ __('action.login') }}
             </a>
         </div>
-    {!! Form::close() !!}
+    </x-form>
 @endsection

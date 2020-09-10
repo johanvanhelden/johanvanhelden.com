@@ -23,7 +23,7 @@ class PasswordConfirmTest extends TestCase
     /** @test */
     public function a_user_password_gets_confirmed(): void
     {
-        $user = factory(User::class)->state('user')->create();
+        $user = User::factory()->create()->assignRole('user');
 
         $this
             ->actingAs($user)

@@ -120,7 +120,7 @@ jobs:
         run: phpmd app text phpmd.xml
 
       - name: PHPCPD
-        run: phpcpd app database config routes
+        run: phpcpd app
 
       - name: Lint Assets
         run: yarn lint

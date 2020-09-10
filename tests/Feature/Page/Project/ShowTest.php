@@ -15,7 +15,7 @@ class ShowTest extends TestCase
     /** @test */
     public function it_works(): void
     {
-        $project = factory(Project::class)->state('published')->create();
+        $project = Project::factory()->published()->create();
 
         $response = $this->get(route('project.show', $project));
 
@@ -25,7 +25,7 @@ class ShowTest extends TestCase
     /** @test */
     public function it_contains_the_project_data(): void
     {
-        $project = factory(Project::class)->state('published')->create();
+        $project = Project::factory()->published()->create();
 
         $response = $this->get(route('project.show', $project));
 
@@ -38,7 +38,7 @@ class ShowTest extends TestCase
         $this->withoutExceptionHandling();
         $this->expectException(AuthorizationException::class);
 
-        $project = factory(Project::class)->state('unpublished')->create();
+        $project = Project::factory()->published(false)->create();
 
         $this->get(route('project.show', $project));
     }
@@ -49,9 +49,9 @@ class ShowTest extends TestCase
         $this->withoutExceptionHandling();
         $this->expectException(AuthorizationException::class);
 
-        $project = factory(Project::class)->state('published')->create([
+        $project = Project::factory()->published()->state([
             'publish_at' => Carbon::now()->addDay(),
-        ]);
+        ])->create();
 
         $this->get(route('project.show', $project));
     }
