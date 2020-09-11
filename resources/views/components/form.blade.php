@@ -1,4 +1,4 @@
-<form method="{{ $method ?? 'POST' }}" action="{{ $action }}">
+<form method="{{ $method ?? 'POST' }}" action="{{ $action }}" class="{{ $class ?? '' }}">
     @csrf
 
     {{ $slot }}
