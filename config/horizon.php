@@ -165,24 +165,29 @@ return [
     |
     */
 
+    'defaults' => [
+        'supervisor-1' => [
+            'connection'   => 'redis',
+            'queue'        => ['default'],
+            'balance'      => 'auto',
+            'maxProcesses' => 1,
+            'tries'        => 1,
+            'nice'         => 0,
+        ],
+    ],
+
     'environments' => [
         'production' => [
             'supervisor-1' => [
-                'connection' => 'redis',
-                'queue'      => ['default'],
-                'balance'    => 'simple',
-                'processes'  => 10,
-                'tries'      => 1,
+                'maxProcesses'    => 10,
+                'balanceMaxShift' => 1,
+                'balanceCooldown' => 3,
             ],
         ],
 
         'local' => [
             'supervisor-1' => [
-                'connection' => 'redis',
-                'queue'      => ['default'],
-                'balance'    => 'simple',
-                'processes'  => 3,
-                'tries'      => 1,
+                'maxProcesses' => 3,
             ],
         ],
     ],
