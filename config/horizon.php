@@ -85,7 +85,7 @@ return [
     */
 
     'waits' => [
-        'redis:' . env('QUEUE_NAME_DEFAULT', 'default') => 60,
+        'redis:default' => 60,
     ],
 
     /*
@@ -169,7 +169,7 @@ return [
         'production' => [
             'supervisor-1' => [
                 'connection' => 'redis',
-                'queue'      => [env('QUEUE_NAME_DEFAULT', 'default')],
+                'queue'      => ['default'],
                 'balance'    => 'simple',
                 'processes'  => 10,
                 'tries'      => 1,
@@ -179,7 +179,7 @@ return [
         'local' => [
             'supervisor-1' => [
                 'connection' => 'redis',
-                'queue'      => [env('QUEUE_NAME_DEFAULT', 'default')],
+                'queue'      => ['default'],
                 'balance'    => 'simple',
                 'processes'  => 3,
                 'tries'      => 1,
