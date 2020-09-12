@@ -24,5 +24,7 @@ class UserSeeder extends Seeder
             });
 
         $progressBar->finish();
+
+        $this->command->info('');
     }
 }
