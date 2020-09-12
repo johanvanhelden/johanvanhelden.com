@@ -15,7 +15,7 @@ class DeleteTest extends TestCase
     /** @test */
     public function it_can_be_deleted(): void
     {
-        $subscriber = factory(Subscriber::class)->state('confirmed')->create();
+        $subscriber = Subscriber::factory()->confirmed()->create();
 
         $response = $this
             ->followingRedirects()
@@ -34,7 +34,7 @@ class DeleteTest extends TestCase
     {
         Mail::fake();
 
-        $subscriber = factory(Subscriber::class)->state('confirmed')->create();
+        $subscriber = Subscriber::factory()->confirmed()->create();
 
         $this->delete(route('subscriber.destroy', [$subscriber->uuid, $subscriber->secret]));
 
@@ -48,7 +48,7 @@ class DeleteTest extends TestCase
     {
         Mail::fake();
 
-        $subscriber = factory(Subscriber::class)->state('unconfirmed')->create();
+        $subscriber = Subscriber::factory()->confirmed(false)->create();
 
         $this->delete(route('subscriber.destroy', [$subscriber->uuid, $subscriber->secret]));
 

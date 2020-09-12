@@ -2,42 +2,51 @@
 
 declare(strict_types=1);
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+namespace Database\Factories;
+
 use App\Models\Tool;
-use Faker\Generator as Faker;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-$factory->define(Tool::class, function (Faker $faker) {
-    $createdAt = $faker->dateTimeBetween('-3 months', '-2 hours');
-    $updatedAt = $createdAt;
+class ToolFactory extends Factory
+{
+    /** @var string */
+    protected $model = Tool::class;
 
-    if ($faker->boolean()) {
-        $updatedAt = $faker->dateTimeBetween($createdAt, 'now');
+    public function definition(): array
+    {
+        $createdAt = $this->faker->dateTimeBetween('-3 months', '-2 hours');
+        $updatedAt = $createdAt;
+
+        if ($this->faker->boolean()) {
+            $updatedAt = $this->faker->dateTimeBetween($createdAt, 'now');
+        }
+
+        $image = basename(
+            $this->faker->file(resource_path('img/tools'), config('filesystems.disks.tools.root'))
+        );
+
+        return [
+            'name'  => ucfirst($this->faker->words(rand(1, 2), true)),
+            'image' => $image,
+            'url'   => $this->faker->url,
+
+            'publish_at' => $this->faker->optional(0.8)->dateTimeThisYear('now'),
+
+            'created_at' => $createdAt,
+            'updated_at' => $updatedAt,
+        ];
     }
 
-    $image = basename(
-        $faker->file(resource_path('img/tools'), config('filesystems.disks.tools.root'))
-    );
+    public function published(bool $value = true): Factory
+    {
+        return $this->state(function () use ($value) {
+            if ($value) {
+                $publishedAt = $this->faker->dateTimeThisYear('now');
+            }
 
-    return [
-        'name'  => ucfirst($faker->words(rand(1, 2), true)),
-        'image' => $image,
-        'url'   => $faker->url,
-
-        'publish_at' => $faker->optional(0.8)->dateTimeThisYear('now'),
-
-        'created_at' => $createdAt,
-        'updated_at' => $updatedAt,
-    ];
-});
-
-$factory->state(Tool::class, 'published', function (Faker $faker) {
-    return [
-        'publish_at' => $faker->dateTimeThisYear('now'),
-    ];
-});
-
-$factory->state(Tool::class, 'unpublished', function () {
-    return [
-        'publish_at' => null,
-    ];
-});
+            return [
+                'publish_at' => $publishedAt ?? null,
+            ];
+        });
+    }
+}

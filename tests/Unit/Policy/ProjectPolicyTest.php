@@ -37,6 +37,6 @@ class ProjectPolicyTest extends BasePolicyTest
 
     protected function model(): Project
     {
-        return factory(Project::class)->create();
+        return Project::factory()->create();
     }
 }

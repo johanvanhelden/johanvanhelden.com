@@ -15,7 +15,7 @@ class ConfirmTest extends TestCase
     /** @test */
     public function it_can_be_confirmed(): void
     {
-        $subscriber = factory(Subscriber::class)->state('unconfirmed')->create();
+        $subscriber = Subscriber::factory()->confirmed(false)->create();
 
         $response = $this
             ->followingRedirects()
@@ -33,7 +33,7 @@ class ConfirmTest extends TestCase
     {
         Mail::fake();
 
-        $subscriber = factory(Subscriber::class)->state('unconfirmed')->create();
+        $subscriber = Subscriber::factory()->confirmed(false)->create();
 
         $this
             ->followingRedirects()
@@ -49,7 +49,7 @@ class ConfirmTest extends TestCase
     {
         Mail::fake();
 
-        $subscriber = factory(Subscriber::class)->state('unconfirmed')->create();
+        $subscriber = Subscriber::factory()->confirmed(false)->create();
 
         $this
             ->followingRedirects()

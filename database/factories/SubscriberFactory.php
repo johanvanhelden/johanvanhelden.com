@@ -2,40 +2,49 @@
 
 declare(strict_types=1);
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+namespace Database\Factories;
+
 use App\Models\Subscriber;
-use Faker\Generator as Faker;
+use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
-$factory->define(Subscriber::class, function (Faker $faker) {
-    $createdAt = $faker->dateTimeBetween('-3 months', '-2 hours');
-    $updatedAt = $createdAt;
+class SubscriberFactory extends Factory
+{
+    /** @var string */
+    protected $model = Subscriber::class;
 
-    if ($faker->boolean()) {
-        $updatedAt = $faker->dateTimeBetween($createdAt, 'now');
+    public function definition(): array
+    {
+        $createdAt = $this->faker->dateTimeBetween('-3 months', '-2 hours');
+        $updatedAt = $createdAt;
+
+        if ($this->faker->boolean()) {
+            $updatedAt = $this->faker->dateTimeBetween($createdAt, 'now');
+        }
+
+        return [
+            'uuid'   => Str::uuid()->toString(),
+            'name'   => $this->faker->name,
+            'email'  => $this->faker->unique()->safeEmail,
+            'secret' => hash_hmac('sha256', Str::random(40), config('app.key')),
+
+            'confirmed_at' => $this->faker->optional(0.8)->dateTimeThisYear('now'),
+
+            'created_at' => $createdAt,
+            'updated_at' => $updatedAt,
+        ];
     }
 
-    return [
-        'uuid'   => Str::uuid()->toString(),
-        'name'   => $faker->name,
-        'email'  => $faker->unique()->safeEmail,
-        'secret' => hash_hmac('sha256', Str::random(40), config('app.key')),
+    public function confirmed(bool $value = true): Factory
+    {
+        return $this->state(function () use ($value) {
+            if ($value) {
+                $confirmedAt = $this->faker->dateTimeThisYear('now');
+            }
 
-        'confirmed_at' => $faker->optional(0.8)->dateTimeThisYear('now'),
-
-        'created_at' => $createdAt,
-        'updated_at' => $updatedAt,
-    ];
-});
-
-$factory->state(Subscriber::class, 'confirmed', function (Faker $faker) {
-    return [
-        'confirmed_at' => $faker->dateTimeThisYear('now'),
-    ];
-});
-
-$factory->state(Subscriber::class, 'unconfirmed', function () {
-    return [
-        'confirmed_at' => null,
-    ];
-});
+            return [
+                'confirmed_at' => $confirmedAt ?? null,
+            ];
+        });
+    }
+}

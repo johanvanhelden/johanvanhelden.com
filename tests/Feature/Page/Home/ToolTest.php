@@ -13,19 +13,19 @@ class ToolTest extends TestCase
     /** @test */
     public function it_only_lists_published(): void
     {
-        $publishedTools = factory(Tool::class, 2)->state('published')->create();
-        factory(Tool::class, 4)->state('unpublished')->create();
+        $tools = Tool::factory()->count(2)->published()->create();
+        Tool::factory()->count(4)->published(false)->create();
 
         $response = $this->get(route('page.home'));
 
         $response->assertPropCount('tools', 2);
-        $response->assertPropValue('tools', ToolResource::collection($publishedTools));
+        $response->assertPropValue('tools', ToolResource::collection($tools));
     }
 
     /** @test */
     public function are_sorted_by_order(): void
     {
-        factory(Tool::class, 10)->state('published')->create();
+        Tool::factory()->count(10)->published()->create();
 
         // reverse the order so we can actually test the custom order
         $order = 10;

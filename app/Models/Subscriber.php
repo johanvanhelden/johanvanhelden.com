@@ -4,13 +4,15 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use OwenIt\Auditing\Auditable as AuditTrait;
-use OwenIt\Auditing\Contracts\Auditable;
+use Spatie\Activitylog\Traits\LogsActivity;
 
-class Subscriber extends Model implements Auditable
+class Subscriber extends Model
 {
-    use AuditTrait;
+    use HasFactory, LogsActivity;
+
+    public static bool $logFillable = true;
 
     /** @var array */
     protected $fillable = [

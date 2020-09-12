@@ -59,7 +59,7 @@ class ResetPasswordTest extends TestCase
     /** @test */
     public function a_user_can_not_reset_a_password_with_a_token_for_a_different_user(): void
     {
-        $user = factory(User::class)->state('user')->create();
+        $user = User::factory()->create()->assignRole('user');
         $newPassword = 'Mynewpassw0rd!';
 
         /** @var \Illuminate\Auth\Passwords\PasswordBroker */

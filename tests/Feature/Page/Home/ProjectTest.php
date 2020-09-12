@@ -14,8 +14,8 @@ class ProjectTest extends TestCase
     /** @test */
     public function it_only_lists_published(): void
     {
-        $projects = factory(Project::class, 2)->state('published')->create();
-        factory(Project::class, 4)->state('unpublished')->create();
+        $projects = Project::factory()->count(2)->published()->create();
+        Project::factory()->count(4)->published(false)->create();
 
         $sortedProjects = $projects->sortByDesc('publish_at');
 
@@ -31,21 +31,21 @@ class ProjectTest extends TestCase
         $projects = collect();
 
         $projects->push(
-            factory(Project::class)->state('published')->create([
+            Project::factory()->published()->state([
                 'publish_at' => Carbon::createFromFormat('d-m-Y H:i', '10-10-1989 09:00'),
-            ])
+            ])->create()
         );
 
         $projects->push(
-            factory(Project::class)->state('published')->create([
+            Project::factory()->published()->state([
                 'publish_at' => Carbon::createFromFormat('d-m-Y H:i', '11-12-2000 10:15'),
-            ])
+            ])->create()
         );
 
         $projects->push(
-            factory(Project::class)->state('published')->create([
+            Project::factory()->published()->state([
                 'publish_at' => Carbon::createFromFormat('d-m-Y H:i', '11-12-2000 08:15'),
-            ])
+            ])->create()
         );
 
         $sortedProjects = $projects->sortByDesc('publish_at');

@@ -14,7 +14,7 @@ class UpdateTest extends TestCase
     /** @test */
     public function a_user_can_view_the_page(): void
     {
-        $subscriber = factory(Subscriber::class)->state('confirmed')->create();
+        $subscriber = Subscriber::factory()->confirmed()->create();
 
         $this
             ->followingRedirects()
@@ -26,10 +26,10 @@ class UpdateTest extends TestCase
     /** @test */
     public function it_can_be_updated(): void
     {
-        $subscriber = factory(Subscriber::class)->state('confirmed')->create([
+        $subscriber = Subscriber::factory()->confirmed()->state([
             'name'  => 'Original',
             'email' => 'original@address.test',
-        ]);
+        ])->create();
 
         $response = $this
             ->followingRedirects()
@@ -53,7 +53,7 @@ class UpdateTest extends TestCase
     {
         Mail::fake();
 
-        $subscriber = factory(Subscriber::class)->state('unconfirmed')->create();
+        $subscriber = Subscriber::factory()->confirmed(false)->create();
 
         $this
             ->followingRedirects()
@@ -69,9 +69,9 @@ class UpdateTest extends TestCase
     /** @test */
     public function the_secret_and_uuid_remain_the_same(): void
     {
-        $subscriber = factory(Subscriber::class)->state('confirmed')->create([
+        $subscriber = Subscriber::factory()->confirmed(false)->state([
             'email' => 'original@address.test',
-        ]);
+        ])->create();
 
         $uuid = $subscriber->uuid;
         $secret = $subscriber->secret;
@@ -93,10 +93,11 @@ class UpdateTest extends TestCase
     /** @test */
     public function it_is_not_updated_if_the_email_already_exists(): void
     {
-        $existingSubscriber = factory(Subscriber::class)->create();
-        $subscriber = factory(Subscriber::class)->state('confirmed')->create([
+        $existingSubscriber = Subscriber::factory()->create();
+
+        $subscriber = Subscriber::factory()->confirmed()->state([
             'email' => 'original@address.test',
-        ]);
+        ])->create();
 
         $response = $this
             ->followingRedirects()
@@ -120,10 +121,10 @@ class UpdateTest extends TestCase
     {
         Mail::fake();
 
-        $subscriber = factory(Subscriber::class)->state('unconfirmed')->create([
+        $subscriber = Subscriber::factory()->confirmed(false)->state([
             'name'  => 'Original name',
             'email' => 'existing@address.test',
-        ]);
+        ])->create();
 
         $this
             ->followingRedirects()

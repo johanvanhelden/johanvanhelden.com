@@ -13,15 +13,13 @@
     <p class="mb-4">
         {{ __('page-auth.verify.texts.lead') }}
     </p>
-    {!! Form::open([
-        'route'  => 'verification.resend',
-        'method' => 'post',
-    ]) !!}
+
+    <x-form action="{{ route('verification.resend') }}">
         <p>
             {{ __('page-auth.verify.texts.not_received') }},
             <button type="submit" class="link link--primary">
                 {{ __('page-auth.verify.texts.click_another') }}.
             </button>
         </p>
-    {!! Form::close() !!}
+    </x-form>
 @endsection

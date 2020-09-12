@@ -20,10 +20,10 @@ class RecentlyUpdatedTest extends TestCase
     /** @test */
     public function is_marked_if_updated_7_days_ago(): void
     {
-        $project = factory(Project::class)->state('published')->create([
+        $project = Project::factory()->published()->state([
             'publish_at' => Carbon::now()->subWeeks(2),
             'updated_at' => Carbon::now()->subDays(7),
-        ]);
+        ])->create();
 
         $this->assertTrue($project->is_recently_updated);
     }
@@ -31,10 +31,10 @@ class RecentlyUpdatedTest extends TestCase
     /** @test */
     public function is_marked_if_updated_3_days_ago(): void
     {
-        $project = factory(Project::class)->state('published')->create([
+        $project = Project::factory()->published()->state([
             'publish_at' => Carbon::now()->subWeeks(2),
             'updated_at' => Carbon::now()->subDays(3),
-        ]);
+        ])->create();
 
         $this->assertTrue($project->is_recently_updated);
     }
@@ -42,10 +42,10 @@ class RecentlyUpdatedTest extends TestCase
     /** @test */
     public function is_marked_if_updated_1_day_ago(): void
     {
-        $project = factory(Project::class)->state('published')->create([
+        $project = Project::factory()->published()->state([
             'publish_at' => Carbon::now()->subWeeks(2),
             'updated_at' => Carbon::now()->subDays(1),
-        ]);
+        ])->create();
 
         $this->assertTrue($project->is_recently_updated);
     }
@@ -53,10 +53,10 @@ class RecentlyUpdatedTest extends TestCase
     /** @test */
     public function is_not_marked_if_updated_on_the_same_day_as_publishing(): void
     {
-        $project = factory(Project::class)->state('published')->create([
+        $project = Project::factory()->published()->state([
             'publish_at' => Carbon::now()->startOfDay(),
             'updated_at' => Carbon::now()->endOfDay(),
-        ]);
+        ])->create();
 
         $this->assertFalse($project->is_recently_updated);
     }
@@ -64,10 +64,10 @@ class RecentlyUpdatedTest extends TestCase
     /** @test */
     public function is_not_marked_if_updated_8_days_ago(): void
     {
-        $project = factory(Project::class)->state('published')->create([
+        $project = Project::factory()->published()->state([
             'publish_at' => Carbon::now()->subWeeks(2),
             'updated_at' => Carbon::now()->subDays(8),
-        ]);
+        ])->create();
 
         $this->assertFalse($project->is_recently_updated);
     }
@@ -75,7 +75,7 @@ class RecentlyUpdatedTest extends TestCase
     /** @test */
     public function is_not_marked_if_not_published(): void
     {
-        $project = factory(Project::class)->state('unpublished')->create();
+        $project = Project::factory()->published(false)->create();
 
         $this->assertFalse($project->is_recently_updated);
     }
@@ -83,11 +83,11 @@ class RecentlyUpdatedTest extends TestCase
     /** @test */
     public function is_not_marked_if_not_updated(): void
     {
-        $project = factory(Project::class)->state('published')->create([
+        $project = Project::factory()->published()->state([
             'publish_at' => Carbon::now()->startOfDay(),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
-        ]);
+        ])->create();
 
         $this->assertFalse($project->is_updated, 'the project is marked is updated');
         $this->assertFalse($project->is_recently_updated, 'the project is marked is recently updated');

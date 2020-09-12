@@ -17,7 +17,7 @@ class VerificationTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $user = factory(User::class)->create(['email_verified_at' => null]);
+        $user = User::factory()->state(['email_verified_at' => null])->create();
 
         $this
             ->actingAs($user)
@@ -30,7 +30,8 @@ class VerificationTest extends TestCase
     public function the_verification_is_not_working_if_already_verified(): void
     {
         $this->withoutExceptionHandling();
-        $user = factory(User::class)->create(['email_verified_at' => Carbon::now()]);
+
+        $user = User::factory()->state(['email_verified_at' => Carbon::now()])->create();
 
         $this
             ->actingAs($user)
@@ -44,7 +45,7 @@ class VerificationTest extends TestCase
     {
         Notification::fake();
 
-        $user = factory(User::class)->create(['email_verified_at' => null]);
+        $user = User::factory()->state(['email_verified_at' => null])->create();
 
         $this
             ->actingAs($user)

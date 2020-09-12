@@ -64,31 +64,6 @@ jobs:
           tools: composer:v2, phpcs, php-cs-fixer, phpmd, phpcpd
           coverage: none
 
-      - name: Login to Laravel Nova
-        run: composer config http-basic.nova.laravel.com ${NOVA_USERNAME} ${NOVA_PASSWORD}
-        env:
-          NOVA_USERNAME: ${{ secrets.NOVA_USERNAME }}
-          NOVA_PASSWORD: ${{ secrets.NOVA_PASSWORD }}
-
-      - name: Get Composer Cache Directory
-        id: composer-cache
-        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
-
-      - uses: actions/cache@v2
-        with:
-          path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-
-      - uses: actions/cache@v2
-        id: vendor-cache
-        with:
-          path: "./vendor"
-          key: ${{ runner.os }}-vendor-${{ hashFiles('**/composer.lock') }}
-
-      - name: Install Composer Dependencies
-        if: steps.vendor-cache.outputs.cache-hit != 'true'
-        run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
-
       - name: Get Yarn Cache Directory
         id: yarn-cache-dir-path
         run: echo "::set-output name=dir::$(yarn cache dir)"
@@ -121,7 +96,7 @@ jobs:
         run: phpmd app text phpmd.xml
 
       - name: PHPCPD
-        run: phpcpd app database config routes
+        run: phpcpd app
 
       - name: Lint Assets
         run: yarn lint
@@ -217,7 +192,7 @@ jobs:
         run: yarn install
 
       - name: Setup PHPUnit Environment
-        run: cp .env.testing.example .env
+        run: yes | cp .env.testing.example .env
 
       - name: Build Assets
         run: ./buildHook.sh $PWD
@@ -248,7 +223,7 @@ jobs:
         run: rm ./storage/logs/*.log -f
 
       - name: Setup Dusk Environment
-        run: cp .env.dusk.local.example .env
+        run: yes | cp .env.dusk.local.example .env
 
       - name: Set the Chrome Driver
         run: php artisan dusk:chrome-driver `/opt/google/chrome/chrome --version | cut -d " " -f3 | cut -d "." -f1`

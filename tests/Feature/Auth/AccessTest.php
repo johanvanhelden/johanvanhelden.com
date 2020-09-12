@@ -13,7 +13,7 @@ class AccessTest extends TestCase
     /** @test */
     public function a_user_can_not_access_nova(): void
     {
-        $user = factory(User::class)->state('user')->create();
+        $user = User::factory()->create()->assignRole('user');
 
         $this
             ->post(route('login'), [
