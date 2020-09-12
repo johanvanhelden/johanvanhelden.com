@@ -17,7 +17,6 @@
                 @endif
             </span>
         @endif
-
     </label>
 
     @include('components.forms.shared.invalid-feedback')
