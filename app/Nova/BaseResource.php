@@ -21,8 +21,10 @@ abstract class BaseResource extends NovaResource
      * Build an "index" query for the given resource.
      *
      * @param Builder $query
+     *
+     * @return Builder
      */
-    public static function indexQuery(NovaRequest $request, $query): Builder
+    public static function indexQuery(NovaRequest $request, $query)
     {
         if (empty($request->get('orderBy'))) {
             $query->getQuery()->orders = [];
