@@ -25,7 +25,7 @@ class ToolSeeder extends Seeder
         $this->command->info('Seeding ' . count($tools) . ' tools');
 
         foreach ($tools as $name) {
-            Tool::factory()->state(['name' => $name])->create();
+            Tool::factory()->create(['name' => $name]);
         }
     }
 }

@@ -85,8 +85,8 @@
             "@php artisan nova:publish --ansi",
             "@php artisan telescope:publish --ansi",
             "@php artisan horizon:publish --ansi",
-            "@php artisan vendor:publish --tag=web-tinker-assets --force  --ansi",
-            "@php ./vendor/sensiolabs/security-checker/security-checker security:check  --ansi"
+            "@php artisan vendor:publish --tag=web-tinker-assets --force --ansi",
+            "@php ./vendor/sensiolabs/security-checker/security-checker security:check --ansi"
         ],
         "test": [
             "@php artisan migrate --env=testing --ansi",

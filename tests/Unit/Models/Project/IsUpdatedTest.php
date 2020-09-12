@@ -20,10 +20,10 @@ class IsUpdatedTest extends TestCase
     /** @test */
     public function is_marked_aif_edited_the_day_after_being_published(): void
     {
-        $project = Project::factory()->published()->state([
+        $project = Project::factory()->published()->create([
             'publish_at' => Carbon::now()->startOfDay(),
             'updated_at' => Carbon::now()->addDay()->addHours(4),
-        ])->create();
+        ]);
 
         $this->assertTrue($project->is_updated);
     }
@@ -39,10 +39,10 @@ class IsUpdatedTest extends TestCase
     /** @test */
     public function is_not_marked_if_edit_on_the_same_day_as_being_published(): void
     {
-        $project = Project::factory()->published()->state([
+        $project = Project::factory()->published()->create([
             'publish_at' => Carbon::now()->startOfDay(),
             'updated_at' => Carbon::now()->startOfDay()->addHours(4),
-        ])->create();
+        ]);
 
         $this->assertFalse($project->is_updated);
     }
@@ -50,10 +50,10 @@ class IsUpdatedTest extends TestCase
     /** @test */
     public function is_not_marked_if_updated_before_the_day_of_publishing(): void
     {
-        $project = Project::factory()->published()->state([
+        $project = Project::factory()->published()->create([
             'publish_at' => Carbon::createFromFormat('d-m-Y', '10-10-2019'),
             'updated_at' => Carbon::createFromFormat('d-m-Y', '10-10-2017'),
-        ])->create();
+        ]);
 
         $this->assertFalse($project->is_updated);
     }
