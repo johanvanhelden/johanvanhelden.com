@@ -14,6 +14,7 @@ parameters:
     ignoreErrors:
         # Unexplainable false positives
         - '#Access to an undefined property Tests\\TestCase::\$original.#'
+        - '#Call to an undefined method Illuminate\\Database\\Eloquent\\Factories\\Factory::(.*)#'
 
         # There is not proper Macro support yet
         - '#Call to an undefined method (Tests\\TestCase|Illuminate\\Testing\\TestResponse)::props\(\).#'
@@ -26,9 +27,6 @@ parameters:
         - '#Call to an undefined method Mockery\\ExpectationInterface\|Mockery\\HigherOrderMessage::(.*).#'
         - '#Parameter (.*) expects (.*), Mockery\\LegacyMockInterface given.#'
         - '#Access to an undefined property Mockery\\LegacyMockInterface::(.*).#'
-
-        - path: database/factories/*
-          message: '#Variable \$factory might not be defined.#'
 
     checkMissingIterableValueType: false
     checkUnionTypes: false

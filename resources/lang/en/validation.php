@@ -131,9 +131,8 @@ return [
     */
 
     'custom' => [
-        'g-recaptcha-response' => [
-            'required' => 'Please verify that you are not a robot.',
-            'captcha'  => 'Captcha error! Please try again later.',
+        'attribute-name' => [
+            'rule-name' => 'custom-message',
         ],
     ],
 

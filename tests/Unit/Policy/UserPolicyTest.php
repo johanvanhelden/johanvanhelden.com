@@ -37,6 +37,6 @@ class UserPolicyTest extends BasePolicyTest
 
     protected function model(): User
     {
-        return factory(User::class)->create();
+        return User::factory()->create();
     }
 }

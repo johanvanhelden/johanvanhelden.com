@@ -17,7 +17,7 @@ class Kernel extends ConsoleKernel
     /** @SuppressWarnings(PHPMD.UnusedFormalParameter) */
     protected function schedule(Schedule $schedule): void
     {
-        // $schedule->command('horizon:snapshot')->everyFiveMinutes();
+        //
     }
 
     protected function commands(): void

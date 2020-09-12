@@ -20,7 +20,7 @@ class AuthServiceProvider extends ServiceProvider
         \App\Models\Subscriber::class => \App\Policies\SubscriberPolicy::class,
 
         \Laravel\Nova\Actions\ActionEvent::class    => \App\Policies\ActionEventPolicy::class,
-        \OwenIt\Auditing\Models\Audit::class        => \App\Policies\AuditPolicy::class,
+        \Spatie\Activitylog\Models\Activity::class  => \App\Policies\ActivityPolicy::class,
         \Spatie\Permission\Models\Permission::class => \App\Policies\PermissionPolicy::class,
         \Spatie\Permission\Models\Role::class       => \App\Policies\RolePolicy::class,
     ];

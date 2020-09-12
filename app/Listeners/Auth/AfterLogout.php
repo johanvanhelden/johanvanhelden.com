@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Listeners\Auth;
 
-use App\Models\Audit;
+use App\Enums\Activity\Event;
 use Illuminate\Auth\Events\Logout;
 
 class AfterLogout
@@ -17,6 +17,6 @@ class AfterLogout
             return;
         }
 
-        Audit::createForLogout($currentUser);
+        activity()->causedBy($currentUser)->log(Event::LOGGED_OUT);
     }
 }

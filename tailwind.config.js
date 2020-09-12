@@ -43,5 +43,6 @@ module.exports = {
         float: false,
         objectFit: false,
         objectPosition: false,
-    }
+    },
+    purge: false
 }

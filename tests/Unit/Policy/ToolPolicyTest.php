@@ -37,6 +37,6 @@ class ToolPolicyTest extends BasePolicyTest
 
     protected function model(): Tool
     {
-        return factory(Tool::class)->create();
+        return Tool::factory()->create();
     }
 }

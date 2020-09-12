@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Resource as NovaResource;
-use Laravel\Scout\Builder as ScoutBuilder;
 
 abstract class BaseResource extends NovaResource
 {
@@ -36,18 +35,6 @@ abstract class BaseResource extends NovaResource
             return $query->orderBy($orderColumn, $orderDirection);
         }
 
-        return $query;
-    }
-
-    /**
-     * Build a Scout search query for the given resource.
-     *
-     * @param ScoutBuilder $query
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-     */
-    public static function scoutQuery(NovaRequest $request, $query): ScoutBuilder
-    {
         return $query;
     }
 
