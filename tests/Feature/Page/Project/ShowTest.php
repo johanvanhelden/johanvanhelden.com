@@ -49,9 +49,9 @@ class ShowTest extends TestCase
         $this->withoutExceptionHandling();
         $this->expectException(AuthorizationException::class);
 
-        $project = Project::factory()->published()->state([
+        $project = Project::factory()->published()->create([
             'publish_at' => Carbon::now()->addDay(),
-        ])->create();
+        ]);
 
         $this->get(route('project.show', $project));
     }

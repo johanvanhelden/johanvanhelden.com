@@ -36,7 +36,7 @@ class CreateTest extends TestCase
     /** @test */
     public function it_is_not_created_if_the_email_already_exists(): void
     {
-        Subscriber::factory()->state(['email' => 'existing@address.test'])->create();
+        Subscriber::factory()->create(['email' => 'existing@address.test']);
 
         $this->post(route('subscriber.store'), [
             'name'  => 'Johan',
@@ -67,9 +67,9 @@ class CreateTest extends TestCase
     {
         Mail::fake();
 
-        $subscriber = Subscriber::factory()->confirmed(false)->state([
+        $subscriber = Subscriber::factory()->confirmed(false)->create([
             'email' => 'existing@address.test',
-        ])->create();
+        ]);
 
         $this
             ->followingRedirects()

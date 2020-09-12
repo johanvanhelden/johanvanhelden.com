@@ -31,21 +31,21 @@ class ProjectTest extends TestCase
         $projects = collect();
 
         $projects->push(
-            Project::factory()->published()->state([
+            Project::factory()->published()->create([
                 'publish_at' => Carbon::createFromFormat('d-m-Y H:i', '10-10-1989 09:00'),
-            ])->create()
+            ])
         );
 
         $projects->push(
-            Project::factory()->published()->state([
+            Project::factory()->published()->create([
                 'publish_at' => Carbon::createFromFormat('d-m-Y H:i', '11-12-2000 10:15'),
-            ])->create()
+            ])
         );
 
         $projects->push(
-            Project::factory()->published()->state([
+            Project::factory()->published()->create([
                 'publish_at' => Carbon::createFromFormat('d-m-Y H:i', '11-12-2000 08:15'),
-            ])->create()
+            ])
         );
 
         $sortedProjects = $projects->sortByDesc('publish_at');

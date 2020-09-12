@@ -26,10 +26,10 @@ class UpdateTest extends TestCase
     /** @test */
     public function it_can_be_updated(): void
     {
-        $subscriber = Subscriber::factory()->confirmed()->state([
+        $subscriber = Subscriber::factory()->confirmed()->create([
             'name'  => 'Original',
             'email' => 'original@address.test',
-        ])->create();
+        ]);
 
         $response = $this
             ->followingRedirects()
@@ -69,9 +69,9 @@ class UpdateTest extends TestCase
     /** @test */
     public function the_secret_and_uuid_remain_the_same(): void
     {
-        $subscriber = Subscriber::factory()->confirmed(false)->state([
+        $subscriber = Subscriber::factory()->confirmed(false)->create([
             'email' => 'original@address.test',
-        ])->create();
+        ]);
 
         $uuid = $subscriber->uuid;
         $secret = $subscriber->secret;
@@ -95,9 +95,9 @@ class UpdateTest extends TestCase
     {
         $existingSubscriber = Subscriber::factory()->create();
 
-        $subscriber = Subscriber::factory()->confirmed()->state([
+        $subscriber = Subscriber::factory()->confirmed()->create([
             'email' => 'original@address.test',
-        ])->create();
+        ]);
 
         $response = $this
             ->followingRedirects()
@@ -121,10 +121,10 @@ class UpdateTest extends TestCase
     {
         Mail::fake();
 
-        $subscriber = Subscriber::factory()->confirmed(false)->state([
+        $subscriber = Subscriber::factory()->confirmed(false)->create([
             'name'  => 'Original name',
             'email' => 'existing@address.test',
-        ])->create();
+        ]);
 
         $this
             ->followingRedirects()
