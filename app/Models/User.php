@@ -16,7 +16,7 @@ class User extends Authenticatable implements MustVerifyEmail
 {
     use HasFactory, Notifiable, HasRoles, LogsActivity;
 
-    public static bool $logFillable = true;
+    protected static array $logAttributes = ['name', 'email'];
 
     /** @var array */
     protected $fillable = [
