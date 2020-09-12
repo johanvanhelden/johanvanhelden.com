@@ -171,6 +171,7 @@ return [
         App\Providers\NovaServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\ValidationServiceProvider::class,
+        App\Providers\HorizonServiceProvider::class,
         App\Providers\InertiaServiceProvider::class,
     ],
 
