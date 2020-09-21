@@ -15,14 +15,13 @@
         "laravel/horizon": "^5.0",
         "laravel/nova": "^3.9",
         "laravel/ui": "^2.0",
+        "livewire/livewire": "^2.2",
         "optimistdigital/nova-sortable": "^1.4",
-        "php-http/curl-client": "^2.0",
         "predis/predis": "^1.1",
         "sentry/sentry-laravel": "^1.9",
         "spatie/laravel-activitylog": "^3.14",
         "spatie/laravel-permission": "^3.16",
-        "spatie/laravel-queueable-action": "^2.6",
-        "tightenco/ziggy": "^0.9"
+        "spatie/laravel-queueable-action": "^2.6"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.5",
@@ -39,9 +38,6 @@
         "phpunit/phpunit": "^9.3",
         "sensiolabs/security-checker": "^6.0",
         "spatie/laravel-web-tinker": "^1.7.5"
-    },
-    "replace": {
-        "php-http/guzzle6-adapter": "*"
     },
     "config": {
         "optimize-autoloader": true,

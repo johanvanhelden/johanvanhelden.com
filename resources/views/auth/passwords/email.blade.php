@@ -1,17 +1,16 @@
-@extends('layouts.auth')
+<x-app.auth :page-title="__('page-auth.forgot.page_title')">
+    <h3 class="text-lg | mb-2">{{ __('page-auth.forgot.headings.form') }}</h3>
 
-@section('title', __('page-auth.forgot.page_title'))
+    <hr class="mb-4">
 
-@section('card-header', __('page-auth.forgot.headings.form'))
-@section('card-content')
-    <x-form action="{{ route('password.email') }}">
+    <x-form :action="route('password.email')">
         @if (session()->has('flash_notification'))
             <p class="text-blue-800 mb-4">
                 {{ session('flash_notification', collect())->first()->message }}
             </p>
         @endif
 
-        <x-forms.inputs.input type="email" name="email" label="{{ __('user.attributes.email') }}" required />
+        <x-forms.inputs.input type="email" name="email" :label="__('user.attributes.email')" required autofocus />
 
         <div class="flex items-center justify-between">
             <button type="submit" class="button button--primary">
@@ -23,4 +22,4 @@
             </a>
         </div>
     </x-form>
-@endsection
+</x-app.auth>

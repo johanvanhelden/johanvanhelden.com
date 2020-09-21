@@ -1,4 +1,4 @@
-@extends('errors::wrapper')
+@extends('errors::minimal')
 
 @section('title', __('Server Error'))
 @section('code', '500')

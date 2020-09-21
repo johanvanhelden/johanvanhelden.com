@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Subscriber;
 
+use App\Http\Livewire\SubscriptionForm;
 use App\Mail\ConfirmSubscription;
 use App\Models\Subscriber;
 use Illuminate\Support\Facades\Mail;
+use Livewire\Livewire;
 use Tests\TestCase;
 
 class UpdateTest extends TestCase
@@ -31,14 +33,10 @@ class UpdateTest extends TestCase
             'email' => 'original@address.test',
         ]);
 
-        $response = $this
-            ->followingRedirects()
-            ->put(route('subscriber.update', [$subscriber->uuid, $subscriber->secret]), [
-                'name'  => 'Updated',
-                'email' => 'updated@address.test',
-            ]);
-
-        $response->assertOk();
+        Livewire::test(SubscriptionForm::class, ['subscriber' => $subscriber])
+            ->set('subscriber.name', 'Updated')
+            ->set('subscriber.email', 'updated@address.test')
+            ->call('update');
 
         $this->assertDatabaseHas('subscribers', [
             'id'     => $subscriber->id,
@@ -76,13 +74,10 @@ class UpdateTest extends TestCase
         $uuid = $subscriber->uuid;
         $secret = $subscriber->secret;
 
-        $this
-            ->followingRedirects()
-            ->put(route('subscriber.update', [$subscriber->uuid, $subscriber->secret]), [
-                'email' => 'updated@address.test',
-            ])
-
-            ->assertOk();
+        Livewire::test(SubscriptionForm::class, ['subscriber' => $subscriber])
+            ->set('subscriber.name', 'Updated')
+            ->set('subscriber.email', 'updated@address.test')
+            ->call('update');
 
         $subscriber->refresh();
 
@@ -99,49 +94,14 @@ class UpdateTest extends TestCase
             'email' => 'original@address.test',
         ]);
 
-        $response = $this
-            ->followingRedirects()
-            ->putJson(route('subscriber.update', [$subscriber->uuid, $subscriber->secret]), [
-                'name'  => 'Johan',
-                'email' => $existingSubscriber->email,
-            ]);
-
-        $response->assertJsonValidationErrors([
-            'email' => __('validation.unique', ['attribute' => __('user.attributes.email')]),
-        ]);
+        Livewire::test(SubscriptionForm::class, ['subscriber' => $subscriber])
+            ->set('subscriber.name', 'Updated')
+            ->set('subscriber.email', $existingSubscriber->email)
+            ->call('update');
 
         $this->assertDatabaseHas('subscribers', [
             'id'    => $subscriber->id,
             'email' => 'original@address.test',
         ]);
-    }
-
-    /** @test */
-    public function if_not_confirmed_a_confirmation_mail_is_sent_instead(): void
-    {
-        Mail::fake();
-
-        $subscriber = Subscriber::factory()->confirmed(false)->create([
-            'name'  => 'Original name',
-            'email' => 'existing@address.test',
-        ]);
-
-        $this
-            ->followingRedirects()
-            ->put(route('subscriber.update', [$subscriber->uuid, $subscriber->secret]), [
-                'name'  => 'Updated name',
-                'email' => 'existing@address.test',
-            ])
-
-            ->assertOk();
-
-        $this->assertDatabaseHas('subscribers', [
-            'id'   => $subscriber->id,
-            'name' => $subscriber->name,
-        ]);
-
-        Mail::assertSent(ConfirmSubscription::class, function ($mail) use ($subscriber) {
-            return $mail->hasTo($subscriber->email);
-        });
     }
 }

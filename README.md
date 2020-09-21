@@ -2,6 +2,10 @@
 
 Public repository for my website [https://www.johanvanhelden.com](https://www.johanvanhelden.com)
 
+## Todo
+[] Diff with old version to make sure everything is converted
+[] Release
+
 ## Setup for local development
 
 ### PHP
@@ -92,6 +96,3 @@ GNU General Public License v3.0 (gpl-3.0). Please see the [License File](LICENSE
 - Nova module
 - Publish to twitter
 - RSS feed
-
-### Misc
-- Translations through Inertia

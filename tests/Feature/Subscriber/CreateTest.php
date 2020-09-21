@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Subscriber;
 
+use App\Http\Livewire\SubscribeForm;
 use App\Mail\ConfirmSubscription;
 use App\Models\Subscriber;
 use Illuminate\Support\Facades\Mail;
+use Livewire\Livewire;
 use Tests\TestCase;
 
 class CreateTest extends TestCase
@@ -16,11 +18,10 @@ class CreateTest extends TestCase
     {
         $subscriber = Subscriber::factory()->make();
 
-        $response = $this
-            ->followingRedirects()
-            ->post(route('subscriber.store'), $subscriber->toArray());
-
-        $response->assertOk();
+        Livewire::test(SubscribeForm::class)
+            ->set('name', $subscriber->name)
+            ->set('email', $subscriber->email)
+            ->call('store');
 
         $this->assertDatabaseHas('subscribers', [
             'name'  => $subscriber->name,
@@ -38,10 +39,10 @@ class CreateTest extends TestCase
     {
         Subscriber::factory()->create(['email' => 'existing@address.test']);
 
-        $this->post(route('subscriber.store'), [
-            'name'  => 'Johan',
-            'email' => 'existing@address.test',
-        ]);
+        Livewire::test(SubscribeForm::class)
+            ->set('name', 'Johan')
+            ->set('email', 'existing@address.test')
+            ->call('store');
 
         $this->assertEquals(1, Subscriber::count());
     }
@@ -53,9 +54,10 @@ class CreateTest extends TestCase
 
         $subscriber = Subscriber::factory()->make();
 
-        $this
-            ->followingRedirects()
-            ->post(route('subscriber.store'), $subscriber->toArray());
+        Livewire::test(SubscribeForm::class)
+            ->set('name', $subscriber->name)
+            ->set('email', $subscriber->email)
+            ->call('store');
 
         Mail::assertSent(ConfirmSubscription::class, function ($mail) use ($subscriber) {
             return $mail->hasTo($subscriber->email);
@@ -71,12 +73,10 @@ class CreateTest extends TestCase
             'email' => 'existing@address.test',
         ]);
 
-        $this
-            ->followingRedirects()
-            ->post(route('subscriber.store'), [
-                'name'  => 'Johan',
-                'email' => 'existing@address.test',
-            ]);
+        Livewire::test(SubscribeForm::class)
+            ->set('name', 'Johan')
+            ->set('email', 'existing@address.test')
+            ->call('store');
 
         Mail::assertSent(ConfirmSubscription::class, function ($mail) use ($subscriber) {
             return $mail->hasTo($subscriber->email);

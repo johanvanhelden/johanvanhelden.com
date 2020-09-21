@@ -4,10 +4,9 @@ const cssImport = require('postcss-import')
 const cssNested = require('postcss-nested')
 const tailwind = require('tailwindcss')
 const autoprefixer = require('tailwindcss')
-require('laravel-mix-purgecss');
 
 mix
-    .copyDirectory('./node_modules/@fortawesome/fontawesome-free/webfonts', assetRoot + '/fonts/vendor/font-awesome')
+    .copyDirectory('./node_modules/@fortawesome/fontawesome-free/webfonts', assetRoot + '/webfonts')
     .copyDirectory('./resources/img', assetRoot + '/images');
 
 mix
@@ -18,20 +17,18 @@ mix
         cssNested(),
         autoprefixer(),
     ])
-    .purgeCss({
-        whitelistPatternsChildren: [/^nprogress$/]
-    })
     .options({
         processCssUrls: false,
         terser: {
             extractComments: false,
+        },
+        cssNano: {
+            mergeRules: {
+                exclude: true,
+            },
         }
     })
     .setPublicPath('public_html');
-
-if (process.env.npm_lifecycle_event !== 'hot') {
-    mix.extract()
-}
 
 if (mix.config.production) {
     mix.version();

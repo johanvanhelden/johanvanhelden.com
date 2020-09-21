@@ -34,12 +34,22 @@ class SentryTest extends TestCase
     }
 
     /** @test */
+    public function will_not_trigger_sentry_if_not_bound(): void
+    {
+        App::shouldReceive('environment')->once()->andReturn(false);
+        App::shouldReceive('bound')->once()->andReturn(false);
+
+        $this->handler->report($this->exception);
+    }
+
+    /** @test */
     public function will_trigger_sentry_on_production(): void
     {
         $sentry = Mockery::mock(stdClass::class);
         $sentry->shouldReceive('captureException')->andReturn(true);
 
         App::shouldReceive('environment')->once()->andReturn(false);
+        App::shouldReceive('bound')->withArgs(['sentry'])->once()->andReturn(true);
         App::shouldReceive('get')->once()->andReturn($sentry);
 
         $this->handler->report($this->exception);

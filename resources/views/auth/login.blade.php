@@ -1,13 +1,12 @@
-@extends('layouts.auth')
+<x-app.auth :page-title="__('page-auth.login.page_title')">
+    <h3 class="text-lg | mb-2">{{ __('page-auth.login.headings.form') }}</h3>
 
-@section('title', __('page-auth.login.page_title'))
+    <hr class="mb-4">
 
-@section('card-header', __('page-auth.login.headings.form'))
-@section('card-content')
-    <x-form action="{{ route('login') }}">
-        <x-forms.inputs.input type="email" name="email" label="{{ __('user.attributes.email') }}" />
-        <x-forms.inputs.input type="password" name="password" label="{{ __('user.attributes.password') }}" />
-        <x-forms.inputs.checkbox name="remember" label="{{ __('page-auth.login.remember') }}" />
+    <x-form :action="route('login')">
+        <x-forms.inputs.input type="email" name="email" :label="__('user.attributes.email')" autofocus />
+        <x-forms.inputs.input type="password" name="password" :label="__('user.attributes.password')" />
+        <x-forms.inputs.checkbox name="remember" :label="__('page-auth.login.remember')" />
 
         <div class="flex items-center justify-between">
             <button type="submit" class="button button--primary" dusk="login-button">
@@ -19,4 +18,4 @@
             </a>
         </div>
     </x-form>
-@endsection
+</x-app.auth>
