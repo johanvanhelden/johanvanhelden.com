@@ -2,10 +2,6 @@
 
 Public repository for my website [https://www.johanvanhelden.com](https://www.johanvanhelden.com)
 
-## Todo
-[] Diff with old version to make sure everything is converted
-[] Release
-
 ## Setup for local development
 
 ### PHP
