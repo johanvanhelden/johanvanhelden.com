@@ -6,7 +6,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Project;
 use App\Models\Tool;
-use Illuminate\Support\Facades\Session;
 use Illuminate\View\View;
 
 class PagesController extends Controller
@@ -14,10 +13,8 @@ class PagesController extends Controller
     public function home(): View
     {
         return view('page.home', [
-            'projects'     => Project::published()->latestPublished()->get(),
-            'tools'        => Tool::published()->ordered()->get(),
-            'subscription' => Session::get('subscription'),
-            'unsubscribed' => Session::get('unsubscribed'),
+            'projects' => Project::published()->latestPublished()->get(),
+            'tools'    => Tool::published()->ordered()->get(),
         ]);
     }
 }
