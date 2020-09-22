@@ -9,12 +9,6 @@ return [
 
     'saved' => 'The changes have been succesfully saved.',
 
-    'levels' => [
-        'success' => 'Success',
-        'error'   => 'Something went wrong',
-        'info'    => 'Info',
-    ],
-
     'cache' => [
         'cleared' => 'The cache has been cleared succesfully.',
     ],

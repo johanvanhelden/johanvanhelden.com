@@ -12,7 +12,6 @@
     @else
         href="#"
     @endisset
-
 >
     <div class="flex items-center mb-2">
         <span

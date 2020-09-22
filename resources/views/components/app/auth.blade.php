@@ -1,5 +1,5 @@
 <x-app.wrapper :page-title="$pageTitle ?? null">
-    <div class="h-screen w-screen | auth-background">
+    <div class="h-screen w-screen" style="background: url('/images/background.jpg') no-repeat center center fixed; background-size: cover;">
         <div class="container mx-auto h-full flex justify-center items-center">
             <div class="w-full md:w-1/3">
                 <h1 class="text-xl | text-center mb-4">{{ config('app.name') }}</h1>
