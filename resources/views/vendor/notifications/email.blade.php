@@ -47,7 +47,7 @@
 @endif
 
 {{-- Subcopy --}}
-@isset($actionText)
+@isset ($actionText)
 @slot('subcopy')
 {{ __('notification.trouble_viewing', ['actionText' => $actionText]) }} [{{ $actionUrl }}]({{ $actionUrl }})
 @endslot

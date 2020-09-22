@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Subscriber;
 
-use App\Mail\ConfirmSubscription;
+use App\Http\Livewire\SubscriptionForm;
 use App\Mail\SubscriberLeft;
 use App\Models\Subscriber;
 use Illuminate\Support\Facades\Mail;
+use Livewire\Livewire;
 use Tests\TestCase;
 
 class DeleteTest extends TestCase
@@ -17,11 +18,8 @@ class DeleteTest extends TestCase
     {
         $subscriber = Subscriber::factory()->confirmed()->create();
 
-        $response = $this
-            ->followingRedirects()
-            ->delete(route('subscriber.destroy', [$subscriber->uuid, $subscriber->secret]));
-
-        $response->assertOk();
+        Livewire::test(SubscriptionForm::class, ['subscriber' => $subscriber])
+            ->call('unsubscribe');
 
         $this->assertDatabaseMissing('subscribers', [
             'name'  => $subscriber->name,
@@ -36,29 +34,11 @@ class DeleteTest extends TestCase
 
         $subscriber = Subscriber::factory()->confirmed()->create();
 
-        $this->delete(route('subscriber.destroy', [$subscriber->uuid, $subscriber->secret]));
+        Livewire::test(SubscriptionForm::class, ['subscriber' => $subscriber])
+            ->call('unsubscribe');
 
         Mail::assertSent(SubscriberLeft::class, function ($mail) {
             return $mail->hasTo('local@test.test');
-        });
-    }
-
-    /** @test */
-    public function if_not_confirmed_a_confirmation_mail_is_sent_instead(): void
-    {
-        Mail::fake();
-
-        $subscriber = Subscriber::factory()->confirmed(false)->create();
-
-        $this->delete(route('subscriber.destroy', [$subscriber->uuid, $subscriber->secret]));
-
-        $this->assertDatabaseHas('subscribers', [
-            'name'  => $subscriber->name,
-            'email' => $subscriber->email,
-        ]);
-
-        Mail::assertSent(ConfirmSubscription::class, function ($mail) use ($subscriber) {
-            return $mail->hasTo($subscriber->email);
         });
     }
 }

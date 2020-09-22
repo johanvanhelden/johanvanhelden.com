@@ -1,7 +1,13 @@
+const { screens } = require('tailwindcss/defaultTheme')
 const { colors } = require('tailwindcss/defaultTheme')
+const pickedScreens = (({ sm, md, lg }) => ({ sm, md, lg }))(screens);
 
 module.exports = {
     theme: {
+        future: {
+            removeDeprecatedGapUtilities: true,
+            purgeLayersByDefault: true,
+        },
         colors: {
             black: colors.black,
             white: colors.white,
@@ -28,11 +34,7 @@ module.exports = {
             'right-top': 'right top',
             top: 'top',
         },
-        screens: {
-            'sm': '640px',
-            'md': '768px',
-            'lg': '1024px',
-        },
+        screens: pickedScreens,
         extend: {}
     },
     variants: {
@@ -44,5 +46,7 @@ module.exports = {
         objectFit: false,
         objectPosition: false,
     },
-    purge: false
+    purge: [
+        './resources/**/*.blade.php',
+    ],
 }

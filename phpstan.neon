@@ -13,19 +13,10 @@ parameters:
 
     ignoreErrors:
         # Unexplainable false positives
-        - '#Access to an undefined property Tests\\TestCase::\$original.#'
         - '#Call to an undefined method Illuminate\\Database\\Eloquent\\Factories\\Factory::(.*)#'
-
-        # There is not proper Macro support yet
-        - '#Call to an undefined method (Tests\\TestCase|Illuminate\\Testing\\TestResponse)::props\(\).#'
-        - '#Call to an undefined method (Tests\\TestCase|Illuminate\\Testing\\TestResponse)::assertHasProp\(\).#'
-        - '#Call to an undefined method (Tests\\TestCase|Illuminate\\Testing\\TestResponse)::assertHasProps\(\).#'
-        - '#Call to an undefined method (Tests\\TestCase|Illuminate\\Testing\\TestResponse)::assertPropCount\(\).#'
-        - '#Call to an undefined method (Tests\\TestCase|Illuminate\\Testing\\TestResponse)::assertPropValue\(\).#'
+        - '#Method (.*) should return Livewire\\Redirector but returns Illuminate\\Http\\RedirectResponse.#'
 
         # Mockery causes issues
-        - '#Call to an undefined method Mockery\\ExpectationInterface\|Mockery\\HigherOrderMessage::(.*).#'
-        - '#Parameter (.*) expects (.*), Mockery\\LegacyMockInterface given.#'
         - '#Access to an undefined property Mockery\\LegacyMockInterface::(.*).#'
 
     checkMissingIterableValueType: false

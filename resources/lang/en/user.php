@@ -8,7 +8,7 @@ return [
 
     'attributes' => [
         'name'     => 'Name',
-        'email'    => 'Email addres',
+        'email'    => 'Email address',
         'password' => 'Password',
 
         'current_password'          => 'Current password',

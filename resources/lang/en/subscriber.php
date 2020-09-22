@@ -8,7 +8,7 @@ return [
 
     'attributes' => [
         'name'  => 'Name',
-        'email' => 'Email addres',
+        'email' => 'Email address',
 
         'confirmed_at' => 'Confirmed at',
 

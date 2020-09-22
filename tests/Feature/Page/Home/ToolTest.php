@@ -4,22 +4,34 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Page\Home;
 
-use App\Http\Resources\ToolResource;
 use App\Models\Tool;
 use Tests\TestCase;
 
 class ToolTest extends TestCase
 {
     /** @test */
+    public function has_tools(): void
+    {
+        Tool::factory()->count(2)->published()->create();
+
+        $this->get(route('page.home'))
+            ->assertViewHas('tools');
+    }
+
+    /** @test */
     public function it_only_lists_published(): void
     {
-        $tools = Tool::factory()->count(2)->published()->create();
+        $publishedTools = Tool::factory()->count(2)->published()->create();
         Tool::factory()->count(4)->published(false)->create();
 
         $response = $this->get(route('page.home'));
 
-        $response->assertPropCount('tools', 2);
-        $response->assertPropValue('tools', ToolResource::collection($tools));
+        $viewTools = $response->viewData('tools');
+
+        $this->assertEquals(
+            $publishedTools->pluck('id')->toArray(),
+            $viewTools->pluck('id')->toArray()
+        );
     }
 
     /** @test */
@@ -40,7 +52,11 @@ class ToolTest extends TestCase
 
         $response = $this->get(route('page.home'));
 
-        $response->assertPropCount('tools', 10);
-        $response->assertPropValue('tools', ToolResource::collection($sortedTools));
+        $viewTools = $response->viewData('tools');
+
+        $this->assertEquals(
+            $sortedTools->pluck('id')->toArray(),
+            $viewTools->pluck('id')->toArray()
+        );
     }
 }

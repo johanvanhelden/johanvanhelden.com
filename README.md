@@ -92,6 +92,3 @@ GNU General Public License v3.0 (gpl-3.0). Please see the [License File](LICENSE
 - Nova module
 - Publish to twitter
 - RSS feed
-
-### Misc
-- Translations through Inertia

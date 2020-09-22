@@ -59,4 +59,14 @@ class Project extends Model
 
         return false;
     }
+
+    public function getPublishAtDisplayAttribute(): string
+    {
+        return $this->publish_at->format(config('format.date'));
+    }
+
+    public function getUpdatedAtDisplayAttribute(): string
+    {
+        return $this->updated_at->format(config('format.date'));
+    }
 }

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Page\Project;
 
-use App\Http\Resources\ProjectResource;
 use App\Models\Project;
 use Carbon\Carbon;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -17,9 +16,8 @@ class ShowTest extends TestCase
     {
         $project = Project::factory()->published()->create();
 
-        $response = $this->get(route('project.show', $project));
-
-        $response->assertOk();
+        $this->get(route('project.show', $project))
+            ->assertOk();
     }
 
     /** @test */
@@ -27,9 +25,8 @@ class ShowTest extends TestCase
     {
         $project = Project::factory()->published()->create();
 
-        $response = $this->get(route('project.show', $project));
-
-        $response->assertPropValue('project', new ProjectResource($project));
+        $this->get(route('project.show', $project))
+            ->assertViewHas('project', $project);
     }
 
     /** @test */

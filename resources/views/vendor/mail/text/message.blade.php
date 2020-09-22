@@ -10,7 +10,7 @@
     {{ $slot }}
 
     {{-- Subcopy --}}
-    @isset($subcopy)
+    @isset ($subcopy)
         @slot('subcopy')
             @component('mail::subcopy')
                 {{ $subcopy }}

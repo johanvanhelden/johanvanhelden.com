@@ -11,8 +11,7 @@ class HomeTest extends TestCase
     /** @test */
     public function it_works(): void
     {
-        $response = $this->get(route('page.home'));
-
-        $response->assertOk();
+        $this->get(route('page.home'))
+            ->assertOk();
     }
 }

@@ -1,9 +1,8 @@
-@extends('layouts.auth')
+<x-app.auth :page-title="__('page-auth.verify.page_title')">
+    <h3 class="text-lg | mb-2">{{ __('page-auth.verify.headings.page') }}</h3>
 
-@section('title', __('page-auth.verify.page_title'))
+    <hr class="mb-4">
 
-@section('card-header', __('page-auth.verify.headings.page'))
-@section('card-content')
     @if (session('resent'))
         <div class="border-solid border-2 text-center text-base | bg-green-200 text-green-800 border-green-800 | py-2 px-4 mb-4" role="alert">
             {{ __('page-auth.verify.info.new_link_sent') }}
@@ -14,7 +13,7 @@
         {{ __('page-auth.verify.texts.lead') }}
     </p>
 
-    <x-form action="{{ route('verification.resend') }}">
+    <x-form :action="route('verification.resend')">
         <p>
             {{ __('page-auth.verify.texts.not_received') }},
             <button type="submit" class="link link--primary">
@@ -22,4 +21,4 @@
             </button>
         </p>
     </x-form>
-@endsection
+</x-app.auth>
