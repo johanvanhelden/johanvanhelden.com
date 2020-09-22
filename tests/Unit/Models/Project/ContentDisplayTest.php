@@ -10,7 +10,7 @@ use Tests\TestCase;
 class ContentDisplayTest extends TestCase
 {
     /** @test */
-    public function martkdown_is_converted_to_html(): void
+    public function markdown_is_converted_to_html(): void
     {
         $project = Project::factory()->published()->create([
             'content' => '# Hi there!',
