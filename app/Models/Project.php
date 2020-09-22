@@ -8,7 +8,7 @@ use App\Traits\Publishable;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use League\CommonMark\GithubFlavoredMarkdownConverter;
+use League\CommonMark\CommonMarkConverter;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 class Project extends Model
@@ -77,7 +77,7 @@ class Project extends Model
             return '';
         }
 
-        $converter = new GithubFlavoredMarkdownConverter([
+        $converter = new CommonMarkConverter([
             'html_input'         => 'strip',
             'allow_unsafe_links' => false,
         ]);
