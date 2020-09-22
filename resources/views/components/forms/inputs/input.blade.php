@@ -1,5 +1,5 @@
 <div class="mb-4">
-    @if($label ?? null)
+    @if ($label ?? null)
         <label for="{{ $name }}" class="input-label">
             {{ $label }}
             @if (!empty($required))
@@ -9,14 +9,15 @@
     @endif
 
     <input
-        autocomplete="off"
+        autocomplete="{{ $autocomplete ?? 'off' }}"
         id="{{ $id ?? $name }}"
         name="{{ $name }}"
         type="{{ $type ?? 'text'}}"
         value="{{ old($name, $value ?? '') }}"
         class="input @error($name) input--error @enderror"
         placeholder="{{ $placeholder ?? '' }}"
-        {{ ($required ?? false) ? 'required' : '' }}
+        @isset ($autofocus) autofocus @endisset
+        @isset ($required) required @endisset
     >
 
     @include('components.forms.shared.invalid-feedback')

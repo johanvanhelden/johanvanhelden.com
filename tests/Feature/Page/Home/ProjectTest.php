@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Page\Home;
 
-use App\Http\Resources\ProjectResource;
 use App\Models\Project;
 use Carbon\Carbon;
 use Tests\TestCase;
@@ -12,17 +11,29 @@ use Tests\TestCase;
 class ProjectTest extends TestCase
 {
     /** @test */
+    public function has_projects(): void
+    {
+        Project::factory()->count(2)->published()->create();
+
+        $this->get(route('page.home'))
+            ->assertViewHas('projects');
+    }
+
+    /** @test */
     public function it_only_lists_published(): void
     {
-        $projects = Project::factory()->count(2)->published()->create();
+        $publishedProjects = Project::factory()->count(2)->published()->create();
         Project::factory()->count(4)->published(false)->create();
-
-        $sortedProjects = $projects->sortByDesc('publish_at');
 
         $response = $this->get(route('page.home'));
 
-        $response->assertPropCount('projects', 2);
-        $response->assertPropValue('projects', ProjectResource::collection($sortedProjects));
+        $viewProjects = $response->viewData('projects');
+
+        $this->assertCount(2, $viewProjects);
+
+        foreach ($viewProjects as $viewProject) {
+            $this->assertTrue($publishedProjects->contains($viewProject));
+        }
     }
 
     /** @test */
@@ -52,7 +63,11 @@ class ProjectTest extends TestCase
 
         $response = $this->get(route('page.home'));
 
-        $response->assertPropCount('projects', 3);
-        $response->assertPropValue('projects', ProjectResource::collection($sortedProjects));
+        $viewProjects = $response->viewData('projects');
+
+        $this->assertEquals(
+            $sortedProjects->pluck('id')->toArray(),
+            $viewProjects->pluck('id')->toArray()
+        );
     }
 }

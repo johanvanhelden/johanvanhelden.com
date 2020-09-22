@@ -9,11 +9,10 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use ReflectionClass;
 use Tests\Helpers\User;
-use Tests\Traits\TestsInertia;
 
 abstract class TestCase extends BaseTestCase
 {
-    use CreatesApplication, DatabaseTransactions, TestsInertia;
+    use CreatesApplication, DatabaseTransactions;
 
     protected UserModel $admin;
 
@@ -25,8 +24,6 @@ abstract class TestCase extends BaseTestCase
 
         $this->admin = User::getDefaultAdmin();
         $this->user = User::getDefaultUser();
-
-        $this->registerInertiaMacros();
     }
 
     /**

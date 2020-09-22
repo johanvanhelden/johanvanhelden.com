@@ -6,7 +6,6 @@ namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Support\Facades\App;
-use Inertia\Inertia;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -45,52 +44,25 @@ class Handler extends ExceptionHandler
      */
     public function report(Throwable $exception): void
     {
-        $skipSentry = App::environment(config('constants.environment.development'));
-
-        if (!$skipSentry && $this->shouldReport($exception)) {
-            App::get('sentry')->captureException($exception);
-        }
+        $this->handleSentry($exception);
 
         parent::report($exception);
     }
 
-    /**
-     * Render an exception into an HTTP response.
-     *
-     * @param \Illuminate\Http\Request $request
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
-     *
-     * @throws \Throwable
-     */
-    public function render($request, Throwable $exception)
+    protected function handleSentry(Throwable $exception): void
     {
-        $response = parent::render($request, $exception);
-
-        if ($this->shouldGoToInertiaErrorPage($request, $response)) {
-            return Inertia::render('Error', [
-                'status' => $response->getStatusCode(),
-            ])
-            ->toResponse($request)
-            ->setStatusCode($response->getStatusCode());
+        if (! $this->shouldReport($exception)) {
+            return;
         }
 
-        return $response;
-    }
-
-    /**
-     * Determines if we should send the visitor to an Inertia error page.
-     *
-     * @param \Illuminate\Http\Request                                             $request
-     * @param \Illuminate\Http\Response|\Symfony\Component\HttpFoundation\Response $response
-     */
-    public function shouldGoToInertiaErrorPage($request, $response): bool
-    {
-        // on development environments we want to see the actual error
         if (App::environment(config('constants.environment.development'))) {
-            return false;
+            return;
         }
 
-        return $request->header('X-Inertia') && $response->getStatusCode() >= 400;
+        if (! App::bound('sentry')) {
+            return;
+        }
+
+        App::get('sentry')->captureException($exception);
     }
 }

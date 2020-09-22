@@ -9,7 +9,7 @@
             {{ ($checked ?? false) ? 'checked' : '' }}
         >
 
-        @if($label ?? null)
+        @if ($label ?? null)
             <span class="text-sm">
                 {{ $label }}
                 @if (!empty($required))

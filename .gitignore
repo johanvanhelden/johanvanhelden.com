@@ -17,8 +17,9 @@ _ide_helper_models.php
 /public_html/js
 /public_html/css
 /public_html/images
-/public_html/fonts
+/public_html/webfonts
 /public_html/mix-manifest.json
+/public_html/mix.js.map
 
 # logs
 npm-debug.log
@@ -37,3 +38,4 @@ yarn-error.log
 # testing
 /public_html/tests-report
 phpunit\.dusk\.xml
+
