@@ -35,7 +35,7 @@
             </div>
 
             <div class="content mb-6">
-                {{ $project->content }}
+                {!! $project->content_display !!}
             </div>
 
             @if ($project->url)

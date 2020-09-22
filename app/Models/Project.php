@@ -8,6 +8,7 @@ use App\Traits\Publishable;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use League\CommonMark\GithubFlavoredMarkdownConverter;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 class Project extends Model
@@ -68,5 +69,19 @@ class Project extends Model
     public function getUpdatedAtDisplayAttribute(): string
     {
         return $this->updated_at->format(config('format.date'));
+    }
+
+    public function getContentDisplayAttribute(): string
+    {
+        if (empty($this->content)) {
+            return '';
+        }
+
+        $converter = new GithubFlavoredMarkdownConverter([
+            'html_input'         => 'strip',
+            'allow_unsafe_links' => false,
+        ]);
+
+        return $converter->convertToHtml($this->content);
     }
 }
