@@ -2,9 +2,7 @@
 path=$1
 
 if [ -z "$path" ] || [ ! -d "$path" ]; then
-    echo "usage: ./buildHook.sh pathProjectRoot"
-    echo "for example: ./buildHook.sh \$PWD"
-    exit
+   path=$PWD
 fi
 
 echo "====== Running $project build hook ======="
