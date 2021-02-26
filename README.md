@@ -31,8 +31,8 @@ Place them in your `~/.composer/auth.json` like so:
 
 ### Assets
 ``` bash
-yarn install
-yarn dev
+npm install
+npm run dev
 ```
 
 Or alternatively you can use the bash script to handle everything:
