@@ -25,8 +25,8 @@ do
     if [ -f package.json ]; then
         find . -maxdepth 1 -name package.json | grep package > /dev/null 2>&1
         if [ $? == 0 ]; then
-            echo "Running yarn install"
-            yarn install --frozen-lockfile
+            echo "Running npm install"
+            npm install
 
             if [ $? != 0 ]; then
                 exit 1;
@@ -34,7 +34,7 @@ do
         fi
 
         if [ -f webpack.mix.js ]; then
-            yarn run prod
+            npm run prod
 
             if [ $? != 0 ]; then
                 exit 1;

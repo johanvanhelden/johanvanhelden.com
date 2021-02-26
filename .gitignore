@@ -23,7 +23,6 @@ _ide_helper_models.php
 
 # logs
 npm-debug.log
-yarn-error.log
 
 # environment
 .env
