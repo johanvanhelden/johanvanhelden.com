@@ -8,7 +8,10 @@
 }
 
 .underline-dotted-blue {
-    @apply underline-dotted border-blue-800;
+    border-bottom-width: 1px;
+    border-style: dotted;
+
+    @apply border-blue-800;
 }
 
 .underline-dotted-blue.hover\:underline:hover {
