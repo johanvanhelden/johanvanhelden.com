@@ -1,43 +1,52 @@
 const mix = require('laravel-mix');
-const assetRoot = 'public_html';
-const cssImport = require('postcss-import')
-const cssNested = require('postcss-nested')
-const tailwind = require('tailwindcss')
-const autoprefixer = require('tailwindcss')
+
+const publicFolder = 'public_html';
+const project = 'johanvanhelden';
+const isHot = process.env.npm_lifecycle_event === 'hot';
 
 mix
-    .copyDirectory('./node_modules/@fortawesome/fontawesome-free/webfonts', assetRoot + '/webfonts')
-    .copyDirectory('./resources/img', assetRoot + '/images');
+    .copyDirectory('./node_modules/@fortawesome/fontawesome-free/webfonts', publicFolder + '/webfonts')
+    .copyDirectory('./resources/img', publicFolder + '/images');
 
 mix
-    .js('resources/js/app.js', 'js')
-    .postCss('resources/css/app.css', 'css', [
-        cssImport(),
-        tailwind(),
-        cssNested(),
-        autoprefixer(),
-    ])
+    .js('resources/src/main.js', 'js')
+    .webpackConfig(() => {
+        return {
+            stats: {
+                children: true,
+            },
+        };
+    })
+
+    .postCss('resources/css/main.css', 'css')
+
     .options({
         processCssUrls: false,
         terser: {
             extractComments: false,
         },
-        cssNano: {
-            mergeRules: {
-                exclude: true,
-            },
-        }
     })
-    .setPublicPath('public_html');
 
-if (mix.config.production) {
-    mix.version();
-} else {
-    mix
-        .sourceMaps(false, 'source-map')
-        .disableSuccessNotifications()
-        .browserSync({
-            proxy: 'johanvanhelden.localtest.me',
+    .setPublicPath(publicFolder);
+
+    if (!isHot && !mix.inProduction()) {
+        mix.sourceMaps()
+    }
+
+    if (!isHot) {
+        mix.extract();
+    }
+
+    if (!mix.inProduction()) {
+        mix.disableSuccessNotifications()
+
+        mix.browserSync({
+            proxy: `http://${project}.localtest.me`,
+            open: false,
             notify: false,
         });
-}
+    }
+
+    if (mix.inProduction()) {
+        mix.version();
+    }
