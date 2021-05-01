@@ -1,7 +1,7 @@
 <div>
     <h2 class="text-4xl text-center font-bold mb-6">{{ $subscriber->name }}</h2>
 
-    <p class="content text-center mb-6">
+    <p class="text-center mb-6">
         Here you can either edit your subscription information or unsubscribe.
     </p>
 
