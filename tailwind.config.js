@@ -29,9 +29,45 @@ module.exports = {
             backgroundPosition: {
                 'center-top': 'center top',
             },
+            typography: (theme) => ({
+                DEFAULT: {
+                  css: {
+                    color: theme('colors.gray.700'),
+                    h1: {
+                        color: theme('colors.gray.700'),
+                    },
+                    h2: {
+                        color: theme('colors.gray.700'),
+                    },
+                    h3: {
+                        color: theme('colors.gray.700'),
+                    },
+                    h4: {
+                        color: theme('colors.gray.700'),
+                    },
+                    h5: {
+                        color: theme('colors.gray.700'),
+                    },
+                    h6: {
+                        color: theme('colors.gray.700'),
+                    },
+                    a: {
+                        color: theme('colors.blue.800'),
+                        fontWeight: theme('fontWeight.semibold'),
+                        textDecoration: 'none',
+                        '&:hover': {
+                            textDecoration: 'underline',
+                        },
+                    },
+                  },
+                },
+            }),
         },
     },
-    plugins: [require('@tailwindcss/forms')],
+    plugins: [
+        require('@tailwindcss/forms'),
+        require('@tailwindcss/typography'),
+    ],
     purge: [
         './resources/**/*.blade.php',
     ],

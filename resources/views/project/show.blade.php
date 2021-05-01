@@ -34,7 +34,7 @@
                 </p>
             </div>
 
-            <div class="content mb-6">
+            <div class="prose lg:prose-xl mb-6">
                 {!! $project->content_display !!}
             </div>
 
