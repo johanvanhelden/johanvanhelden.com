@@ -3,11 +3,11 @@
         <div class="max-w-3xl px-6 mx-auto">
             <div class="mb-6">
                 <div class="flex items-center">
-                    <h1 class="text-4xl font-bold">
+                    <h1 class="text-4xl font-bold leading-1">
                         {{ $project->name }}
                     </h1>
                 </div>
-                <p class="block text-xs uppercase text-gray-600">
+                <p class="block text-xs uppercase text-gray-600 | mt-2">
                     <span class="block md:inline">Published on {{ $project->publish_at_display }}</span>
 
                     @if ($project->is_updated)
