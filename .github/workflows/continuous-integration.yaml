@@ -114,7 +114,7 @@ jobs:
         uses: symfonycorp/security-checker-action@v2
 
       - name: Check NPM Packages
-        run: npm audit
+        run: npm audit --production
 
   tests:
     name: Tests
