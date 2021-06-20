@@ -11,9 +11,9 @@
 }
 
 .button--primary {
-    @apply bg-blue-800 text-white;
+    @apply bg-primary text-white;
 }
 
 .button--primary:hover {
-    @apply bg-blue-600;
+    @apply bg-primary-light;
 }

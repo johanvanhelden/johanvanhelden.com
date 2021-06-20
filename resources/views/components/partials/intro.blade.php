@@ -1,6 +1,6 @@
 <section class="py-10 {{ $class ?? ''}}">
     <div class="max-w-4xl mx-auto px-6">
-        <h2 class="text-4xl text-center font-bold mb-6">
+        <h2 class="text-4xl text-center text-secondary font-bold mb-6">
             Welcome
         </h2>
         <p class="text-center">

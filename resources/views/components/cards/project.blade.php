@@ -1,8 +1,8 @@
 <a
     class="
-        rounded overflow-hidden shadow-lg border-blue-800 border-t-4 bg-white text-base | px-6 py-4
+        rounded overflow-hidden shadow-lg border-primary border-t-4 bg-white text-base | px-6 py-4
         @if ($url ?? null)
-            hover:cursor-pointer hover:bg-gray-200
+            hover:cursor-pointer hover:bg-gray-100
         @endif
 
         {{ $class ?? '' }}

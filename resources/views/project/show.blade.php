@@ -3,7 +3,7 @@
         <div class="max-w-3xl px-6 mx-auto">
             <div class="mb-6">
                 <div class="flex items-center">
-                    <h1 class="text-4xl font-bold leading-1">
+                    <h1 class="text-4xl text-secondary font-bold leading-1">
                         {{ $project->name }}
                     </h1>
                 </div>
@@ -15,7 +15,7 @@
                             class="
                                 hidden md:inline
                                 @if ($project->is_recently_updated)
-                                    font-semibold text-blue-800
+                                    font-semibold text-primary
                                 @endif
                             "
                         >&bull;</span>
@@ -24,7 +24,7 @@
                             class="
                                 block md:inline
                                 @if ($project->is_recently_updated)
-                                    font-semibold text-blue-800
+                                    font-semibold text-primary
                                 @endif
                             "
                         >
