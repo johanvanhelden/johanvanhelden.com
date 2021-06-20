@@ -1,5 +1,5 @@
 .link--primary {
-    @apply font-semibold text-blue-800;
+    @apply font-semibold text-primary;
 }
 
 .link--primary:hover {

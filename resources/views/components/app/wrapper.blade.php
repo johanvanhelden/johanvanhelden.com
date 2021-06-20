@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ Lang::locale() }}" class="bg-blue-100">
+<html lang="{{ Lang::locale() }}" class="bg-primary-lightest">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">

@@ -1,6 +1,6 @@
 <section class="py-10 {{ $class ?? ''}}">
     <div class="max-w-6xl mx-auto px-6">
-        <h2 class="text-4xl text-center font-bold mb-6">
+        <h2 class="text-4xl text-center text-secondary font-bold mb-6">
             Projects
         </h2>
         <div class="flex flex-wrap">

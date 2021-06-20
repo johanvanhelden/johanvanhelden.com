@@ -18,18 +18,18 @@
         "@tailwindcss/forms": "^0.3.2",
         "@tailwindcss/typography": "^0.4.0",
         "alpinejs": "^2.8.2",
-        "tailwindcss": "^2.1.2"
+        "tailwindcss": "^2.2.2"
     },
     "devDependencies": {
         "autoprefixer": "^10.2.5",
         "browser-sync": "^2.26.14",
         "browser-sync-webpack-plugin": "^2.3.0",
         "cross-env": "^7.0.3",
-        "laravel-mix": "^6.0.18",
+        "laravel-mix": "^6.0.24",
         "postcss-import": "^14.0.1",
         "postcss-nested": "^5.0.5",
         "prettier": "2.2.1",
-        "resolve-url-loader": "^3.1.2",
+        "resolve-url-loader": "^4.0.0",
         "stylelint": "^13.13.0",
         "stylelint-config-prettier": "^8.0.2",
         "stylelint-config-standard": "^22.0.0",

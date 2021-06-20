@@ -24,7 +24,16 @@ module.exports = {
                     700: '#2b6cb0',
                     800: '#2c5282',
                     900: '#2a4365',
-                  },
+                },
+                primary:  {
+                    lightest: '#e8f3fc',
+                    light: '#1780D4',
+                    DEFAULT: '#19639e',
+                    dark: '#08406e',
+                },
+                secondary:  {
+                    DEFAULT: '#2D3748',
+                }
             },
             backgroundPosition: {
                 'center-top': 'center top',

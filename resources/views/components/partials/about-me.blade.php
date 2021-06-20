@@ -9,7 +9,7 @@
             >
         </div>
 
-        <h2 class="text-4xl text-center font-bold mb-6">
+        <h2 class="text-4xl text-center text-secondary font-bold mb-6">
             About Me
         </h2>
         <p class="mb-4">

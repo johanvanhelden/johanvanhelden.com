@@ -11,7 +11,7 @@
     border-bottom-width: 1px;
     border-style: dotted;
 
-    @apply border-blue-800;
+    @apply border-primary;
 }
 
 .underline-dotted-blue.hover\:underline:hover {
