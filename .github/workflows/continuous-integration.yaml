@@ -11,6 +11,7 @@ jobs:
   code-analysis:
     name: Code Analysis
     runs-on: ubuntu-latest
+    if: ${{ github.actor != 'dependabot[bot]' }}
 
     steps:
       - uses: actions/checkout@v2
@@ -119,6 +120,7 @@ jobs:
   tests:
     name: Tests
     runs-on: ubuntu-latest
+    if: ${{ github.actor != 'dependabot[bot]' }}
 
     services:
       mysql:
