@@ -16,6 +16,7 @@ class SubscribeForm extends Component
     use Notifies;
 
     public string $name = '';
+
     public string $email = '';
 
     public function render(): View
