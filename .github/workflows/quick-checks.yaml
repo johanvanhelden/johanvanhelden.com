@@ -10,6 +10,7 @@ jobs:
   code-analysis:
     name: Code Analysis
     runs-on: ubuntu-latest
+    if: ${{ github.actor != 'dependabot[bot]' }}
 
     steps:
       - uses: actions/checkout@v2
@@ -17,7 +18,7 @@ jobs:
       - name: Set Up PHP and Tools
         uses: shivammathur/setup-php@master
         with:
-          php-version: "7.4"
+          php-version: "8.0"
           tools: composer:v2
           coverage: none
 
@@ -59,8 +60,8 @@ jobs:
       - name: Set Up PHP and Tools
         uses: shivammathur/setup-php@master
         with:
-          php-version: "7.4"
-          tools: composer:v2, phpcs, php-cs-fixer:2.19.0, phpmd, phpcpd
+          php-version: "8.0"
+          tools: composer:v2, phpcs, php-cs-fixer, phpmd, phpcpd
           coverage: none
 
       - name: Get NPM Cache Directory
@@ -105,7 +106,7 @@ jobs:
       - name: Set Up PHP and Tools
         uses: shivammathur/setup-php@master
         with:
-          php-version: "7.4"
+          php-version: "8.0"
           tools: composer:v2
           coverage: none
 

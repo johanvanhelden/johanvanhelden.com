@@ -10,8 +10,11 @@ use Livewire\Component;
 class Notification extends Component
 {
     public string $uuid;
+
     public string $type;
+
     public string $title;
+
     public ?string $description;
 
     public function render(): View
