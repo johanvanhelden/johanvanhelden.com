@@ -13,12 +13,9 @@ parameters:
 
     ignoreErrors:
         # Unexplainable false positives
-        - '#Call to an undefined method Illuminate\\Database\\Eloquent\\Factories\\Factory::(.*)#'
         - '#Method (.*) should return Livewire\\Redirector but returns Illuminate\\Http\\RedirectResponse.#'
         - '#Call to an undefined method Illuminate\\Database\\Eloquent\\Collection|Illuminate\\Database\\Eloquent\\Model::assignRole\(\).#'
         - '#(.*) should return App\\Models\\(.*) but returns Illuminate\\Database\\Eloquent\\Collection|Illuminate\\Database\\Eloquent\\Model.#'
-        - '#Access to an undefined property Faker\\UniqueGenerator::(.*)#'
-        - '#Parameter \#1 \$string of function ucfirst expects string, array given.#'
 
         # Mockery causes issues
         - '#Access to an undefined property Mockery\\LegacyMockInterface::(.*).#'
