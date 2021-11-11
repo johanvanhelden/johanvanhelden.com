@@ -18,14 +18,14 @@
         "@tailwindcss/forms": "^0.3.4",
         "@tailwindcss/typography": "^0.4.1",
         "alpinejs": "^2.8.2",
-        "tailwindcss": "^2.2.16"
+        "tailwindcss": "^2.2.19"
     },
     "devDependencies": {
         "autoprefixer": "^10.3.6",
         "browser-sync": "^2.27.5",
         "browser-sync-webpack-plugin": "^2.3.0",
         "cross-env": "^7.0.3",
-        "laravel-mix": "^6.0.31",
+        "laravel-mix": "^6.0.37",
         "postcss-import": "^14.0.2",
         "postcss-nested": "^5.0.6",
         "prettier": "2.4.1",
