@@ -24,7 +24,7 @@ do
         find . -maxdepth 1 -name package.json | grep package > /dev/null 2>&1
         if [ $? == 0 ]; then
             echo "Running npm install"
-            npm install
+            npm ci
 
             if [ $? != 0 ]; then
                 exit 1;
