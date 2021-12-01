@@ -28,7 +28,7 @@
         "laravel-mix": "^6.0.37",
         "postcss-import": "^14.0.2",
         "postcss-nested": "^5.0.6",
-        "prettier": "2.4.1",
+        "prettier": "2.5.0",
         "resolve-url-loader": "^4.0.0",
         "stylelint": "^13.13.1",
         "stylelint-config-prettier": "^8.0.2",
