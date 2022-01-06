@@ -3,9 +3,8 @@
         <div class="text-center mb-4">
             <img
                 src="https://www.gravatar.com/avatar/237c8233aec6b205ae0ecc971e642129?s=180"
-                class="rounded-full enlarge inline-block"
+                class="w-40 | rounded-full enlarge inline-block"
                 alt="Avatar"
-                width="90"
             >
         </div>
 
