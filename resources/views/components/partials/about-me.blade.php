@@ -14,7 +14,7 @@
         </h2>
         <p class="mb-4">
             I am a full-stack developer
-            <span class="text-xs">(for some reason full-stack developers are called Unicorns...)</span> from the
+            <span class="text-sm">(for some reason full-stack developers are called Unicorns...)</span> from the
             Netherlands and started programming when I was 12 years old. The first programming language I learned
             was
             <a
