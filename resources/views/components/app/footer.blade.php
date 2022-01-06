@@ -9,6 +9,7 @@
                 rel="noopener noreferrer"
                 target="_blank"
                 class="mx-2"
+                title="Email"
             >
                 <i class="far fa-envelope"></i>
             </a>
@@ -17,6 +18,7 @@
                 rel="noopener noreferrer"
                 target="_blank"
                 class="mx-2"
+                title="GitHub"
             >
                 <i class="fab fa-github"></i>
             </a>
@@ -25,6 +27,7 @@
                 rel="noopener noreferrer"
                 target="_blank"
                 class="mx-2"
+                title="Twitter"
             >
                 <i class="fab fa-twitter"></i>
             </a>
@@ -33,6 +36,7 @@
                 rel="noopener noreferrer"
                 target="_blank"
                 class="mx-2"
+                title="Linkedin"
             >
                 <i class="fab fa-linkedin"></i>
             </a>

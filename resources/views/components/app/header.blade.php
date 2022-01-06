@@ -23,11 +23,11 @@
                     <p class="md:text-xl leading-snug mb-4">
                         Developer at
                         <a
-                            href="https://way2web.nl"
+                            href="https://paqt.com"
                             rel="noopener noreferrer"
                             target="_blank"
                             class="underline-dotted hover:underline"
-                        >Way2Web</a>, creator of
+                        >PAQT.com</a>, creator of
                         <a
                             href="https://github.com/johanvanhelden/dockerhero"
                             rel="noopener noreferrer"
