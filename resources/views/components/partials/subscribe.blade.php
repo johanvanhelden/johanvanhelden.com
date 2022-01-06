@@ -1,8 +1,9 @@
 <section class="py-10 {{ $class ?? ''}}">
-    <div class="max-w-5xl mx-auto px-6">
+    <div class="max-w-7xl mx-auto px-6">
         <h2 class="text-4xl text-center text-secondary font-bold mb-6">
             Subscribe For Updates
         </h2>
+
         <p class="text-center mb-4">
             Would you like to receive an update when I release something new or when I have something to announce?
             <br>

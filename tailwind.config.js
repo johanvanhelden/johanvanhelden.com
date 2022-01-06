@@ -1,5 +1,4 @@
 module.exports = {
-    mode: 'jit',
     theme: {
         extend: {
             colors: {
@@ -77,7 +76,7 @@ module.exports = {
         require('@tailwindcss/forms'),
         require('@tailwindcss/typography'),
     ],
-    purge: [
+    content: [
         './resources/**/*.blade.php',
     ],
 }
