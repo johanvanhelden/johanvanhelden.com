@@ -258,6 +258,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
 
       - name: Create a Sentry Release
         uses: getsentry/action-release@v1.0.1
