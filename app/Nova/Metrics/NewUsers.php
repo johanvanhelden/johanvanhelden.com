@@ -11,8 +11,7 @@ use Laravel\Nova\Metrics\Value;
 
 class NewUsers extends Value
 {
-    /** @return mixed */
-    public function calculate(Request $request)
+    public function calculate(Request $request): mixed
     {
         return $this->count($request, User::class);
     }

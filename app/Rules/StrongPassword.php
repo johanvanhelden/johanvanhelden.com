@@ -14,11 +14,8 @@ class StrongPassword implements Rule
      * At least 8 characters, a lowercase, uppercase, digit and special character.
      *
      * @param string $attribute
-     * @param mixed  $value
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function passes($attribute, $value): bool
+    public function passes($attribute, mixed $value): bool
     {
         if (strlen($value) < 8) {
             return false;

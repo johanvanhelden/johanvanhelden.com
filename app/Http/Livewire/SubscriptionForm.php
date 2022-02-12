@@ -9,6 +9,7 @@ use App\Actions\Subscriber\UpdateSubscriber;
 use App\Models\Subscriber;
 use App\Traits\Livewire\Notifies;
 use App\Traits\Livewire\Validates;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 use Livewire\Component;
@@ -49,7 +50,7 @@ class SubscriptionForm extends Component
         return $rules;
     }
 
-    public function unsubscribe(DeleteSubscriber $action): Redirector
+    public function unsubscribe(DeleteSubscriber $action): Redirector|RedirectResponse
     {
         $action->execute($this->subscriber);
 

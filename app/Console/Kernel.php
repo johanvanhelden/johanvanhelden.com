@@ -9,12 +9,6 @@ use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
 class Kernel extends ConsoleKernel
 {
-    /** @var array */
-    protected $commands = [
-        //
-    ];
-
-    /** @SuppressWarnings(PHPMD.UnusedFormalParameter) */
     protected function schedule(Schedule $schedule): void
     {
         //

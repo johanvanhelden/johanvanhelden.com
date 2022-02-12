@@ -6,6 +6,7 @@ namespace Tests\Feature\Page\Home;
 
 use App\Models\Project;
 use Carbon\Carbon;
+use Illuminate\Support\Collection;
 use Tests\TestCase;
 
 class ProjectTest extends TestCase
@@ -39,7 +40,7 @@ class ProjectTest extends TestCase
     /** @test */
     public function are_sorted_by_publish_date(): void
     {
-        $projects = collect();
+        $projects = new Collection();
 
         $projects->push(
             Project::factory()->published()->create([

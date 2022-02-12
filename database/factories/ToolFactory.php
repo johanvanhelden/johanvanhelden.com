@@ -4,14 +4,11 @@ declare(strict_types=1);
 
 namespace Database\Factories;
 
-use App\Models\Tool;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+/** @extends Factory<\App\Models\Tool> */
 class ToolFactory extends Factory
 {
-    /** @var string */
-    protected $model = Tool::class;
-
     public function definition(): array
     {
         $createdAt = $this->faker->dateTimeBetween('-3 months', '-2 hours');
@@ -37,7 +34,7 @@ class ToolFactory extends Factory
         ];
     }
 
-    public function published(bool $value = true): Factory
+    public function published(bool $value = true): static
     {
         return $this->state(function () use ($value) {
             if ($value) {

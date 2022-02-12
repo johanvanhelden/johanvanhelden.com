@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use League\CommonMark\CommonMarkConverter;
+use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 class Project extends Model
@@ -17,7 +18,7 @@ class Project extends Model
 
     public static bool $logFillable = true;
 
-    /** @var array */
+    /** @var array<int, string> */
     protected $fillable = [
         'name',
         'slug',
@@ -29,6 +30,17 @@ class Project extends Model
     public function getRouteKeyName(): string
     {
         return 'slug';
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logAll()
+            ->logExcept([
+                'updated_at',
+            ])
+            ->logOnlyDirty()
+            ->dontSubmitEmptyLogs();
     }
 
     /** @SuppressWarnings(PHPMD.BooleanGetMethodName) */
@@ -82,6 +94,6 @@ class Project extends Model
             'allow_unsafe_links' => false,
         ]);
 
-        return $converter->convertToHtml($this->content);
+        return $converter->convert($this->content)->__toString();
     }
 }

@@ -12,16 +12,22 @@ parameters:
         - routes
 
     ignoreErrors:
-        # Unexplainable false positives
-        - '#Method (.*) should return Livewire\\Redirector but returns Illuminate\\Http\\RedirectResponse.#'
-        - '#Call to an undefined method Illuminate\\Database\\Eloquent\\Collection|Illuminate\\Database\\Eloquent\\Model::assignRole\(\).#'
-        - '#(.*) should return App\\Models\\(.*) but returns Illuminate\\Database\\Eloquent\\Collection|Illuminate\\Database\\Eloquent\\Model.#'
+        # Mixed issues
+        - '#Cannot call method (.*) on mixed.#'
+        - '#Cannot access offset (.*) on mixed.#'
+        - '#Argument of an invalid type mixed supplied for foreach, only iterables are supported.#'
+        - '#Cannot cast mixed to (.*).#'
+        - '#Cannot access property (.*) on mixed.#'
 
         # Mockery causes issues
         - '#Access to an undefined property Mockery\\LegacyMockInterface::(.*).#'
 
     checkMissingIterableValueType: false
     checkUnionTypes: false
+    checkModelProperties: true
+
+    # Might fix this in the future:
+    checkGenericClassInNonGenericObjectType: false
 
     universalObjectCratesClasses:
         # Nova uses some unresolvable magic

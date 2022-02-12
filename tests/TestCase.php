@@ -26,12 +26,7 @@ abstract class TestCase extends BaseTestCase
         $this->user = User::getDefaultUser();
     }
 
-    /**
-     * @param mixed ...$parameters
-     *
-     * @return mixed
-     */
-    protected function invokeMethod(object &$instance, string $methodName, ...$parameters)
+    protected function invokeMethod(object &$instance, string $methodName, mixed ...$parameters): mixed
     {
         $reflection = new ReflectionClass(get_class($instance));
 
@@ -41,8 +36,7 @@ abstract class TestCase extends BaseTestCase
         return $method->invokeArgs($instance, $parameters);
     }
 
-    /** @return mixed */
-    protected function getProperty(object &$instance, string $property)
+    protected function getProperty(object &$instance, string $property): mixed
     {
         $reflection = new ReflectionClass(get_class($instance));
         $property = $reflection->getProperty($property);

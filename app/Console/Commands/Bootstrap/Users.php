@@ -23,7 +23,7 @@ class Users extends Command
     {
         $this->info('Bootstrapping users...');
 
-        $defaultUsers = config('defaults.users');
+        $defaultUsers = config('bootstrap.users');
         $isProduction = App::environment(config('constants.environment.production'));
 
         foreach ($defaultUsers as $user) {

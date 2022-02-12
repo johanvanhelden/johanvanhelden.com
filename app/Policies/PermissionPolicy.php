@@ -19,37 +19,31 @@ class PermissionPolicy
         return $user->can($this->permission);
     }
 
-    /** @SuppressWarnings(PHPMD.UnusedFormalParameter) */
     public function view(User $user, Permission $permission): bool
     {
         return $user->can($this->permission);
     }
 
-    /** @SuppressWarnings(PHPMD.UnusedFormalParameter) */
     public function create(User $user): bool
     {
         return false;
     }
 
-    /** @SuppressWarnings(PHPMD.UnusedFormalParameter) */
     public function update(User $user, Permission $permission): bool
     {
         return false;
     }
 
-    /** @SuppressWarnings(PHPMD.UnusedFormalParameter) */
     public function delete(User $user, Permission $permission): bool
     {
         return false;
     }
 
-    /** @SuppressWarnings(PHPMD.UnusedFormalParameter) */
     public function restore(User $user, Permission $permission): bool
     {
         return false;
     }
 
-    /** @SuppressWarnings(PHPMD.UnusedFormalParameter) */
     public function forceDelete(User $user, Permission $permission): bool
     {
         return false;

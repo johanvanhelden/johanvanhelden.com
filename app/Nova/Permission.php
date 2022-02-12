@@ -28,7 +28,6 @@ class Permission extends BaseResource
     /** @var array */
     public static $search = ['name'];
 
-    /** @SuppressWarnings(PHPMD.UnusedFormalParameter) */
     public function fields(Request $request): array
     {
         return [
@@ -49,12 +48,8 @@ class Permission extends BaseResource
     {
         return [
             (new ClearPermissionsCache())
-                ->canSee(function ($request) {
-                    return $request->user()->can('manage-permissions');
-                })
-                ->canRun(function ($request) {
-                    return $request->user()->can('manage-permissions');
-                }),
+                ->canSee(fn ($request) => $request->user()->can('manage-permissions'))
+                ->canRun(fn ($request) => $request->user()->can('manage-permissions')),
         ];
     }
 }

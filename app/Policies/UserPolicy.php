@@ -18,7 +18,6 @@ class UserPolicy
         return $user->can($this->permission);
     }
 
-    /** @SuppressWarnings(PHPMD.UnusedFormalParameter) */
     public function view(User $currentUser, User $user): bool
     {
         return $currentUser->can($this->permission);
@@ -29,25 +28,21 @@ class UserPolicy
         return $currentUser->can($this->permission);
     }
 
-    /** @SuppressWarnings(PHPMD.UnusedFormalParameter) */
     public function update(User $currentUser, User $user): bool
     {
         return $currentUser->can($this->permission);
     }
 
-    /** @SuppressWarnings(PHPMD.UnusedFormalParameter) */
     public function delete(User $currentUser, User $user): bool
     {
         return $currentUser->can($this->permission);
     }
 
-    /** @SuppressWarnings(PHPMD.UnusedFormalParameter) */
     public function restore(User $currentUser, User $user): bool
     {
         return $currentUser->can($this->permission);
     }
 
-    /** @SuppressWarnings(PHPMD.UnusedFormalParameter) */
     public function forceDelete(User $currentUser, User $user): bool
     {
         return $currentUser->can($this->permission);
