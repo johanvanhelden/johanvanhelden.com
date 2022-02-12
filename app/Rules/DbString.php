@@ -8,21 +8,15 @@ use Illuminate\Contracts\Validation\Rule;
 
 class DbString implements Rule
 {
-    /** @var int */
-    private $length;
+    private int $length;
 
     public function __construct()
     {
         $this->length = config('validation.db_string.length');
     }
 
-    /**
-     * @param string $attribute
-     * @param mixed  $value
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-     */
-    public function passes($attribute, $value): bool
+    /** @param string $attribute */
+    public function passes($attribute, mixed $value): bool
     {
         if (empty($value)) {
             return true;

@@ -24,7 +24,7 @@ class Permissions extends Command
 
         App::get('cache')->forget('spatie.permission.cache');
 
-        foreach (config('defaults.roles') as $roleName => $permissions) {
+        foreach (config('bootstrap.roles') as $roleName => $permissions) {
             $role = Role::firstOrCreate(['name' => $roleName]);
 
             foreach ($permissions as $permissionName) {
@@ -41,7 +41,7 @@ class Permissions extends Command
 
     private function deleteDeprecatedPermissions(): void
     {
-        $rolesWithPermissions = config('defaults.roles');
+        $rolesWithPermissions = config('bootstrap.roles');
         $permissions = Arr::flatten($rolesWithPermissions);
 
         Permission::whereNotIn('name', $permissions)->delete();

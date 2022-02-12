@@ -12,29 +12,17 @@ class SetAccountPassword extends Notification
 {
     use Queueable;
 
-    private string $actionUrl;
-
-    public function __construct(string $actionUrl)
-    {
-        $this->actionUrl = $actionUrl;
+    public function __construct(
+        private string $actionUrl
+    ) {
     }
 
-    /**
-     * @param mixed $notifiable
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-     */
-    public function via($notifiable): array
+    public function via(mixed $notifiable): array
     {
         return ['mail'];
     }
 
-    /**
-     * @param mixed $notifiable
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-     */
-    public function toMail($notifiable): MailMessage
+    public function toMail(mixed $notifiable): MailMessage
     {
         return (new MailMessage())
             ->subject(__('notification.set_account_password.subject'))

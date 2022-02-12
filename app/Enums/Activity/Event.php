@@ -10,21 +10,15 @@ class Event extends BaseEnum
 {
     protected static string $translationKey = 'activity.event.';
 
-    /** @var string */
     const LOGGED_IN = 'logged-in';
 
-    /** @var string */
     const LOGGED_OUT = 'logged-out';
 
-    /** @var string */
     const CREATED = 'created';
 
-    /** @var string */
     const UPDATED = 'updated';
 
-    /** @var string */
     const DELETED = 'deleted';
 
-    /** @var string */
     const RESTORED = 'restored';
 }

@@ -11,7 +11,7 @@ class AfterLogout
 {
     public function handle(Logout $logout): void
     {
-        /** @var \App\Models\User */
+        /** @var \App\Models\User|null */
         $currentUser = $logout->user;
         if (empty($currentUser)) {
             return;

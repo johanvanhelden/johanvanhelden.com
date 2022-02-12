@@ -11,8 +11,7 @@ use Laravel\Nova\Metrics\Trend;
 
 class UsersPerDay extends Trend
 {
-    /** @return mixed */
-    public function calculate(Request $request)
+    public function calculate(Request $request): mixed
     {
         return $this->countByDays($request, User::class);
     }

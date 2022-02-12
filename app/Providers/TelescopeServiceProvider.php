@@ -30,7 +30,6 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
         });
     }
 
-    /** Prevent sensitive request details from being logged by Telescope. */
     protected function hideSensitiveRequestDetails(): void
     {
         if ($this->app->environment('local')) {

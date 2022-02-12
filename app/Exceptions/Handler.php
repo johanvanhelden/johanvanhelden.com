@@ -13,7 +13,7 @@ class Handler extends ExceptionHandler
     /**
      * A list of the exception types that are not reported.
      *
-     * @var array
+     * @var array<int, class-string<Throwable>>
      */
     protected $dontReport = [
         //
@@ -22,47 +22,22 @@ class Handler extends ExceptionHandler
     /**
      * A list of the inputs that are never flashed for validation exceptions.
      *
-     * @var array
+     * @var array<int, string>
      */
     protected $dontFlash = [
+        'current_password',
         'password',
         'password_confirmation',
     ];
 
-    /**
-     * Register the exception handling callbacks for the application.
-     */
     public function register(): void
     {
-        //
-    }
+        $isDevelopment = App::environment(config('constants.environment.development'));
 
-    /**
-     * Report or log an exception.
-     *
-     * @throws \Exception
-     */
-    public function report(Throwable $exception): void
-    {
-        $this->handleSentry($exception);
-
-        parent::report($exception);
-    }
-
-    protected function handleSentry(Throwable $exception): void
-    {
-        if (! $this->shouldReport($exception)) {
-            return;
-        }
-
-        if (App::environment(config('constants.environment.development'))) {
-            return;
-        }
-
-        if (! App::bound('sentry')) {
-            return;
-        }
-
-        App::get('sentry')->captureException($exception);
+        $this->reportable(function (Throwable $exception) use ($isDevelopment): void {
+            if (!$isDevelopment && App::bound('sentry')) {
+                App::get('sentry')->captureException($exception);
+            }
+        });
     }
 }

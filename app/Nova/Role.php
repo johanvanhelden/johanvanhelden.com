@@ -27,7 +27,6 @@ class Role extends BaseResource
     /** @var array */
     public static $search = ['name'];
 
-    /** @SuppressWarnings(PHPMD.UnusedFormalParameter) */
     public function fields(Request $request): array
     {
         return [

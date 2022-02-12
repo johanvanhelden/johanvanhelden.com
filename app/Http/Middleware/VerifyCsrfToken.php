@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Http\Middleware;
 
+use App\Helpers\Auth;
 use Closure;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken as Middleware;
 use Illuminate\Http\Request;
 use Illuminate\Session\TokenMismatchException;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class VerifyCsrfToken extends Middleware
@@ -16,7 +16,7 @@ class VerifyCsrfToken extends Middleware
     /**
      * The URIs that should be excluded from CSRF verification.
      *
-     * @var array
+     * @var array<int, string>
      */
     protected $except = [
         //
@@ -29,11 +29,9 @@ class VerifyCsrfToken extends Middleware
      *
      * @param Request $request
      *
-     * @return mixed
-     *
      * @throws \Illuminate\Session\TokenMismatchException
      */
-    public function handle($request, Closure $next)
+    public function handle($request, Closure $next): mixed
     {
         try {
             return parent::handle($request, $next);
@@ -41,6 +39,9 @@ class VerifyCsrfToken extends Middleware
             Log::info('Session expired', [$exception]);
 
             if (Auth::check()) {
+                $request->session()->invalidate();
+                $request->session()->regenerateToken();
+
                 Auth::logout();
             }
 

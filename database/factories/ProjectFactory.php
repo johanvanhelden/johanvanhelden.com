@@ -4,14 +4,11 @@ declare(strict_types=1);
 
 namespace Database\Factories;
 
-use App\Models\Project;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+/** @extends Factory<\App\Models\Project> */
 class ProjectFactory extends Factory
 {
-    /** @var string */
-    protected $model = Project::class;
-
     public function definition(): array
     {
         $createdAt = $this->faker->dateTimeBetween('-3 months', '-2 hours');
@@ -35,7 +32,7 @@ class ProjectFactory extends Factory
         ];
     }
 
-    public function published(bool $value = true): Factory
+    public function published(bool $value = true): static
     {
         return $this->state(function () use ($value) {
             if ($value) {

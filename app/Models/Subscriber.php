@@ -6,6 +6,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 class Subscriber extends Model
@@ -14,25 +15,33 @@ class Subscriber extends Model
 
     public static bool $logFillable = true;
 
-    /** @var array */
+    /** @var array<int, string> */
     protected $fillable = [
         'name',
         'email',
     ];
 
-    /** @var array */
+    /** @var array<string, string> */
     protected $casts = [
         'confirmed_at' => 'datetime',
     ];
 
-    /** @var array */
+    /** @var array<int, string> */
     protected $hidden = [
         'secret',
     ];
 
-    protected array $auditExclude = [
-        'secret',
-    ];
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logAll()
+            ->logExcept([
+                'secret',
+                'updated_at',
+            ])
+            ->logOnlyDirty()
+            ->dontSubmitEmptyLogs();
+    }
 
     /** @SuppressWarnings(PHPMD.BooleanGetMethodName) */
     public function getIsConfirmedAttribute(): bool

@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Auth;
 
-use App\Models\User;
-use Illuminate\Support\Facades\Session;
 use Tests\TestCase;
 
 class PasswordConfirmTest extends TestCase
@@ -18,26 +16,5 @@ class PasswordConfirmTest extends TestCase
             ->get(route('password.confirm'))
 
             ->assertOk();
-    }
-
-    /** @test */
-    public function a_user_password_gets_confirmed(): void
-    {
-        $user = User::factory()->create()->assignRole('user');
-
-        $this
-            ->actingAs($user)
-            ->get(route('page.home'));
-
-        $confirmedAt = Session::get('auth.password_confirmed_at');
-
-        $this
-            ->actingAs($user)
-            ->post(route('password.confirm'), ['password' => 'password']);
-
-        $this->assertNotEquals(
-            $confirmedAt,
-            Session::get('auth.password_confirmed_at')
-        );
     }
 }

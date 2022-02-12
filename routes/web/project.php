@@ -5,9 +5,9 @@ declare(strict_types=1);
 use App\Http\Controllers\ProjectController;
 use Illuminate\Support\Facades\Route;
 
-Route::group([
-    'prefix' => 'project',
-    'as'     => 'project.',
-], function (): void {
-    Route::get('/{project}', [ProjectController::class, 'show'])->name('show');
-});
+Route::controller(ProjectController::class)
+    ->as('project.')
+    ->prefix('project')
+    ->group(function (): void {
+        Route::get('/{project}', 'show')->name('show');
+    });

@@ -22,14 +22,7 @@ class SendSetAccountPassword extends Action
         return __('nova-action.send_set_account_password');
     }
 
-    /**
-     * Perform the action on the given models.
-     *
-     * @return mixed
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-     */
-    public function handle(ActionFields $fields, Collection $models)
+    public function handle(ActionFields $fields, Collection $models): void
     {
         $action = App::make(SendSetAccountPasswordAction::class);
 

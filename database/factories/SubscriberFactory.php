@@ -4,15 +4,12 @@ declare(strict_types=1);
 
 namespace Database\Factories;
 
-use App\Models\Subscriber;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
+/** @extends Factory<\App\Models\Subscriber> */
 class SubscriberFactory extends Factory
 {
-    /** @var string */
-    protected $model = Subscriber::class;
-
     public function definition(): array
     {
         $createdAt = $this->faker->dateTimeBetween('-3 months', '-2 hours');
@@ -35,7 +32,7 @@ class SubscriberFactory extends Factory
         ];
     }
 
-    public function confirmed(bool $value = true): Factory
+    public function confirmed(bool $value = true): static
     {
         return $this->state(function () use ($value) {
             if ($value) {
