@@ -53,7 +53,7 @@ class SendSetAccountPasswordTest extends TestCase
             $setUrl = $this->getProperty($notification, 'actionUrl');
 
             $expectedUrl = route('password-set.show', [
-                'email' => urlencode($this->user->email),
+                'email' => $this->user->email,
                 'token' => NewPassword::latest()->first()->token,
             ]);
 

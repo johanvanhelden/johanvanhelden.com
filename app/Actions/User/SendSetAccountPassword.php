@@ -16,7 +16,7 @@ class SendSetAccountPassword
     public function execute(User $user): void
     {
         $actionUrl = route('password-set.show', [
-            'email' => urlencode($user->email),
+            'email' => $user->email,
             'token' => NewPassword::createToken($user),
         ]);
 
