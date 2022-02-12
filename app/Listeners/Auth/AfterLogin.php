@@ -11,7 +11,7 @@ class AfterLogin
 {
     public function handle(Login $login): void
     {
-        /** @var \App\Models\User */
+        /** @var \App\Models\User|null */
         $currentUser = $login->user;
         if (empty($currentUser)) {
             return;

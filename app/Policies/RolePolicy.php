@@ -19,7 +19,6 @@ class RolePolicy
         return $user->can($this->permission);
     }
 
-    /** @SuppressWarnings(PHPMD.UnusedFormalParameter) */
     public function view(User $user, Role $role): bool
     {
         return $user->can($this->permission);
@@ -33,7 +32,7 @@ class RolePolicy
     public function update(User $user, Role $role): bool
     {
         $can = $user->can($this->permission);
-        $isDefault = in_array($role->name, array_keys(config('defaults.roles')));
+        $isDefault = in_array($role->name, array_keys(config('bootstrap.roles')));
 
         return $can && !$isDefault;
     }
@@ -41,7 +40,7 @@ class RolePolicy
     public function delete(User $user, Role $role): bool
     {
         $can = $user->can($this->permission);
-        $isDefault = in_array($role->name, array_keys(config('defaults.roles')));
+        $isDefault = in_array($role->name, array_keys(config('bootstrap.roles')));
 
         return $can && !$isDefault;
     }
@@ -49,7 +48,7 @@ class RolePolicy
     public function restore(User $user, Role $role): bool
     {
         $can = $user->can($this->permission);
-        $isDefault = in_array($role->name, array_keys(config('defaults.roles')));
+        $isDefault = in_array($role->name, array_keys(config('bootstrap.roles')));
 
         return $can && !$isDefault;
     }
@@ -57,7 +56,7 @@ class RolePolicy
     public function forceDelete(User $user, Role $role): bool
     {
         $can = $user->can($this->permission);
-        $isDefault = in_array($role->name, array_keys(config('defaults.roles')));
+        $isDefault = in_array($role->name, array_keys(config('bootstrap.roles')));
 
         return $can && !$isDefault;
     }

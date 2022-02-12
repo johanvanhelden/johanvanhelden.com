@@ -9,7 +9,6 @@ use Laravel\Nova\Actions\ActionResource;
 
 class Action extends ActionResource
 {
-    /** @SuppressWarnings(PHPMD.UnusedFormalParameter) */
     public static function availableForNavigation(Request $request): bool
     {
         return true;

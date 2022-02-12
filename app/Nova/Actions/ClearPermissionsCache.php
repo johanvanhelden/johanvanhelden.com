@@ -22,12 +22,7 @@ class ClearPermissionsCache extends Action
         return __('nova-action.clear_permission_cache');
     }
 
-    /**
-     * @return mixed
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-     */
-    public function handle(ActionFields $fields, Collection $models)
+    public function handle(ActionFields $fields, Collection $models): mixed
     {
         App::make(PermissionRegistrar::class)->forgetCachedPermissions();
 

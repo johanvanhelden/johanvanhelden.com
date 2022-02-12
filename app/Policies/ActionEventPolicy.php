@@ -19,7 +19,6 @@ class ActionEventPolicy
         return $user->can($this->permission);
     }
 
-    /** @SuppressWarnings(PHPMD.UnusedFormalParameter) */
     public function view(User $user, ActionEvent $actionEvent): bool
     {
         return $user->can($this->permission);

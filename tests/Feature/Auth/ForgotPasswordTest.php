@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Auth;
 
+use Exception;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -46,12 +47,13 @@ class ForgotPasswordTest extends TestCase
             ->from(route('password.request'))
             ->post(route('password.email'), [
                 'email' => $this->user->email,
-            ])
-
-            ->assertSee(__('auth.message.forgotten_status', ['email' => $this->user->email]));
+            ]);
 
         $token = DB::table('password_resets')->first();
-        $this->assertNotNull($token);
+
+        if (is_null($token)) {
+            throw new Exception('Token not found.');
+        }
 
         Notification::assertSentTo($this->user, ResetPassword::class, function ($notification) use ($token) {
             return Hash::check($notification->token, $token->token) === true;

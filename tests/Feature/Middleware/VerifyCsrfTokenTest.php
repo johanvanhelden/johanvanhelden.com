@@ -26,7 +26,7 @@ class VerifyCsrfTokenTest extends TestCase
     {
         $this
             ->actingAs($this->user)
-            ->postJson(route('subscriber.store'), [
+            ->post(route('subscriber.store'), [
                 'name'   => $this->user->name,
                 'email'  => 'edit@test.nl',
                 '_token' => 'FAKE',
@@ -42,7 +42,7 @@ class VerifyCsrfTokenTest extends TestCase
     public function if_the_token_is_invalid_the_guest_is_redirected_to_the_login_page_and_shown_a_message(): void
     {
         $this
-            ->postJson(route('password.email'), [
+            ->post(route('password.email'), [
                 'email'  => 'test@test.nl',
                 '_token' => 'FAKE',
             ])

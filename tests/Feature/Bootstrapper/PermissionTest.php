@@ -16,7 +16,7 @@ class PermissionTest extends BaseBootstrapperTest
 
             ->expectsOutput('Bootstrapping permissions...')
             ->expectsOutput('Bootstrapping permissions done')
-            ->assertExitCode(0);
+            ->assertSuccessful();
     }
 
     /** @test */
@@ -57,5 +57,15 @@ class PermissionTest extends BaseBootstrapperTest
             'permission_id' => $permission->id,
             'role_id'       => $role->id,
         ]);
+    }
+
+    /** @test */
+    public function the_cache_is_cleared_during_the_bootstrapping(): void
+    {
+        $this->app->get('cache')->set('spatie.permission.cache', '::initial-cache::');
+
+        $this->artisan('bootstrap:permissions');
+
+        $this->assertEmpty($this->app->get('cache')->get('spatie.permission.cache'));
     }
 }

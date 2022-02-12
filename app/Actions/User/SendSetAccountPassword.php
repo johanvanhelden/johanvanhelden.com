@@ -15,10 +15,10 @@ class SendSetAccountPassword
 
     public function execute(User $user): void
     {
-        $token = NewPassword::createToken($user);
-
-        $actionUrl = route('password-set.show', $token);
-        $actionUrl .= '?email=' . urlencode($user->email);
+        $actionUrl = route('password-set.show', [
+            'email' => urlencode($user->email),
+            'token' => NewPassword::createToken($user),
+        ]);
 
         $user->notify(new SetAccountPassword($actionUrl));
     }

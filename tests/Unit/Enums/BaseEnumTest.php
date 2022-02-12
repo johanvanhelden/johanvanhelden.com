@@ -26,7 +26,7 @@ abstract class BaseEnumTest extends TestCase
         foreach ($this->enum::toArray() as $constant) {
             $key = $this->getProperty($this->enum, 'translationKey') . $constant;
 
-            $this->assertFalse($key === trans($key), 'The translation for "' . $key . '" is missing.');
+            $this->assertFalse($key === __($key), 'The translation for "' . $key . '" is missing.');
         }
     }
 
@@ -38,7 +38,7 @@ abstract class BaseEnumTest extends TestCase
             $this->assertTrue(isset($select[$constant]));
 
             $this->assertEquals(
-                trans($this->getProperty($this->enum, 'translationKey') . $constant),
+                __($this->getProperty($this->enum, 'translationKey') . $constant),
                 $select[$constant]
             );
         }
@@ -49,7 +49,7 @@ abstract class BaseEnumTest extends TestCase
     {
         foreach ($this->enum->toArray() as $constant) {
             $this->assertEquals(
-                trans($this->getProperty($this->enum, 'translationKey') . $constant),
+                __($this->getProperty($this->enum, 'translationKey') . $constant),
                 $this->enum::display($constant)
             );
         }

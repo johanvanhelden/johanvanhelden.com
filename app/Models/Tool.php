@@ -8,6 +8,7 @@ use App\Traits\Publishable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
+use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\EloquentSortable\Sortable;
 use Spatie\EloquentSortable\SortableTrait;
@@ -18,18 +19,29 @@ class Tool extends Model implements Sortable
 
     public static bool $logFillable = true;
 
-    /** @var array */
+    /** @var array<int, string> */
     protected $fillable = [
         'name',
         'image',
         'url',
     ];
 
-    /** @var array */
+    /** @var array<string, string|bool> */
     public $sortable = [
         'order_column_name'  => 'order',
         'sort_when_creating' => true,
     ];
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logAll()
+            ->logExcept([
+                'updated_at',
+            ])
+            ->logOnlyDirty()
+            ->dontSubmitEmptyLogs();
+    }
 
     public function getImageUrlAttribute(): string
     {

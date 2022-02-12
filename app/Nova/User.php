@@ -33,7 +33,6 @@ class User extends BaseResource
     /** @var array */
     public static $search = ['name', 'email'];
 
-    /** @SuppressWarnings(PHPMD.UnusedFormalParameter) */
     public function fields(Request $request): array
     {
         return [
@@ -73,7 +72,6 @@ class User extends BaseResource
         ];
     }
 
-    /** @SuppressWarnings(PHPMD.UnusedFormalParameter) */
     public function cards(Request $request): array
     {
         return [
@@ -82,7 +80,6 @@ class User extends BaseResource
         ];
     }
 
-    /** @SuppressWarnings(PHPMD.UnusedFormalParameter)*/
     public function actions(Request $request): array
     {
         return [

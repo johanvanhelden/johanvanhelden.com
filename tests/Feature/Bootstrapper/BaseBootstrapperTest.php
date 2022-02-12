@@ -23,7 +23,7 @@ abstract class BaseBootstrapperTest extends TestCase
 
     protected function setFakeDefaults(): void
     {
-        Config::set('defaults.users', [
+        Config::set('bootstrap.users', [
             [
                 'on-production' => true,
                 'data'          => [
@@ -49,7 +49,7 @@ abstract class BaseBootstrapperTest extends TestCase
             ],
         ]);
 
-        Config::set('defaults.roles', [
+        Config::set('bootstrap.roles', [
             'admin' => [
                 'test-admin-permission',
             ],

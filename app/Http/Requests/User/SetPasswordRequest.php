@@ -16,10 +16,10 @@ class SetPasswordRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'token'                 => 'required',
-            'email'                 => 'required|email',
-            'password'              => 'required|confirmed|strong_password',
-            'password_confirmation' => 'required',
+            'token'                 => ['required'],
+            'email'                 => ['required', 'email'],
+            'password'              => ['required', 'confirmed', 'strong_password'],
+            'password_confirmation' => ['required'],
         ];
     }
 

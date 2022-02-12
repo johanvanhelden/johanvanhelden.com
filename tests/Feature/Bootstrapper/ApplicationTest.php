@@ -13,7 +13,7 @@ class ApplicationTest extends BaseBootstrapperTest
 
             ->expectsOutput('Bootstrapping application...')
             ->expectsOutput('Bootstrapping done')
-            ->assertExitCode(0);
+            ->assertSuccessful();
     }
 
     /** @test */

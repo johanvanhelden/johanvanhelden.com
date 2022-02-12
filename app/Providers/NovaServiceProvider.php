@@ -30,16 +30,14 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
 
     protected function gate(): void
     {
-        Gate::define('viewNova', function ($user) {
-            return $user->can('access-nova');
-        });
+        Gate::define('viewNova', fn ($user) => $user->can('access-nova'));
     }
 
     protected function cards(): array
     {
         return [
-            new NewUsers(),
-            new UsersPerDay(),
+            (new NewUsers())->canSeeWhen('access-nova'),
+            (new UsersPerDay())->canSeeWhen('access-nova'),
         ];
     }
 

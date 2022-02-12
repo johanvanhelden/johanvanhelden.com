@@ -7,15 +7,10 @@ namespace App\Helpers;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth as VendorAuth;
 
-class Auth
+class Auth extends VendorAuth
 {
     public static function user(): ?User
     {
-        return VendorAuth::user();
-    }
-
-    public static function check(): bool
-    {
-        return VendorAuth::check();
+        return parent::user();
     }
 }

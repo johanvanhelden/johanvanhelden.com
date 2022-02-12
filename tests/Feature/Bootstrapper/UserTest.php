@@ -16,7 +16,7 @@ class UserTest extends BaseBootstrapperTest
 
             ->expectsOutput('Bootstrapping users...')
             ->expectsOutput('Bootstrapping users done')
-            ->assertExitCode(0);
+            ->assertSuccessful();
     }
 
     /** @test */

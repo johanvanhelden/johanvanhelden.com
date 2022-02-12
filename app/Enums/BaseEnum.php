@@ -22,7 +22,7 @@ class BaseEnum
         $options = [];
 
         foreach (self::toArray() as $option) {
-            $options[$option] = trans(static::$translationKey . $option);
+            $options[$option] = __(static::$translationKey . $option);
         }
 
         return $options;
@@ -30,6 +30,6 @@ class BaseEnum
 
     public static function display(string $option): string
     {
-        return trans(static::$translationKey . $option);
+        return __(static::$translationKey . $option);
     }
 }

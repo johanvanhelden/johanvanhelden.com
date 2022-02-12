@@ -19,8 +19,7 @@ class ActivityPolicy
         return $user->can($this->permission);
     }
 
-    /** @SuppressWarnings(PHPMD.UnusedFormalParameter) */
-    public function view(User $user, Activity $activityt): bool
+    public function view(User $user, Activity $activity): bool
     {
         return $user->can($this->permission);
     }

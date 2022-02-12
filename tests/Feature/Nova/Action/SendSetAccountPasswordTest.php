@@ -49,7 +49,16 @@ class SendSetAccountPasswordTest extends TestCase
 
         $this->performAction($this->admin, $this->user);
 
-        Notification::assertSentTo($this->user, SetAccountPassword::class);
+        Notification::assertSentTo($this->user, SetAccountPassword::class, function ($notification): bool {
+            $setUrl = $this->getProperty($notification, 'actionUrl');
+
+            $expectedUrl = route('password-set.show', [
+                'email' => urlencode($this->user->email),
+                'token' => NewPassword::latest()->first()->token,
+            ]);
+
+            return $setUrl === $expectedUrl;
+        });
     }
 
     private function performAction(User $asUser, User $forUser): TestResponse

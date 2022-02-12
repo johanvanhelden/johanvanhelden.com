@@ -34,7 +34,6 @@ class Activity extends BaseResource
         return $this->description;
     }
 
-    /** @SuppressWarnings(PHPMD.UnusedFormalParameter) */
     public function fields(Request $request): array
     {
         return [
@@ -44,9 +43,7 @@ class Activity extends BaseResource
                 ->exceptOnForms(),
 
             Text::make(__('activity.attributes.description'), 'description')
-                ->displayUsing(function ($value) {
-                    return Event::display($value);
-                })
+                ->displayUsing(fn ($value) => Event::display($value))
                 ->sortable(),
 
             MorphTo::make(__('activity.attributes.subject'), 'subject')

@@ -31,8 +31,7 @@ npm-debug.log
 .env.dusk.local
 
 # cache
-.php-cs-fixer.cache
-.phpunit.result.cache
+/*.cache
 
 # testing
 /public_html/tests-report
