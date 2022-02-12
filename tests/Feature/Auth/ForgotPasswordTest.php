@@ -47,7 +47,9 @@ class ForgotPasswordTest extends TestCase
             ->from(route('password.request'))
             ->post(route('password.email'), [
                 'email' => $this->user->email,
-            ]);
+            ])
+
+            ->assertSee(__('auth.message.forgotten_status', ['email' => $this->user->email]));
 
         $token = DB::table('password_resets')->first();
 
