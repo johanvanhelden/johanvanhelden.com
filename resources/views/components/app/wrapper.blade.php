@@ -6,14 +6,14 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ $pageTitle ? $pageTitle . ' - ' : ''}}{{ config('app.name')}}</title>
     <link rel="stylesheet" href="{{ mix('/css/main.css') }}">
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-77808450-1"></script>
     <link rel="preload" as="font" href="{{ url('/webfonts/fa-regular-400.woff2') }}" type="font/woff2" crossorigin="anonymous">
     <link rel="preload" as="font" href="{{ url('/webfonts/fa-brands-400.woff2') }}" type="font/woff2" crossorigin="anonymous">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-P4S7PBBEQ4"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
-        gtag('config', 'UA-77808450-1');
+        gtag('config', 'G-P4S7PBBEQ4');
     </script>
     @livewireStyles
 </head>
