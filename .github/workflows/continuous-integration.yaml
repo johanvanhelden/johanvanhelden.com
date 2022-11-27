@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Set Up PHP and Tools
         uses: shivammathur/setup-php@master
@@ -28,23 +28,7 @@ jobs:
           NOVA_USERNAME: ${{ secrets.NOVA_USERNAME }}
           NOVA_PASSWORD: ${{ secrets.NOVA_PASSWORD }}
 
-      - name: Get Composer Cache Directory
-        id: composer-cache
-        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
-
-      - uses: actions/cache@v2
-        with:
-          path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-
-      - uses: actions/cache@v2
-        id: vendor-cache
-        with:
-          path: "./vendor"
-          key: ${{ runner.os }}-vendor-${{ hashFiles('**/composer.lock') }}
-
       - name: Install Composer Dependencies
-        if: steps.vendor-cache.outputs.cache-hit != 'true'
         run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
 
       - name: Static Code Analysis
@@ -55,7 +39,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Set Up PHP and Tools
         uses: shivammathur/setup-php@master
@@ -63,17 +47,6 @@ jobs:
           php-version: "8.1"
           tools: composer:v2, phpcs, php-cs-fixer, phpmd, phpcpd
           coverage: none
-
-      - name: Get NPM Cache Directory
-        id: npm-cache-dir
-        run: echo "::set-output name=dir::$(npm config get cache)"
-
-      - uses: actions/cache@v2
-        id: npm-cache
-        with:
-          path: ${{ steps.npm-cache-dir.outputs.dir }}
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: ${{ runner.os }}-node-
 
       - name: Install NPM
         run: npm install
@@ -101,7 +74,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Set Up PHP and Tools
         uses: shivammathur/setup-php@master
@@ -111,7 +84,7 @@ jobs:
           coverage: none
 
       - name: Check Composer Packages
-        uses: symfonycorp/security-checker-action@v2
+        uses: symfonycorp/security-checker-action@v4
 
       - name: Check NPM Packages
         run: npm audit --production
@@ -130,7 +103,7 @@ jobs:
           - 13306:3306
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Initialize the Database
         run: |
@@ -151,35 +124,8 @@ jobs:
           NOVA_USERNAME: ${{ secrets.NOVA_USERNAME }}
           NOVA_PASSWORD: ${{ secrets.NOVA_PASSWORD }}
 
-      - name: Get Composer Cache Directory
-        id: composer-cache
-        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
-
-      - uses: actions/cache@v2
-        with:
-          path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-
-      - uses: actions/cache@v2
-        id: vendor-cache
-        with:
-          path: "./vendor"
-          key: ${{ runner.os }}-vendor-${{ hashFiles('**/composer.lock') }}
-
       - name: Install Composer Dependencies
-        if: steps.vendor-cache.outputs.cache-hit != 'true'
         run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
-
-      - name: Get NPM Cache Directory
-        id: npm-cache-dir
-        run: echo "::set-output name=dir::$(npm config get cache)"
-
-      - uses: actions/cache@v2
-        id: npm-cache
-        with:
-          path: ${{ steps.npm-cache-dir.outputs.dir }}
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: ${{ runner.os }}-node-
 
       - name: Install NPM
         run: npm install
@@ -255,7 +201,7 @@ jobs:
     needs: [code-analysis, code-style, security-check, tests]
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
@@ -275,7 +221,7 @@ jobs:
     needs: [code-analysis, code-style, security-check, tests]
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Trigger Forge Staging Webhook
         run: |
@@ -288,7 +234,7 @@ jobs:
     needs: [code-analysis, code-style, security-check, tests]
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Trigger Forge Production Webhook
         run: |
