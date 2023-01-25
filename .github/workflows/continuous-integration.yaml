@@ -47,13 +47,13 @@ jobs:
         run: npm install
 
       - name: Syntax Errors
-        run: find app database tests config routes -name "*.php" -print0 | xargs -0 -n1 -P8 php -l
+        run: find app config database lang routes tests -name "*.php" -print0 | xargs -0 -n1 -P8 php -l
 
       - name: PHP_CodeSniffer
         run: phpcs
 
       - name: PHP-CS-Fixer
-        run: php-cs-fixer fix app database config routes tests --dry-run --diff --allow-risky=yes --config=.php-cs-fixer.php
+        run: php-cs-fixer fix app config database lang routes tests --dry-run --diff --allow-risky=yes --config=.php-cs-fixer.php
 
       - name: PHPMD
         run: phpmd app text phpmd.xml
