@@ -23,9 +23,9 @@ class ToolFactory extends Factory
         );
 
         return [
-            'name'  => ucfirst($this->faker->words(rand(1, 2), true)),
-            'image' => $image,
-            'url'   => $this->faker->url,
+            'name'       => ucfirst($this->faker->words(rand(1, 2), true)),
+            'image'      => $image,
+            'url'        => $this->faker->url,
 
             'publish_at' => $this->faker->optional(0.8)->dateTimeThisYear('now'),
 

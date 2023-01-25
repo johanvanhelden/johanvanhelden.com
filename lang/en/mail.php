@@ -2,18 +2,20 @@
 
 declare(strict_types=1);
 
-return [
-    'copyright' => 'All rights reserved.',
+// phpcs:disable Generic.Files.LineLength.TooLong
 
-    'confirm_subscription' => [
+return [
+    'copyright'              => 'All rights reserved.',
+
+    'confirm_subscription'   => [
         'subject' => 'Please confirm your subscription',
     ],
 
-    'new_subscriber' => [
+    'new_subscriber'         => [
         'subject' => 'There is a new subscriber!',
     ],
 
-    'subscriber_left' => [
+    'subscriber_left'        => [
         'subject' => 'A subscriber left :-(',
     ],
 

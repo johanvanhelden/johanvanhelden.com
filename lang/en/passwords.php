@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+// phpcs:disable Generic.Files.LineLength.TooLong
+
 return [
     /*
     |--------------------------------------------------------------------------
@@ -20,5 +22,5 @@ return [
     'token'     => 'The link to set the password has expired. Please request a new one and try it again.',
     'user'      => 'The link to set the password has expired. Please request a new one and try it again.',
 
-    'set' => 'Your password has been set!',
+    'set'       => 'Your password has been set!',
 ];

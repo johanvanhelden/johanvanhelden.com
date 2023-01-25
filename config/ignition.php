@@ -34,7 +34,7 @@ return [
     |
     */
 
-    'editor' => env('IGNITION_EDITOR', 'vscode'),
+    'editor'                       => env('IGNITION_EDITOR', 'vscode'),
 
     /*
     |--------------------------------------------------------------------------
@@ -47,7 +47,7 @@ return [
     |
     */
 
-    'theme' => env('IGNITION_THEME', 'dark'),
+    'theme'                        => env('IGNITION_THEME', 'dark'),
 
     /*
     |--------------------------------------------------------------------------
@@ -61,7 +61,7 @@ return [
     |
     */
 
-    'enable_share_button' => env('IGNITION_SHARING_ENABLED', true),
+    'enable_share_button'          => env('IGNITION_SHARING_ENABLED', true),
 
     /*
     |--------------------------------------------------------------------------
@@ -75,7 +75,7 @@ return [
     | You can enable the command registration below.
     |
     */
-    'register_commands' => env('REGISTER_IGNITION_COMMANDS', false),
+    'register_commands'            => env('REGISTER_IGNITION_COMMANDS', false),
 
     /*
     |--------------------------------------------------------------------------
@@ -88,7 +88,7 @@ return [
     |
     */
 
-    'solution_providers' => [
+    'solution_providers'           => [
         // from spatie/ignition
         BadMethodCallSolutionProvider::class,
         MergeConflictSolutionProvider::class,
@@ -122,7 +122,7 @@ return [
     |
     */
 
-    'ignored_solution_providers' => [
+    'ignored_solution_providers'   => [
     ],
 
     /*
@@ -138,7 +138,7 @@ return [
     |
     */
 
-    'enable_runnable_solutions' => env('IGNITION_ENABLE_RUNNABLE_SOLUTIONS', env('APP_DEBUG', false)),
+    'enable_runnable_solutions'    => env('IGNITION_ENABLE_RUNNABLE_SOLUTIONS', env('APP_DEBUG', false)),
 
     /*
     |--------------------------------------------------------------------------
@@ -163,8 +163,8 @@ return [
     |
     */
 
-    'remote_sites_path' => env('IGNITION_REMOTE_SITES_PATH', base_path()),
-    'local_sites_path'  => env('IGNITION_LOCAL_SITES_PATH', ''),
+    'remote_sites_path'            => env('IGNITION_REMOTE_SITES_PATH', base_path()),
+    'local_sites_path'             => env('IGNITION_LOCAL_SITES_PATH', ''),
 
     /*
     |--------------------------------------------------------------------------

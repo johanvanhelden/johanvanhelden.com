@@ -2,61 +2,63 @@
 
 declare(strict_types=1);
 
+// phpcs:disable Generic.Files.LineLength.TooLong
+
 return [
     'password_confirm' => [
         'page_title' => 'Confirm your password',
 
-        'headings' => [
+        'headings'   => [
             'form' => 'Confirm your password',
         ],
     ],
 
-    'forgot' => [
+    'forgot'           => [
         'page_title' => 'Forgot password',
 
-        'headings' => [
+        'headings'   => [
             'form' => 'Request a new password',
         ],
     ],
 
-    'login' => [
+    'login'            => [
         'page_title' => 'Login',
 
-        'headings' => [
+        'headings'   => [
             'form' => 'Login',
         ],
 
-        'remember' => 'Remember me',
+        'remember'   => 'Remember me',
     ],
 
-    'reset' => [
+    'reset'            => [
         'page_title' => 'Set a new password',
 
-        'headings' => [
+        'headings'   => [
             'form' => 'Set a new password',
         ],
     ],
 
-    'set' => [
+    'set'              => [
         'page_title' => 'Set your password',
 
-        'headings' => [
+        'headings'   => [
             'form' => 'Set your password',
         ],
     ],
 
-    'verify' => [
+    'verify'           => [
         'page_title' => 'Verify your email address',
 
-        'headings' => [
+        'headings'   => [
             'page' => 'Verify your email address',
         ],
 
-        'info' => [
+        'info'       => [
             'new_link_sent' => 'A fresh verification link has been sent to your email address.',
         ],
 
-        'texts' => [
+        'texts'      => [
             'lead'          => 'Before proceeding, please check your email for a verification link.',
             'not_received'  => 'If you did not receive the email',
             'click_another' => 'click here to request another',

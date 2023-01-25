@@ -31,7 +31,7 @@ abstract class BaseBootstrapperTest extends TestCase
                     'email'    => 'at@production.com',
                     'password' => 'password',
                 ],
-                'roles' => [
+                'roles'         => [
                     'admin',
                     'user',
                 ],
@@ -43,7 +43,7 @@ abstract class BaseBootstrapperTest extends TestCase
                     'email'    => 'not@production.com',
                     'password' => 'password',
                 ],
-                'roles' => [
+                'roles'         => [
                     'user',
                 ],
             ],
@@ -53,7 +53,7 @@ abstract class BaseBootstrapperTest extends TestCase
             'admin' => [
                 'test-admin-permission',
             ],
-            'user' => [
+            'user'  => [
                 'test-user-permission',
             ],
         ]);

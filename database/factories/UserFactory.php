@@ -29,8 +29,8 @@ class UserFactory extends Factory
             'remember_token'    => Str::random(10),
             'email_verified_at' => $this->faker->dateTimeThisYear,
 
-            'created_at' => $createdAt,
-            'updated_at' => $updatedAt,
+            'created_at'        => $createdAt,
+            'updated_at'        => $updatedAt,
         ];
     }
 }

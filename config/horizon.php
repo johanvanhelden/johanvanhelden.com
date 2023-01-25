@@ -16,7 +16,7 @@ return [
     |
     */
 
-    'domain' => env('HORIZON_DOMAIN'),
+    'domain'           => env('HORIZON_DOMAIN'),
 
     /*
     |--------------------------------------------------------------------------
@@ -29,7 +29,7 @@ return [
     |
     */
 
-    'path' => env('HORIZON_PATH', 'horizon'),
+    'path'             => env('HORIZON_PATH', 'horizon'),
 
     /*
     |--------------------------------------------------------------------------
@@ -42,7 +42,7 @@ return [
     |
     */
 
-    'use' => 'default',
+    'use'              => 'default',
 
     /*
     |--------------------------------------------------------------------------
@@ -55,7 +55,7 @@ return [
     |
     */
 
-    'prefix' => env(
+    'prefix'           => env(
         'HORIZON_PREFIX',
         Str::slug(env('APP_NAME', 'laravel'), '_') . '_horizon:'
     ),
@@ -71,7 +71,7 @@ return [
     |
     */
 
-    'middleware' => ['web'],
+    'middleware'       => ['web'],
 
     /*
     |--------------------------------------------------------------------------
@@ -84,7 +84,7 @@ return [
     |
     */
 
-    'waits' => [
+    'waits'            => [
         'redis:default' => 60,
     ],
 
@@ -99,7 +99,7 @@ return [
     |
     */
 
-    'trim' => [
+    'trim'             => [
         'recent'        => 60,
         'pending'       => 60,
         'completed'     => 60,
@@ -119,7 +119,7 @@ return [
     |
     */
 
-    'metrics' => [
+    'metrics'          => [
         'trim_snapshots' => [
             'job'   => 24,
             'queue' => 24,
@@ -152,7 +152,7 @@ return [
     |
     */
 
-    'memory_limit' => 64,
+    'memory_limit'     => 64,
 
     /*
     |--------------------------------------------------------------------------
@@ -165,7 +165,7 @@ return [
     |
     */
 
-    'defaults' => [
+    'defaults'         => [
         'supervisor-1' => [
             'connection'   => 'redis',
             'queue'        => ['default'],
@@ -177,7 +177,7 @@ return [
         ],
     ],
 
-    'environments' => [
+    'environments'     => [
         'production' => [
             'supervisor-1' => [
                 'maxProcesses'    => 10,
@@ -186,7 +186,7 @@ return [
             ],
         ],
 
-        'local' => [
+        'local'      => [
             'supervisor-1' => [
                 'maxProcesses' => 3,
             ],

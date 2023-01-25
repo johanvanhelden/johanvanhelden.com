@@ -15,8 +15,8 @@ return [
      |
      */
 
-    'enabled' => env('DEBUGBAR_ENABLED'),
-    'except'  => [
+    'enabled'               => env('DEBUGBAR_ENABLED'),
+    'except'                => [
         'telescope*',
         'horizon*',
     ],
@@ -33,7 +33,7 @@ return [
      | can also be used. For PDO, run the package migrations first.
      |
      */
-    'storage' => [
+    'storage'               => [
         'enabled'    => true,
         'driver'     => 'redis', // redis, file, pdo, socket, custom
         'path'       => storage_path('debugbar'), // For file driver
@@ -57,7 +57,7 @@ return [
     |
     */
 
-    'editor' => env('DEBUGBAR_EDITOR', 'vscode'),
+    'editor'                => env('DEBUGBAR_EDITOR', 'vscode'),
 
     /*
     |--------------------------------------------------------------------------
@@ -82,8 +82,8 @@ return [
     |
     */
 
-    'remote_sites_path' => env('DEBUGBAR_REMOTE_SITES_PATH', ''),
-    'local_sites_path'  => env('DEBUGBAR_LOCAL_SITES_PATH', ''),
+    'remote_sites_path'     => env('DEBUGBAR_REMOTE_SITES_PATH', ''),
+    'local_sites_path'      => env('DEBUGBAR_LOCAL_SITES_PATH', ''),
 
     /*
      |--------------------------------------------------------------------------
@@ -99,7 +99,7 @@ return [
      |
      */
 
-    'include_vendors' => true,
+    'include_vendors'       => true,
 
     /*
      |--------------------------------------------------------------------------
@@ -117,8 +117,8 @@ return [
      |
      */
 
-    'capture_ajax'    => true,
-    'add_ajax_timing' => false,
+    'capture_ajax'          => true,
+    'add_ajax_timing'       => false,
 
     /*
      |--------------------------------------------------------------------------
@@ -129,7 +129,7 @@ return [
      | in the Messages tab.
      |
      */
-    'error_handler' => false,
+    'error_handler'         => false,
 
     /*
      |--------------------------------------------------------------------------
@@ -140,7 +140,7 @@ return [
      | Extension, without the server-side code. It uses Debugbar collectors instead.
      |
      */
-    'clockwork' => false,
+    'clockwork'             => false,
 
     /*
      |--------------------------------------------------------------------------
@@ -151,7 +151,7 @@ return [
      |
      */
 
-    'collectors' => [
+    'collectors'            => [
         'phpinfo'         => true,  // Php version
         'messages'        => true,  // Messages
         'time'            => true,  // Time Datalogger
@@ -186,11 +186,11 @@ return [
      |
      */
 
-    'options' => [
-        'auth' => [
+    'options'               => [
+        'auth'  => [
             'show_name' => true,   // Also show the users name/email in the debugbar
         ],
-        'db' => [
+        'db'    => [
             'with_params'             => true,   // Render SQL with the parameters substituted
             'backtrace'               => env('DEBUGBAR_SHOW_BACKTRACE', true),   // Use a backtrace to find the origin
             'backtrace_exclude_paths' => [],   // Paths to exclude from backtrace. (in addition to defaults)
@@ -200,10 +200,10 @@ return [
                 'enabled' => false,
                 'types'   => ['SELECT'],     // Deprecated setting, is always only SELECT
             ],
-            'hints'     => false,    // Show hints for common mistakes
-            'show_copy' => false,    // Show copy button next to the query
+            'hints'                   => false,    // Show hints for common mistakes
+            'show_copy'               => false,    // Show copy button next to the query
         ],
-        'mail' => [
+        'mail'  => [
             'full_log' => false,
         ],
         'views' => [
@@ -213,7 +213,7 @@ return [
         'route' => [
             'label' => true,  // show complete route on bar
         ],
-        'logs' => [
+        'logs'  => [
             'file' => null,
         ],
         'cache' => [
@@ -232,7 +232,7 @@ return [
      |
      */
 
-    'inject' => true,
+    'inject'                => true,
 
     /*
      |--------------------------------------------------------------------------
@@ -244,7 +244,7 @@ return [
      | from trying to overcome bugs like this: http://trac.nginx.org/nginx/ticket/97
      |
      */
-    'route_prefix' => '_debugbar',
+    'route_prefix'          => '_debugbar',
 
     /*
      |--------------------------------------------------------------------------
@@ -254,7 +254,7 @@ return [
      | By default DebugBar route served from the same domain that request served.
      | To override default domain, specify it as a non-empty value.
      */
-    'route_domain' => null,
+    'route_domain'          => null,
 
     /*
      |--------------------------------------------------------------------------
@@ -264,7 +264,7 @@ return [
      | Switches between light and dark theme. If set to auto it will respect system preferences
      | Possible values: auto, light, dark
      */
-    'theme' => env('DEBUGBAR_THEME', 'dark'),
+    'theme'                 => env('DEBUGBAR_THEME', 'dark'),
 
     /*
      |--------------------------------------------------------------------------
