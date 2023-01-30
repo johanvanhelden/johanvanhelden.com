@@ -20,15 +20,15 @@ class SubscriberFactory extends Factory
         }
 
         return [
-            'uuid'         => Str::uuid()->toString(),
-            'name'         => $this->faker->name,
-            'email'        => $this->faker->unique()->safeEmail,
-            'secret'       => hash_hmac('sha256', Str::random(40), config('app.key')),
+            'uuid'   => Str::uuid()->toString(),
+            'name'   => $this->faker->name,
+            'email'  => $this->faker->unique()->safeEmail,
+            'secret' => hash_hmac('sha256', Str::random(40), config('app.key')),
 
             'confirmed_at' => $this->faker->optional(0.8)->dateTimeThisYear('now'),
 
-            'created_at'   => $createdAt,
-            'updated_at'   => $updatedAt,
+            'created_at' => $createdAt,
+            'updated_at' => $updatedAt,
         ];
     }
 

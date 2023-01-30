@@ -9,10 +9,10 @@ return [
             'local',
             'testing',
         ],
-        'testing'     => [
+        'testing' => [
             'testing',
         ],
-        'production'  => [
+        'production' => [
             'production',
             'prod',
             'live',

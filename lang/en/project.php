@@ -5,15 +5,15 @@ declare(strict_types=1);
 // phpcs:disable Generic.Files.LineLength.TooLong
 
 return [
-    'singular'   => 'Project',
-    'plural'     => 'Projects',
+    'singular' => 'Project',
+    'plural'   => 'Projects',
 
     'attributes' => [
-        'name'       => 'Name',
-        'slug'       => 'Slug',
-        'excerpt'    => 'Excerpt',
-        'content'    => 'Content',
-        'url'        => 'URL',
+        'name'    => 'Name',
+        'slug'    => 'Slug',
+        'excerpt' => 'Excerpt',
+        'content' => 'Content',
+        'url'     => 'URL',
 
         'publish_at' => 'Publish at',
 

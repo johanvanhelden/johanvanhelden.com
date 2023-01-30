@@ -29,13 +29,13 @@ return [
     |
     */
 
-    'disks'   => [
-        'local'    => [
+    'disks' => [
+        'local' => [
             'driver' => 'local',
             'root'   => storage_path('app'),
         ],
 
-        'public'   => [
+        'public' => [
             'driver'     => 'local',
             'root'       => public_path('uploads'),
             'url'        => env('APP_URL') . '/uploads',
@@ -49,14 +49,14 @@ return [
             'visibility' => 'public',
         ],
 
-        'tools'    => [
+        'tools' => [
             'driver'     => 'local',
             'root'       => public_path('uploads/tools'),
             'url'        => env('APP_URL') . '/uploads/tools',
             'visibility' => 'public',
         ],
 
-        's3'       => [
+        's3' => [
             'driver'                  => 's3',
             'key'                     => env('AWS_ACCESS_KEY_ID'),
             'secret'                  => env('AWS_SECRET_ACCESS_KEY'),
@@ -79,7 +79,7 @@ return [
     |
     */
 
-    'links'   => [
+    'links' => [
         public_path('storage') => storage_path('app/public'),
     ],
 ];

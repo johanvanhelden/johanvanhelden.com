@@ -14,7 +14,7 @@ return [
     |
     */
 
-    'commands'   => [
+    'commands' => [
         // App\Console\Commands\ExampleCommand::class,
     ],
 
@@ -29,7 +29,7 @@ return [
     |
     */
 
-    'alias'      => [
+    'alias' => [
         //
     ],
 

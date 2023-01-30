@@ -14,10 +14,10 @@ class AuthServiceProvider extends ServiceProvider
      * @var array<class-string, class-string>
      */
     protected $policies = [
-        \App\Models\User::class                     => \App\Policies\UserPolicy::class,
-        \App\Models\Project::class                  => \App\Policies\ProjectPolicy::class,
-        \App\Models\Tool::class                     => \App\Policies\ToolPolicy::class,
-        \App\Models\Subscriber::class               => \App\Policies\SubscriberPolicy::class,
+        \App\Models\User::class       => \App\Policies\UserPolicy::class,
+        \App\Models\Project::class    => \App\Policies\ProjectPolicy::class,
+        \App\Models\Tool::class       => \App\Policies\ToolPolicy::class,
+        \App\Models\Subscriber::class => \App\Policies\SubscriberPolicy::class,
 
         \Laravel\Nova\Actions\ActionEvent::class    => \App\Policies\ActionEventPolicy::class,
         \Spatie\Activitylog\Models\Activity::class  => \App\Policies\ActivityPolicy::class,

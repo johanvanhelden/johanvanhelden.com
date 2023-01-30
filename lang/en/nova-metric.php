@@ -8,7 +8,7 @@ return [
     'new_users'     => 'New users',
     'users_per_day' => 'Users per day',
 
-    'ranges'        => [
+    'ranges' => [
         '30_days'  => '30 days',
         '60_days'  => '60 days',
         '90_days'  => '60 days',

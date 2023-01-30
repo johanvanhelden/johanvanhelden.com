@@ -7,8 +7,8 @@ use App\Enums\Activity\Event;
 // phpcs:disable Generic.Files.LineLength.TooLong
 
 return [
-    'singular'   => 'Activity',
-    'plural'     => 'Activities',
+    'singular' => 'Activity',
+    'plural'   => 'Activities',
 
     'attributes' => [
         'causer'      => 'Causer',
@@ -16,17 +16,17 @@ return [
         'description' => 'Description',
         'properties'  => 'Properties',
 
-        'created_at'  => 'Created at',
-        'updated_at'  => 'Updated at',
+        'created_at' => 'Created at',
+        'updated_at' => 'Updated at',
     ],
 
-    'event'      => [
+    'event' => [
         Event::LOGGED_IN  => 'Logged in',
         Event::LOGGED_OUT => 'Logged out',
 
-        Event::CREATED    => 'Created',
-        Event::UPDATED    => 'Updated',
-        Event::DELETED    => 'Deleted',
-        Event::RESTORED   => 'Restored',
+        Event::CREATED  => 'Created',
+        Event::UPDATED  => 'Updated',
+        Event::DELETED  => 'Deleted',
+        Event::RESTORED => 'Restored',
     ],
 ];

@@ -5,17 +5,17 @@ declare(strict_types=1);
 // phpcs:disable Generic.Files.LineLength.TooLong
 
 return [
-    'copyright'              => 'All rights reserved.',
+    'copyright' => 'All rights reserved.',
 
-    'confirm_subscription'   => [
+    'confirm_subscription' => [
         'subject' => 'Please confirm your subscription',
     ],
 
-    'new_subscriber'         => [
+    'new_subscriber' => [
         'subject' => 'There is a new subscriber!',
     ],
 
-    'subscriber_left'        => [
+    'subscriber_left' => [
         'subject' => 'A subscriber left :-(',
     ],
 

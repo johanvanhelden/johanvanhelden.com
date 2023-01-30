@@ -19,7 +19,7 @@ return [
     'failed'   => 'These credentials do not match our records.',
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
 
-    'message'  => [
+    'message' => [
         'forgotten_status' => 'If an account exists for :email, an email has been sent with further instructions.',
     ],
 ];

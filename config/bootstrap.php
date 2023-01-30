@@ -11,7 +11,7 @@ return [
                 'email'    => 'johan@johanvanhelden.com',
                 'password' => 'Johan',
             ],
-            'roles'         => [
+            'roles' => [
                 'admin',
                 'user',
             ],
@@ -22,7 +22,7 @@ return [
                 'email'    => 'user@johanvanhelden.com',
                 'password' => 'user',
             ],
-            'roles'         => [
+            'roles' => [
                 'user',
             ],
         ],
@@ -43,7 +43,7 @@ return [
             'manage-tools',
             'manage-subscribers',
         ],
-        'user'  => [
+        'user' => [
             //
         ],
     ],
