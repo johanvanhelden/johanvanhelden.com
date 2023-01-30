@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+// phpcs:disable Generic.Files.LineLength.TooLong
+
 return [
     /*
     |--------------------------------------------------------------------------
@@ -168,5 +170,5 @@ return [
     */
     'strong_password' => 'The password must contain the following: a minimum of 8 characters,
         an uppercase letter, a lowercase letter, a digit and a special character (!@#$%^&*_-).',
-    'db_string'        => 'The given value is to long. The maximum allowed length is :max.',
+    'db_string' => 'The given value is to long. The maximum allowed length is :max.',
 ];

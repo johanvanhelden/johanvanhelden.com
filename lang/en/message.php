@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+// phpcs:disable Generic.Files.LineLength.TooLong
+
 return [
     'error'           => 'Something went wrong. Please try again later.',
     'session_expired' => 'Your session has expired. For safety reasons you have been automatically logged out. '

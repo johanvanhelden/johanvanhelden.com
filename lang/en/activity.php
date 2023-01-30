@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 use App\Enums\Activity\Event;
 
+// phpcs:disable Generic.Files.LineLength.TooLong
+
 return [
     'singular' => 'Activity',
     'plural'   => 'Activities',
