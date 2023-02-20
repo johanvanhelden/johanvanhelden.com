@@ -14,8 +14,6 @@ class AppServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        $this->app->bind('path.public', fn () => base_path() . '/public_html');
-
         if ($this->app->environment(config('constants.environment.development'))) {
             $this->app->register(\Laravel\Dusk\DuskServiceProvider::class);
             $this->app->register(\Laravel\Telescope\TelescopeServiceProvider::class);

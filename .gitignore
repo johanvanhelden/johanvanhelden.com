@@ -12,14 +12,14 @@ _ide_helper_models.php
 
 # assets
 /node_modules
-/public_html/storage
-/public_html/hot
-/public_html/js
-/public_html/css
-/public_html/images
-/public_html/webfonts
-/public_html/mix-manifest.json
-/public_html/mix.js.map
+/public/storage
+/public/hot
+/public/js
+/public/css
+/public/images
+/public/webfonts
+/public/mix-manifest.json
+/public/mix.js.map
 
 # logs
 npm-debug.log
@@ -34,6 +34,6 @@ npm-debug.log
 /*.cache
 
 # testing
-/public_html/tests-report
+/public/tests-report
 phpunit\.dusk\.xml
 
