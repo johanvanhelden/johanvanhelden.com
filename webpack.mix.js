@@ -1,6 +1,6 @@
 const mix = require('laravel-mix');
 
-const publicFolder = 'public_html';
+const publicFolder = 'public';
 const project = 'johanvanhelden';
 const isHot = process.env.npm_lifecycle_event === 'hot';
 
