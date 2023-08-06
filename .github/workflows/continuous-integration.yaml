@@ -38,7 +38,7 @@ jobs:
           coverage: none
 
       - name: Install NPM
-        run: npm install
+        run: npm ci
 
       - name: Syntax Errors
         run: find app config lang routes tests -name "*.php" -print0 | xargs -0 -n1 -P8 php -l
@@ -55,7 +55,7 @@ jobs:
       - name: PHPCPD
         run: phpcpd app
 
-      - name: Lint Assets
+      - name: Check Assets
         run: npm run check
 
   security-check:
@@ -64,13 +64,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-
-      - name: Set Up PHP and Tools
-        uses: shivammathur/setup-php@master
-        with:
-          php-version: "8.1"
-          tools: composer:v2
-          coverage: none
 
       - name: Check Composer Packages
         uses: symfonycorp/security-checker-action@v4
@@ -97,7 +90,7 @@ jobs:
         run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
 
       - name: Install NPM
-        run: npm install
+        run: npm ci
 
       - name: Setup PHPUnit Environment
         run: yes | cp .env.testing.example .env
@@ -105,10 +98,7 @@ jobs:
       - name: Build Assets
         run: ./buildHook.sh $PWD
 
-      - name: Run PHPUnit Tests
-        run: composer dump-autoload && composer test
-
-      - name: Run Test Coverage Report
+      - name: Run Tests & Generate Coverage Report
         run: ./vendor/bin/phpunit --coverage-clover ./coverage.xml
 
       - name: Check Test Coverage
@@ -117,17 +107,52 @@ jobs:
           percentage: "95"
           filename: "coverage.xml"
 
-      - name: Clear Laravel Logs
-        run: rm ./storage/logs/*.log -f
+  dusk:
+    name: Dusk
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+          MYSQL_DATABASE: tests_db
+        ports:
+          - 13306:3306
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Initialize the Database
+        run: |
+          sudo systemctl start mysql
+          mysql --user="root" --password="root" -e "CREATE DATABASE tests_db character set UTF8mb4 collate utf8mb4_bin;"
+
+      - name: Set Up PHP and Tools
+        uses: shivammathur/setup-php@master
+        with:
+          php-version: "8.1"
+          extensions: bz2, bcmath, curl, exif, gd, imagick, imap, intl, mysqli, pcntl, pcov, pdo_mysql, soap, xmlrpc, xsl, zip, iconv, pdo
+          tools: composer:v2
+          coverage: pcov
+
+      - name: Install Composer Dependencies
+        run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+
+      - name: Build Assets
+        run: ./buildHook.sh $PWD
 
       - name: Setup Dusk Environment
         run: yes | cp .env.dusk.local.example .env
 
       - name: Set the Chrome Driver
-        run: php artisan dusk:chrome-driver `/opt/google/chrome/chrome --version | cut -d " " -f3 | cut -d "." -f1`
+        run: php artisan dusk:chrome-driver --detect
+
+      - name: Start Chrome Driver
+        run: ./vendor/laravel/dusk/bin/chromedriver-linux &
 
       - name: Start Server
-        run: php artisan serve --port=8000 &
+        run: php artisan serve --no-reload &
 
       - name: Run Dusk
         run: composer test-browser
@@ -148,7 +173,7 @@ jobs:
     name: Sentry Release
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/master' && (github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action == 'merged'))
-    needs: [code-analysis, code-style, security-check, tests]
+    needs: [code-analysis, code-style, security-check, tests, dusk]
 
     steps:
       - uses: actions/checkout@v3
@@ -168,7 +193,7 @@ jobs:
     name: Deploy Staging
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/develop' && (github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action == 'merged'))
-    needs: [code-analysis, code-style, security-check, tests]
+    needs: [code-analysis, code-style, security-check, tests, dusk]
 
     steps:
       - uses: actions/checkout@v3
@@ -181,7 +206,7 @@ jobs:
     name: Deploy Production
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/master' && (github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action == 'merged'))
-    needs: [code-analysis, code-style, security-check, tests]
+    needs: [code-analysis, code-style, security-check, tests, dusk]
 
     steps:
       - uses: actions/checkout@v3
