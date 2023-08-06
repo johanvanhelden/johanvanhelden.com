@@ -31,6 +31,6 @@ class AuthenticateTest extends TestCase
         $this
             ->get('::test-url::')
 
-            ->assertRedirect(route('login'));
+            ->assertRedirect(route('page.home'));
     }
 }

@@ -17,15 +17,12 @@
             <directory suffix=".php">./app</directory>
         </include>
         <exclude>
-            <directory>./app/Nova</directory>
             <file>./app/Console/Kernel.php</file>
             <file>./app/Helpers/Auth.php</file>
             <file>./app/Providers/AppServiceProvider.php</file>
-            <file>./app/Providers/BroadcastServiceProvider.php</file>
             <file>./app/Providers/FortifyServiceProvider.php</file>
             <file>./app/Providers/HorizonServiceProvider.php</file>
             <file>./app/Providers/RouteServiceProvider.php</file>
-            <file>./app/Providers/TelescopeServiceProvider.php</file>
             <file>./app/Http/Middleware/TrustHosts.php</file>
         </exclude>
     </coverage>

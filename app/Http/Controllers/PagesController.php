@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Models\Project;
-use App\Models\Tool;
+use App\Data\Project;
+use App\Data\Tool;
 use Illuminate\View\View;
 
 class PagesController extends Controller
@@ -13,8 +13,8 @@ class PagesController extends Controller
     public function home(): View
     {
         return view('page.home', [
-            'projects' => Project::published()->latestPublished()->get(),
-            'tools'    => Tool::published()->ordered()->get(),
+            'projects' => Project::public(),
+            'tools'    => Tool::public(),
         ]);
     }
 }

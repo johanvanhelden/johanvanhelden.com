@@ -17,12 +17,6 @@ jobs:
           tools: composer:v2
           coverage: none
 
-      - name: Login to Laravel Nova
-        run: composer config http-basic.nova.laravel.com ${NOVA_USERNAME} ${NOVA_PASSWORD}
-        env:
-          NOVA_USERNAME: ${{ secrets.NOVA_USERNAME }}
-          NOVA_PASSWORD: ${{ secrets.NOVA_PASSWORD }}
-
       - name: Install Composer Dependencies
         run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
 
@@ -47,13 +41,13 @@ jobs:
         run: npm install
 
       - name: Syntax Errors
-        run: find app config database lang routes tests -name "*.php" -print0 | xargs -0 -n1 -P8 php -l
+        run: find app config lang routes tests -name "*.php" -print0 | xargs -0 -n1 -P8 php -l
 
       - name: PHP_CodeSniffer
         run: phpcs
 
       - name: PHP-CS-Fixer
-        run: php-cs-fixer fix app config database lang routes tests --dry-run --diff --allow-risky=yes --config=.php-cs-fixer.php
+        run: php-cs-fixer fix app config lang routes tests --dry-run --diff --allow-risky=yes --config=.php-cs-fixer.php
 
       - name: PHPMD
         run: phpmd app text phpmd.xml
@@ -88,22 +82,8 @@ jobs:
     name: Tests
     runs-on: ubuntu-latest
 
-    services:
-      mysql:
-        image: mysql:5.7
-        env:
-          MYSQL_ALLOW_EMPTY_PASSWORD: yes
-          MYSQL_DATABASE: tests_db
-        ports:
-          - 13306:3306
-
     steps:
       - uses: actions/checkout@v3
-
-      - name: Initialize the Database
-        run: |
-          sudo systemctl start mysql
-          mysql --user="root" --password="root" -e "CREATE DATABASE tests_db character set UTF8mb4 collate utf8mb4_bin;"
 
       - name: Set Up PHP and Tools
         uses: shivammathur/setup-php@master
@@ -112,12 +92,6 @@ jobs:
           extensions: bz2, bcmath, curl, exif, gd, imagick, imap, intl, mysqli, pcntl, pcov, pdo_mysql, soap, xmlrpc, xsl, zip, iconv, pdo
           tools: composer:v2
           coverage: pcov
-
-      - name: Login to Laravel Nova
-        run: composer config http-basic.nova.laravel.com ${NOVA_USERNAME} ${NOVA_PASSWORD}
-        env:
-          NOVA_USERNAME: ${{ secrets.NOVA_USERNAME }}
-          NOVA_PASSWORD: ${{ secrets.NOVA_PASSWORD }}
 
       - name: Install Composer Dependencies
         run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
@@ -133,19 +107,9 @@ jobs:
 
       - name: Run PHPUnit Tests
         run: composer dump-autoload && composer test
-        env:
-          DB_HOST: localhost
-          DB_DATABASE: tests_db
-          DB_USERNAME: root
-          DB_PASSWORD: root
 
       - name: Run Test Coverage Report
         run: ./vendor/bin/phpunit --coverage-clover ./coverage.xml
-        env:
-          DB_HOST: localhost
-          DB_DATABASE: tests_db
-          DB_USERNAME: root
-          DB_PASSWORD: root
 
       - name: Check Test Coverage
         uses: johanvanhelden/gha-clover-test-coverage-check@v1
@@ -164,20 +128,11 @@ jobs:
 
       - name: Start Server
         run: php artisan serve --port=8000 &
-        env:
-          DB_HOST: localhost
-          DB_DATABASE: tests_db
-          DB_USERNAME: root
-          DB_PASSWORD: root
 
       - name: Run Dusk
         run: composer test-browser
         env:
           APP_URL: "http://127.0.0.1:8000"
-          DB_HOST: localhost
-          DB_DATABASE: tests_db
-          DB_USERNAME: root
-          DB_PASSWORD: root
 
       - name: Upload Dusk Artifacts
         uses: actions/upload-artifact@v2

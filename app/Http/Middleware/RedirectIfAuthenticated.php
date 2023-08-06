@@ -16,9 +16,9 @@ class RedirectIfAuthenticated
     /**
      * Handle an incoming request.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param  Closure(\Illuminate\Http\Request): (Response|RedirectResponse) $next
-     * @param string|null ...$guards
+     * @param \Illuminate\Http\Request                                       $request
+     * @param Closure(\Illuminate\Http\Request): (Response|RedirectResponse) $next
+     * @param string|null                                                    ...$guards
      */
     public function handle(Request $request, Closure $next, ...$guards): Response | RedirectResponse | JsonResponse
     {
@@ -26,7 +26,7 @@ class RedirectIfAuthenticated
 
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
-                return redirect(url(config('nova.path')));
+                return redirect(url('/'));
             }
         }
 

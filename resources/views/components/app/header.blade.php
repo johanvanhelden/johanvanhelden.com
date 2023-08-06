@@ -21,7 +21,7 @@
                     </h1>
 
                     <p class="md:text-xl leading-snug mb-4">
-                        Developer at
+                        Software Engineer at
                         <a
                             href="https://paqt.com"
                             rel="noopener noreferrer"

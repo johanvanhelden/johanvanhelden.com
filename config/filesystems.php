@@ -42,20 +42,6 @@ return [
             'visibility' => 'public',
         ],
 
-        'projects' => [
-            'driver'     => 'local',
-            'root'       => public_path('uploads/projects'),
-            'url'        => env('APP_URL') . '/uploads/projects',
-            'visibility' => 'public',
-        ],
-
-        'tools' => [
-            'driver'     => 'local',
-            'root'       => public_path('uploads/tools'),
-            'url'        => env('APP_URL') . '/uploads/tools',
-            'visibility' => 'public',
-        ],
-
         's3' => [
             'driver'                  => 's3',
             'key'                     => env('AWS_ACCESS_KEY_ID'),
@@ -80,6 +66,6 @@ return [
     */
 
     'links' => [
-        public_path('storage') => storage_path('app/public'),
+        // public_path('storage') => storage_path('app/public'),
     ],
 ];

@@ -5,60 +5,36 @@ Public repository for my website [https://www.johanvanhelden.com](https://www.jo
 ## Setup for local development
 
 ### PHP
-``` bash
+
+```bash
 cp .env.example .env
 ```
 
-Create a database and user as configured in the `.env`
-
-``` bash
+```bash
 composer install
-./artisan migrate:fresh --seed
-```
-
-##### Authentication for Nova
-In order to install the composer dependencies, you need valid Nova credentials.
-Place them in your `~/.composer/auth.json` like so:
-
-``` json
-"http-basic": {
-    "nova.laravel.com": {
-        "username": "YOUR_USERNAME",
-        "password": "YOUR_PASSWORD"
-    }   
-}
 ```
 
 ### Assets
-``` bash
+
+```bash
 npm install
 npm run dev
 ```
 
 Or alternatively you can use the bash script to handle everything:
-``` bash
+
+```bash
 ./buildHook.sh $PWD
 ```
 
 ## Testing
 
-### Setup
-Create a database and user as configured in the `.env.testing`
-
 ### Test
 
-Bootstraps the application and runs the tests against an existing database (`artisan migrate`).
+Bootstraps the application and runs the tests.
 
-``` bash
+```bash
 composer test
-```
-
-### Test fresh
-
-Bootstraps the application, refreshes the database and runs the tests (`artisan migrate:fresh`).
-
-``` bash
-composer test-fresh
 ```
 
 ### Test coverage
@@ -71,8 +47,8 @@ Please install pcov first:
 sudo apt install php-pcov
 ```
 
-``` bash
-composer test-fresh
+```bash
+composer test
 ```
 
 ## Security
@@ -82,13 +58,3 @@ If you discover any security-related issues, please email [johan@johanvanhelden.
 ## License
 
 GNU General Public License v3.0 (gpl-3.0). Please see the [License File](LICENSE.md) for more information.
-
-## TODO
-
-### Blog module
-- Newsletter module
-- Migration, model, factory, seeder, resource
-- On home page with detail and pagination
-- Nova module
-- Publish to twitter
-- RSS feed

@@ -8,19 +8,16 @@ parameters:
         - app
         - config
         - tests
-        - database
         - routes
 
     ignoreErrors:
         # Mixed issues
         - '#Cannot call method (.*) on mixed.#'
         - '#Cannot access offset (.*) on mixed.#'
-        - '#Argument of an invalid type mixed supplied for foreach, only iterables are supported.#'
         - '#Cannot cast mixed to (.*).#'
-        - '#Cannot access property (.*) on mixed.#'
 
         # Mockery causes issues
-        - '#Access to an undefined property Mockery\\LegacyMockInterface::(.*).#'
+        - '#Call to an undefined method Mockery\\(.*).#'
 
     checkMissingIterableValueType: false
     checkUnionTypes: false
@@ -29,10 +26,3 @@ parameters:
     # Might fix this in the future:
     checkGenericClassInNonGenericObjectType: false
 
-    universalObjectCratesClasses:
-        # Nova uses some unresolvable magic
-        - Laravel\Nova\Fields\ActionFields
-        - Laravel\Nova\Resource
-
-        # This can be removed once models are annotated, otherwise properties and methods can not be resolved properly
-        - Illuminate\Database\Eloquent\Model

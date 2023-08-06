@@ -9,5 +9,5 @@ Route::controller(ProjectController::class)
     ->as('project.')
     ->prefix('project')
     ->group(function (): void {
-        Route::get('/{project}', 'show')->name('show');
+        Route::get('/{slug}', 'show')->name('show');
     });

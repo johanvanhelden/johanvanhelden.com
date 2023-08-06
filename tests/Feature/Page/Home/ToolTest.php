@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Page\Home;
 
-use App\Models\Tool;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\File;
 use Tests\TestCase;
 
 class ToolTest extends TestCase
@@ -12,8 +13,6 @@ class ToolTest extends TestCase
     /** @test */
     public function has_tools(): void
     {
-        Tool::factory()->count(2)->published()->create();
-
         $this->get(route('page.home'))
             ->assertViewHas('tools');
     }
@@ -21,42 +20,37 @@ class ToolTest extends TestCase
     /** @test */
     public function it_only_lists_published(): void
     {
-        $publishedTools = Tool::factory()->count(2)->published()->create();
-        Tool::factory()->count(4)->published(false)->create();
+        File::partialMock()
+            ->shouldReceive('get')
+            ->with(resource_path('data/tools.json'))
+            ->andReturn(json_encode([
+                [
+                    'name'       => 'not-published',
+                    'image'      => '',
+                    'url'        => '',
+                    'publish_at' => Carbon::tomorrow()->toString(),
+                    'created_at' => Carbon::yesterday()->toString(),
+                    'updated_at' => Carbon::yesterday()->toString(),
+                ],
+                [
+                    'name'       => 'published',
+                    'image'      => '',
+                    'url'        => '',
+                    'publish_at' => Carbon::yesterday()->toString(),
+                    'created_at' => Carbon::yesterday()->toString(),
+                    'updated_at' => Carbon::yesterday()->toString(),
+                ],
+            ]));
 
         $response = $this->get(route('page.home'));
 
         $viewTools = $response->viewData('tools');
 
-        $this->assertEquals(
-            $publishedTools->pluck('id')->toArray(),
-            $viewTools->pluck('id')->toArray()
-        );
-    }
-
-    /** @test */
-    public function are_sorted_by_order(): void
-    {
-        Tool::factory()->count(10)->published()->create();
-
-        // reverse the order so we can actually test the custom order
-        $order = 10;
-        foreach (Tool::all() as $tool) {
-            $tool->order = $order;
-            $tool->save();
-
-            $order--;
-        }
-
-        $sortedTools = Tool::get()->sortBy('order');
-
-        $response = $this->get(route('page.home'));
-
-        $viewTools = $response->viewData('tools');
+        $this->assertCount(1, $viewTools);
 
         $this->assertEquals(
-            $sortedTools->pluck('id')->toArray(),
-            $viewTools->pluck('id')->toArray()
+            ['published'],
+            $viewTools->pluck('name')->toArray()
         );
     }
 }

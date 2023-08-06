@@ -47,7 +47,7 @@ class VerifyCsrfToken extends Middleware
 
             flash(__('message.session_expired'))->error();
 
-            return redirect()->route('login');
+            return redirect()->route('page.home');
         }
     }
 }

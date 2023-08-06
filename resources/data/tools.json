@@ -1,0 +1,74 @@
+[
+    {
+        "name": "Ubuntu",
+        "slug": "ubuntu",
+        "image": "ubuntu.png",
+        "url": "https://ubuntu.com/",
+        "publish_at": "2019-12-27 12:00:00",
+        "created_at": "2019-12-27 16:58:41",
+        "updated_at": "2019-12-27 16:58:41"
+    },
+    {
+        "name": "GitHub",
+        "slug": "github",
+        "image": "github.png",
+        "url": "https://github.com/johanvanhelden",
+        "publish_at": "2019-12-27 12:00:00",
+        "created_at": "2019-12-27 16:58:55",
+        "updated_at": "2020-01-20 13:24:29"
+    },
+    {
+        "name": "VS Code",
+        "slug": "vscode",
+        "image": "vscode.png",
+        "url": "https://code.visualstudio.com/",
+        "publish_at": "2019-12-27 12:00:00",
+        "created_at": "2019-12-27 16:59:08",
+        "updated_at": "2020-01-20 13:24:29"
+    },
+    {
+        "name": "Docker",
+        "slug": "docker",
+        "image": "docker.png",
+        "url": "https://www.docker.com/",
+        "publish_at": "2019-12-27 12:00:00",
+        "created_at": "2019-12-27 16:59:24",
+        "updated_at": "2020-01-20 13:24:30"
+    },
+    {
+        "name": "Laravel",
+        "slug": "laravel",
+        "image": "laravel.png",
+        "url": "https://laravel.com/",
+        "publish_at": "2019-12-27 12:00:00",
+        "created_at": "2019-12-27 16:59:39",
+        "updated_at": "2020-01-20 13:24:30"
+    },
+    {
+        "name": "Vue.js",
+        "slug": "vuejs",
+        "image": "vuejs.png",
+        "url": "https://vuejs.org/",
+        "publish_at": "2019-12-27 12:00:00",
+        "created_at": "2019-12-27 16:59:54",
+        "updated_at": "2020-01-20 13:24:30"
+    },
+    {
+        "name": "GitKraken",
+        "slug": "gitkraken",
+        "image": "gitkraken.png",
+        "url": "https://www.gitkraken.com/",
+        "publish_at": "2019-12-27 12:00:00",
+        "created_at": "2019-12-27 17:00:09",
+        "updated_at": "2020-01-20 13:24:30"
+    },
+    {
+        "name": "Gimp",
+        "slug": "gimp",
+        "image": "gimp.png",
+        "url": "https://www.gimp.org/",
+        "publish_at": "2019-12-27 12:00:00",
+        "created_at": "2019-12-27 17:00:22",
+        "updated_at": "2020-01-20 13:24:30"
+    }
+]

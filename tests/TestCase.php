@@ -4,27 +4,12 @@ declare(strict_types=1);
 
 namespace Tests;
 
-use App\Models\User as UserModel;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use ReflectionClass;
-use Tests\Helpers\User;
 
 abstract class TestCase extends BaseTestCase
 {
-    use CreatesApplication, DatabaseTransactions;
-
-    protected UserModel $admin;
-
-    protected UserModel $user;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->admin = User::getDefaultAdmin();
-        $this->user = User::getDefaultUser();
-    }
+    use CreatesApplication;
 
     protected function invokeMethod(object &$instance, string $methodName, mixed ...$parameters): mixed
     {
