@@ -2,7 +2,7 @@
     class="
         w-full | block | rounded text-base text-center | px-6 py-4
         @if ($url ?? null)
-            link link--primary hover:bg-gray-100
+            font-semibold text-primary hover:underline hover:bg-gray-100
         @else
             hover:cursor-default
         @endif

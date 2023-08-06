@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Middleware;
 
-use App\Helpers\Auth;
 use Closure;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken as Middleware;
 use Illuminate\Http\Request;
@@ -38,16 +37,9 @@ class VerifyCsrfToken extends Middleware
         } catch (TokenMismatchException $exception) {
             Log::info('Session expired', [$exception]);
 
-            if (Auth::check()) {
-                $request->session()->invalidate();
-                $request->session()->regenerateToken();
-
-                Auth::logout();
-            }
-
             flash(__('message.session_expired'))->error();
 
-            return redirect()->route('login');
+            return redirect()->route('page.home');
         }
     }
 }

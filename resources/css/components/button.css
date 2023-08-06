@@ -1,5 +1,5 @@
 .button {
-    @apply font-bold py-2 px-4 rounded;
+    @apply rounded px-4 py-2 font-bold;
 }
 
 .button:hover {
@@ -8,12 +8,4 @@
 
 .button:focus {
     @apply outline-none ring;
-}
-
-.button--primary {
-    @apply bg-primary text-white;
-}
-
-.button--primary:hover {
-    @apply bg-primary-light;
 }

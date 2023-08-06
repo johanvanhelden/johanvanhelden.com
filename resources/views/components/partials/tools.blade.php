@@ -7,9 +7,9 @@
         <div class="flex flex-wrap items-center justify-center">
             @foreach ($tools as $tool)
                 <x-cards.tool
-                    :name="$tool->name"
-                    :image-url="$tool->image_url"
-                    :url="$tool->url"
+                    :name="$tool['name']"
+                    :image-url="$tool['image_url']"
+                    :url="$tool['url']"
                     class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4"
                 />
             @endforeach

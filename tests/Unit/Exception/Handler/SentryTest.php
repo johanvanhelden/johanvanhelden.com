@@ -7,6 +7,7 @@ namespace Tests\Unit\Exception\Handler;
 use App\Exceptions\Handler;
 use Exception;
 use Illuminate\Support\Facades\App;
+use Mockery\MockInterface;
 use stdClass;
 use Tests\TestCase;
 
@@ -27,7 +28,7 @@ class SentryTest extends TestCase
     /** @test */
     public function will_skip_sentry_on_local(): void
     {
-        App::shouldReceive('environment')->once()->andReturn(true);
+        App::shouldReceive('environment')->twice()->andReturn(true);
 
         $this->handler->register();
         $this->handler->report($this->exception);
@@ -36,8 +37,8 @@ class SentryTest extends TestCase
     /** @test */
     public function will_not_trigger_sentry_if_not_bound(): void
     {
-        App::shouldReceive('environment')->once()->andReturn(false);
-        App::shouldReceive('bound')->once()->andReturn(false);
+        App::shouldReceive('environment')->twice()->andReturn(false);
+        App::shouldReceive('bound')->twice()->andReturn(false);
 
         $this->handler->register();
         $this->handler->report($this->exception);
@@ -46,13 +47,13 @@ class SentryTest extends TestCase
     /** @test */
     public function will_trigger_sentry_on_production(): void
     {
-        $sentry = $this->mock(stdClass::class, function ($mock): void {
+        $sentry = $this->mock(stdClass::class, function (MockInterface $mock): void {
             $mock->shouldReceive('captureException')->andReturn(true);
         });
 
-        App::shouldReceive('environment')->once()->andReturn(false);
-        App::shouldReceive('bound')->withArgs(['sentry'])->once()->andReturn(true);
-        App::shouldReceive('get')->once()->andReturn($sentry);
+        App::shouldReceive('environment')->twice()->andReturn(false);
+        App::shouldReceive('bound')->withArgs(['sentry'])->twice()->andReturn(true);
+        App::shouldReceive('get')->twice()->andReturn($sentry);
 
         $this->handler->register();
         $this->handler->report($this->exception);

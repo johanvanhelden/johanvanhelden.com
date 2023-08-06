@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="./vendor/phpunit/phpunit/phpunit.xsd"
-         bootstrap="vendor/autoload.php"
-         colors="true"
->
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.1/phpunit.xsd" bootstrap="vendor/autoload.php" colors="true" cacheDirectory=".phpunit.cache">
     <testsuites>
         <testsuite name="Unit">
             <directory suffix="Test.php">./tests/Unit</directory>
@@ -12,24 +8,20 @@
             <directory suffix="Test.php">./tests/Feature</directory>
         </testsuite>
     </testsuites>
-    <coverage processUncoveredFiles="true">
+    <php>
+        <server name="APP_ENV" value="testing"/>
+    </php>
+    <source>
         <include>
             <directory suffix=".php">./app</directory>
         </include>
         <exclude>
-            <directory>./app/Nova</directory>
             <file>./app/Console/Kernel.php</file>
-            <file>./app/Helpers/Auth.php</file>
             <file>./app/Providers/AppServiceProvider.php</file>
-            <file>./app/Providers/BroadcastServiceProvider.php</file>
             <file>./app/Providers/FortifyServiceProvider.php</file>
             <file>./app/Providers/HorizonServiceProvider.php</file>
             <file>./app/Providers/RouteServiceProvider.php</file>
-            <file>./app/Providers/TelescopeServiceProvider.php</file>
             <file>./app/Http/Middleware/TrustHosts.php</file>
         </exclude>
-    </coverage>
-    <php>
-        <server name="APP_ENV" value="testing"/>
-    </php>
+    </source>
 </phpunit>

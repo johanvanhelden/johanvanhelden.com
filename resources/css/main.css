@@ -1,14 +1,15 @@
-@import '@fortawesome/fontawesome-free/css/fontawesome.css';
-@import '@fortawesome/fontawesome-free/css/brands.css';
-@import '@fortawesome/fontawesome-free/css/regular.css';
-@import '@fortawesome/fontawesome-free/css/solid.css';
+/* Vendor */
+@import url('@fortawesome/fontawesome-free/css/fontawesome.css');
+@import url('@fortawesome/fontawesome-free/css/brands.css');
+@import url('@fortawesome/fontawesome-free/css/regular.css');
+@import url('@fortawesome/fontawesome-free/css/solid.css');
 
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
+/* Main */
+@import url('tailwindcss/base');
 
-@import './components/button.css';
-@import './components/input.css';
-@import './components/link.css';
+/* Components */
+@import url('tailwindcss/components');
+@import url('./components/button.css');
 
-@import './utilities/underline.css';
+/* Utilities */
+@import url('tailwindcss/utilities');

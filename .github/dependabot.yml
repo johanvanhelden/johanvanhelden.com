@@ -1,11 +1,4 @@
 version: 2
-registries:
-  composer-repository-nova-laravel-com:
-    type: composer-repository
-    url: https://nova.laravel.com
-    username: "${{secrets.NOVA_USERNAME}}"
-    password: "${{secrets.NOVA_PASSWORD}}"
-
 updates:
   - package-ecosystem: composer
     directory: "/"
@@ -15,8 +8,6 @@ updates:
       - dependency-name: "*"
         update-types: ["version-update:semver-major"]
     open-pull-requests-limit: 2
-    registries:
-      - composer-repository-nova-laravel-com
     reviewers:
       - "johanvanhelden"
   - package-ecosystem: npm

@@ -8,6 +8,4 @@
     <x-partials.languages />
 
     <x-partials.about-me class="bg-white" />
-
-    <x-partials.subscribe />
 </x-app.main>

@@ -17,12 +17,6 @@ jobs:
           tools: composer:v2
           coverage: none
 
-      - name: Login to Laravel Nova
-        run: composer config http-basic.nova.laravel.com ${NOVA_USERNAME} ${NOVA_PASSWORD}
-        env:
-          NOVA_USERNAME: ${{ secrets.NOVA_USERNAME }}
-          NOVA_PASSWORD: ${{ secrets.NOVA_PASSWORD }}
-
       - name: Install Composer Dependencies
         run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
 
@@ -44,16 +38,16 @@ jobs:
           coverage: none
 
       - name: Install NPM
-        run: npm install
+        run: npm ci
 
       - name: Syntax Errors
-        run: find app config database lang routes tests -name "*.php" -print0 | xargs -0 -n1 -P8 php -l
+        run: find app config lang routes tests -name "*.php" -print0 | xargs -0 -n1 -P8 php -l
 
       - name: PHP_CodeSniffer
         run: phpcs
 
       - name: PHP-CS-Fixer
-        run: php-cs-fixer fix app config database lang routes tests --dry-run --diff --allow-risky=yes --config=.php-cs-fixer.php
+        run: php-cs-fixer fix app config lang routes tests --dry-run --diff --allow-risky=yes --config=.php-cs-fixer.php
 
       - name: PHPMD
         run: phpmd app text phpmd.xml
@@ -61,8 +55,8 @@ jobs:
       - name: PHPCPD
         run: phpcpd app
 
-      - name: Lint Assets
-        run: npm run lint
+      - name: Check Assets
+        run: npm run check
 
   security-check:
     name: Security Check
@@ -70,13 +64,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-
-      - name: Set Up PHP and Tools
-        uses: shivammathur/setup-php@master
-        with:
-          php-version: "8.1"
-          tools: composer:v2
-          coverage: none
 
       - name: Check Composer Packages
         uses: symfonycorp/security-checker-action@v4
@@ -86,6 +73,42 @@ jobs:
 
   tests:
     name: Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set Up PHP and Tools
+        uses: shivammathur/setup-php@master
+        with:
+          php-version: "8.1"
+          extensions: bz2, bcmath, curl, exif, gd, imagick, imap, intl, mysqli, pcntl, pcov, pdo_mysql, soap, xmlrpc, xsl, zip, iconv, pdo
+          tools: composer:v2
+          coverage: pcov
+
+      - name: Install Composer Dependencies
+        run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+
+      - name: Install NPM
+        run: npm ci
+
+      - name: Setup PHPUnit Environment
+        run: yes | cp .env.testing.example .env
+
+      - name: Build Assets
+        run: ./buildHook.sh $PWD
+
+      - name: Run Tests & Generate Coverage Report
+        run: ./vendor/bin/phpunit --coverage-clover ./coverage.xml
+
+      - name: Check Test Coverage
+        uses: johanvanhelden/gha-clover-test-coverage-check@v1
+        with:
+          percentage: "95"
+          filename: "coverage.xml"
+
+  dusk:
+    name: Dusk
     runs-on: ubuntu-latest
 
     services:
@@ -113,71 +136,28 @@ jobs:
           tools: composer:v2
           coverage: pcov
 
-      - name: Login to Laravel Nova
-        run: composer config http-basic.nova.laravel.com ${NOVA_USERNAME} ${NOVA_PASSWORD}
-        env:
-          NOVA_USERNAME: ${{ secrets.NOVA_USERNAME }}
-          NOVA_PASSWORD: ${{ secrets.NOVA_PASSWORD }}
-
       - name: Install Composer Dependencies
         run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
 
-      - name: Install NPM
-        run: npm install
-
-      - name: Setup PHPUnit Environment
-        run: yes | cp .env.testing.example .env
-
       - name: Build Assets
         run: ./buildHook.sh $PWD
-
-      - name: Run PHPUnit Tests
-        run: composer dump-autoload && composer test
-        env:
-          DB_HOST: localhost
-          DB_DATABASE: tests_db
-          DB_USERNAME: root
-          DB_PASSWORD: root
-
-      - name: Run Test Coverage Report
-        run: ./vendor/bin/phpunit --coverage-clover ./coverage.xml
-        env:
-          DB_HOST: localhost
-          DB_DATABASE: tests_db
-          DB_USERNAME: root
-          DB_PASSWORD: root
-
-      - name: Check Test Coverage
-        uses: johanvanhelden/gha-clover-test-coverage-check@v1
-        with:
-          percentage: "95"
-          filename: "coverage.xml"
-
-      - name: Clear Laravel Logs
-        run: rm ./storage/logs/*.log -f
 
       - name: Setup Dusk Environment
         run: yes | cp .env.dusk.local.example .env
 
       - name: Set the Chrome Driver
-        run: php artisan dusk:chrome-driver `/opt/google/chrome/chrome --version | cut -d " " -f3 | cut -d "." -f1`
+        run: php artisan dusk:chrome-driver --detect
+
+      - name: Start Chrome Driver
+        run: ./vendor/laravel/dusk/bin/chromedriver-linux &
 
       - name: Start Server
-        run: php artisan serve --port=8000 &
-        env:
-          DB_HOST: localhost
-          DB_DATABASE: tests_db
-          DB_USERNAME: root
-          DB_PASSWORD: root
+        run: php artisan serve --no-reload &
 
       - name: Run Dusk
         run: composer test-browser
         env:
           APP_URL: "http://127.0.0.1:8000"
-          DB_HOST: localhost
-          DB_DATABASE: tests_db
-          DB_USERNAME: root
-          DB_PASSWORD: root
 
       - name: Upload Dusk Artifacts
         uses: actions/upload-artifact@v2
@@ -193,7 +173,7 @@ jobs:
     name: Sentry Release
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/master' && (github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action == 'merged'))
-    needs: [code-analysis, code-style, security-check, tests]
+    needs: [code-analysis, code-style, security-check, tests, dusk]
 
     steps:
       - uses: actions/checkout@v3
@@ -213,7 +193,7 @@ jobs:
     name: Deploy Staging
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/develop' && (github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action == 'merged'))
-    needs: [code-analysis, code-style, security-check, tests]
+    needs: [code-analysis, code-style, security-check, tests, dusk]
 
     steps:
       - uses: actions/checkout@v3
@@ -226,7 +206,7 @@ jobs:
     name: Deploy Production
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/master' && (github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action == 'merged'))
-    needs: [code-analysis, code-style, security-check, tests]
+    needs: [code-analysis, code-style, security-check, tests, dusk]
 
     steps:
       - uses: actions/checkout@v3

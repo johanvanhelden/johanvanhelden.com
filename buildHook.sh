@@ -2,7 +2,7 @@
 path=$1
 
 if [ -z "$path" ] || [ ! -d "$path" ]; then
-   path=$PWD
+    path=$PWD
 fi
 
 echo "====== Running $project build hook ======="
@@ -11,6 +11,8 @@ echo "====== Set the proper node version ======="
 if [ -f ~/.nvm/nvm.sh ]; then
     . ~/.nvm/nvm.sh
 fi
+
+nvm use 18
 
 paths=(
     $path
@@ -23,7 +25,7 @@ do
     if [ -f package.json ]; then
         find . -maxdepth 1 -name package.json | grep package > /dev/null 2>&1
         if [ $? == 0 ]; then
-            echo "Running npm install"
+            echo "Running npm install (ci)"
             npm ci
 
             if [ $? != 0 ]; then
@@ -31,14 +33,14 @@ do
             fi
         fi
 
-        if [ -f webpack.mix.js ]; then
+        if [ -f vite.config.js ]; then
             npm run prod
 
             if [ $? != 0 ]; then
                 exit 1;
             fi
         else
-            echo "No webpack.mix.js found"
+            echo "No vite.config.js found"
         fi
     else
         echo "Package.json doesn't exist"

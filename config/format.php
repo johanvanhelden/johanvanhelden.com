@@ -11,6 +11,4 @@ return [
     'date_moment'     => 'DD-MM-YYYY',
     'time_moment'     => 'HH:mm',
     'datetime_moment' => 'DD-MM-YYYY HH:mm',
-
-    'datetime_nova' => 'Y-m-d H:i:s',
 ];
