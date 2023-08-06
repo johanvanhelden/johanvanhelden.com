@@ -4,7 +4,7 @@
         relative text-lg bg-black bg-cover bg-no-repeat bg-center lg:bg-center-top
         @if (!$expandedHeader) h-64 @endif
     "
-    style="background-image: url('/images/header-narrow.jpg');"
+    style="background-image: url('{{ Vite::asset('resources/img/header-narrow.jpg') }}');"
 >
     <div class="max-w-6xl mx-auto text-white py-6">
         <div class="sm:flex text-center px-6">
@@ -26,19 +26,19 @@
                             href="https://paqt.com"
                             rel="noopener noreferrer"
                             target="_blank"
-                            class="underline-dotted hover:underline"
+                            class="underline decoration-dotted hover:decoration-solid"
                         >PAQT.com</a>, creator of
                         <a
                             href="https://github.com/johanvanhelden/dockerhero"
                             rel="noopener noreferrer"
                             target="_blank"
-                            class="underline-dotted hover:underline"
+                            class="underline decoration-dotted hover:decoration-solid"
                         >Dockerhero</a>, Sci-Fi enthousiast.
                     </p>
 
                     <a
                         href="/#about-me"
-                        class="underline-dotted hover:underline"
+                        class="underline decoration-dotted hover:decoration-solid"
                     >Want to know more?</a>
                 </div>
             </div>

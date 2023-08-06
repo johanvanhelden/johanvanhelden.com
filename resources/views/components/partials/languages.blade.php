@@ -7,22 +7,22 @@
         <div class="flex flex-wrap items-center justify-center">
             <x-cards.language
                 name="Dutch"
-                image-url="/images/languages/dutch.png"
+                image-url="{{ Vite::asset('resources/img/languages/dutch.png') }}"
                 class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4"
             />
             <x-cards.language
                 name="English"
-                image-url="/images/languages/english.png"
+                image-url="{{ Vite::asset('resources/img/languages/english.png') }}"
                 class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4"
             />
             <x-cards.language
                 name="PHP"
-                image-url="/images/languages/php.png"
+                image-url="{{ Vite::asset('resources/img/languages/php.png') }}"
                 class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4"
             />
             <x-cards.language
                 name="JavaScript"
-                image-url="/images/languages/js.png"
+                image-url="{{ Vite::asset('resources/img/languages/js.png') }}"
                 class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4"
             />
         </div>

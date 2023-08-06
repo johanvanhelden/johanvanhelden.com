@@ -56,7 +56,7 @@ jobs:
         run: phpcpd app
 
       - name: Lint Assets
-        run: npm run lint
+        run: npm run check
 
   security-check:
     name: Security Check

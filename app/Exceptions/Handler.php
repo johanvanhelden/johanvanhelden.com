@@ -20,7 +20,7 @@ class Handler extends ExceptionHandler
     ];
 
     /**
-     * A list of the inputs that are never flashed for validation exceptions.
+     * A list of the inputs that are never flashed to the session on validation exceptions.
      *
      * @var array<int, string>
      */
@@ -32,10 +32,8 @@ class Handler extends ExceptionHandler
 
     public function register(): void
     {
-        $isDevelopment = App::environment(config('constants.environment.development'));
-
-        $this->reportable(function (Throwable $exception) use ($isDevelopment): void {
-            if (!$isDevelopment && App::bound('sentry')) {
+        $this->reportable(function (Throwable $exception): void {
+            if (!App::environment(config('environment.development')) && App::bound('sentry')) {
                 App::get('sentry')->captureException($exception);
             }
         });

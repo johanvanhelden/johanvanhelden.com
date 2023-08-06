@@ -18,7 +18,7 @@
             v-if="title"
             class="font-bold text-xl | mr-2
             @isset ($url)
-                link link--primary
+                font-semibold text-primary hover:underline
             @endisset"
         >
             {{ $title }}

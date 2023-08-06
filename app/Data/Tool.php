@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Data;
 
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Vite;
 
 class Tool extends BaseData
 {
@@ -24,7 +25,7 @@ class Tool extends BaseData
 
     private static function imageUrl(array $tool): string
     {
-        return asset('images/tools/' . $tool['image']);
+        return Vite::asset('resources/img/tools/' . $tool['image']);
     }
 
     public static function isPublic(array $tool): bool

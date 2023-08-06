@@ -44,7 +44,7 @@
                         href="{{ $project['url'] }}"
                         target="_blank"
                         rel="noopener noreferrer"
-                        class="link link--primary"
+                        class="font-semibold text-primary hover:underline"
                     >
                         <i class="fas fa-external-link-alt"></i>
                         Visit the project

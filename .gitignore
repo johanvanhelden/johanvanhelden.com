@@ -1,6 +1,11 @@
+#OS
+.DS_Store
+*/**/.~lock.*.xlsx*
+*/**/~$*.xlsx*
+*:Zone.Identifier
+
 # IDE
 /.idea
-/.vscode
 /.vagrant
 _ide_helper.php
 _ide_helper_models.php
@@ -13,13 +18,8 @@ _ide_helper_models.php
 # assets
 /node_modules
 /public/storage
+/public/build
 /public/hot
-/public/js
-/public/css
-/public/images
-/public/webfonts
-/public/mix-manifest.json
-/public/mix.js.map
 
 # logs
 npm-debug.log
