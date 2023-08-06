@@ -20,7 +20,7 @@
                 href="https://en.wikipedia.org/wiki/Visual_Basic"
                 rel="noopener noreferrer"
                 target="_blank"
-                class="link link--primary"
+                class="font-semibold text-primary hover:underline"
             >Visual Basic</a>. I have always loved bringing my thoughts and ideas to the computer screen.
         </p>
         <p class="mb-4">
@@ -31,7 +31,7 @@
                 href="https://en.wikipedia.org/wiki/Active_Server_Pages"
                 rel="noopener noreferrer"
                 target="_blank"
-                class="link link--primary"
+                class="font-semibold text-primary hover:underline"
             >ASP Classic</a>.
         </p>
         <p class="mb-4">
@@ -42,7 +42,7 @@
                 href="https://www.codeigniter.com/"
                 rel="noopener noreferrer"
                 target="_blank"
-                class="link link--primary"
+                class="font-semibold text-primary hover:underline"
             >CodeIgniter</a>.
         </p>
         <p class="mb-4">
@@ -51,7 +51,7 @@
                 href="https://laravel.com/"
                 rel="noopener noreferrer"
                 target="_blank"
-                class="link link--primary"
+                class="font-semibold text-primary hover:underline"
             >Laravel</a>. And up until this day I still use Laravel as my PHP framework of choice. It just gives you so much
             features out of the box, it becomes trivial to quickly set up a proof-of-concept. And is also powerful
             and flexible enough to transform that proof-of-concept in a future-proof, stable and secure application.

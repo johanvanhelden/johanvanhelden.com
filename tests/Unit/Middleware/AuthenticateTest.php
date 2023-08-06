@@ -33,10 +33,10 @@ class AuthenticateTest extends TestCase
     }
 
     /** @test */
-    public function if_not_a_json_request_the_login_url_will_be_returned(): void
+    public function if_not_a_json_request_the_home_url_will_be_returned(): void
     {
         $request = Request::create('/awesome-test', 'GET');
 
-        $this->assertEquals(route('login'), $this->middleware->redirectTo($request));
+        $this->assertEquals(route('page.home'), $this->middleware->redirectTo($request));
     }
 }
