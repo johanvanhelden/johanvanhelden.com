@@ -23,15 +23,6 @@
                 <i class="fab fa-github"></i>
             </a>
             <a
-                href="https://www.twitter.com/johanvhelden"
-                rel="noopener noreferrer"
-                target="_blank"
-                class="mx-2"
-                title="Twitter"
-            >
-                <i class="fab fa-twitter"></i>
-            </a>
-            <a
                 href="https://www.linkedin.com/in/johanvhelden"
                 rel="noopener noreferrer"
                 target="_blank"
