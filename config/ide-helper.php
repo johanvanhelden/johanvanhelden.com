@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use App\Models\User;
+
 return [
     /*
     |--------------------------------------------------------------------------
@@ -153,6 +155,8 @@ return [
     */
 
     'ignored_models' => [
+        // Just a placeholder model - we don't use a database.
+        User::class,
     ],
 
     /*

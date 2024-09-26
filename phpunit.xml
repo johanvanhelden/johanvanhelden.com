@@ -20,6 +20,7 @@
             <file>app/Providers/AppServiceProvider.php</file>
             <file>app/Providers/FortifyServiceProvider.php</file>
             <file>app/Providers/HorizonServiceProvider.php</file>
+            <file>app/Providers/RouteServiceProvider.php</file>
         </exclude>
     </source>
     <php>

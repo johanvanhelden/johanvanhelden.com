@@ -7,18 +7,19 @@ namespace Tests\Feature\Page\Home;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\File;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class ToolTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function has_tools(): void
     {
         $this->get(route('page.home'))
             ->assertViewHas('tools');
     }
 
-    /** @test */
+    #[Test]
     public function it_only_lists_published(): void
     {
         File::partialMock()

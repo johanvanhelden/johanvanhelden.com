@@ -13,7 +13,7 @@ class AppServiceProvider extends ServiceProvider
 {
     public function boot(): void
     {
-        if ($this->app->environment((array) config('environment.development'))) {
+        if ($this->app->environment(config('environment.development'))) {
             Model::shouldBeStrict();
         }
 

@@ -70,7 +70,7 @@ code-quality: vendor syntax stan md
 code-style: vendor node_modules cs cs-fix-dry validate-fe
 
 syntax:
-	@find app config database lang routes tests -name "*.php" -print0 | xargs -0 -n1 -P8 php -l
+	@find app config lang routes tests -name "*.php" -print0 | xargs -0 -n1 -P8 php -l
 
 stan: vendor
 	@vendor/bin/phpstan analyse --memory-limit=2G --configuration=phpstan.neon
@@ -82,29 +82,15 @@ cs: vendor
 	@phpcs --standard=./phpcs.xml -p
 
 cs-fix: vendor
-	@php-cs-fixer fix app config database lang routes tests --diff --config=.php-cs-fixer.php
+	@php-cs-fixer fix app config lang routes tests --diff --config=.php-cs-fixer.php
 
 cs-fix-dry: vendor
-	@php-cs-fixer fix app config database lang routes tests --dry-run --diff --config=.php-cs-fixer.php
-
-validate-scripts: node_modules
-	@make set-nvm
-
-	@npm run validate:scripts
-
-	@make set-nvm-default
+	@php-cs-fixer fix app config lang routes tests --dry-run --diff --config=.php-cs-fixer.php
 
 validate-styles: node_modules
 	@make set-nvm
 
 	@npm run validate:styles
-
-	@make set-nvm-default
-
-fix-scripts: node_modules
-	@make set-nvm
-
-	@npm run fix:scripts
 
 	@make set-nvm-default
 
@@ -135,7 +121,6 @@ test: vendor node_modules
 
 test-coverage: vendor node_modules
 	@php artisan test --compact --coverage --min=${TEST_COVERAGE_MINIMUM}
-	@npm run test-coverage
 
 test-coverage-report: vendor
 	@php -d pcov.enabled=1 ./vendor/bin/phpunit --coverage-html public/tests-report
