@@ -28,12 +28,10 @@ npm-debug.log
 .env
 .env.backup
 .env.testing
-.env.dusk.local
 
 # cache
 /*.cache
 
 # testing
 /public/tests-report
-phpunit\.dusk\.xml
 

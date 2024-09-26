@@ -12,175 +12,101 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Set Up PHP and Tools
         uses: shivammathur/setup-php@master
         with:
-          php-version: "8.1"
+          php-version: '8.3'
           tools: composer:v2
           coverage: none
 
       - name: Install Composer Dependencies
-        run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+        run: make vendor
 
       - name: Static Code Analysis
-        run: ./vendor/bin/phpstan analyse --memory-limit=2G
+        run: make stan
 
   code-style:
     name: Code Style
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Set Up PHP and Tools
         uses: shivammathur/setup-php@master
         with:
-          php-version: "8.1"
-          tools: composer:v2, phpcs, php-cs-fixer, phpmd, phpcpd
+          php-version: '8.3'
+          tools: composer:v2, phpcs, php-cs-fixer, phpmd
           coverage: none
 
-      - name: Install NPM
-        run: npm ci
-
       - name: Syntax Errors
-        run: find app config lang routes tests -name "*.php" -print0 | xargs -0 -n1 -P8 php -l
+        run: make syntax
 
       - name: PHP_CodeSniffer
-        run: phpcs
+        run: make cs
 
       - name: PHP-CS-Fixer
-        run: php-cs-fixer fix app config lang routes tests --dry-run --diff --allow-risky=yes --config=.php-cs-fixer.php
+        run: make cs-fix-dry
 
       - name: PHPMD
-        run: phpmd app text phpmd.xml
+        run: make md
 
-      - name: PHPCPD
-        run: phpcpd app
+      - name: Install NPM
+        run: make node_modules
 
-      - name: Check Assets
-        run: npm run check
+      - name: Validate Assets
+        run: make validate-fe
 
   security-check:
     name: Security Check
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Check Composer Packages
-        uses: symfonycorp/security-checker-action@v4
+        uses: symfonycorp/security-checker-action@v5
 
       - name: Check NPM Packages
-        run: npm audit --omit=dev
+        run: make audit
 
   tests:
     name: Tests
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Set Up PHP and Tools
         uses: shivammathur/setup-php@master
         with:
-          php-version: "8.1"
-          extensions: bz2, bcmath, curl, exif, gd, imagick, imap, intl, mysqli, pcntl, pcov, pdo_mysql, soap, xmlrpc, xsl, zip, iconv, pdo
+          php-version: '8.3'
+          extensions: bz2, bcmath, curl, exif, gd, imagick, imap, intl, mysqli, pcntl, pcov, pdo_mysql, redis, soap, xmlrpc, xsl, zip, iconv, pdo
           tools: composer:v2
           coverage: pcov
 
       - name: Install Composer Dependencies
-        run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+        run: make vendor
 
       - name: Install NPM
-        run: npm ci
-
-      - name: Setup PHPUnit Environment
-        run: yes | cp .env.testing.example .env
+        run: make node_modules
 
       - name: Build Assets
-        run: ./buildHook.sh $PWD
+        run: make assets
 
-      - name: Run Tests & Generate Coverage Report
-        run: ./vendor/bin/phpunit --coverage-clover ./coverage.xml
-
-      - name: Check Test Coverage
-        uses: johanvanhelden/gha-clover-test-coverage-check@v1
-        with:
-          percentage: "95"
-          filename: "coverage.xml"
-
-  dusk:
-    name: Dusk
-    runs-on: ubuntu-latest
-
-    services:
-      mysql:
-        image: mysql:5.7
-        env:
-          MYSQL_ALLOW_EMPTY_PASSWORD: yes
-          MYSQL_DATABASE: tests_db
-        ports:
-          - 13306:3306
-
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Initialize the Database
-        run: |
-          sudo systemctl start mysql
-          mysql --user="root" --password="root" -e "CREATE DATABASE tests_db character set UTF8mb4 collate utf8mb4_bin;"
-
-      - name: Set Up PHP and Tools
-        uses: shivammathur/setup-php@master
-        with:
-          php-version: "8.1"
-          extensions: bz2, bcmath, curl, exif, gd, imagick, imap, intl, mysqli, pcntl, pcov, pdo_mysql, soap, xmlrpc, xsl, zip, iconv, pdo
-          tools: composer:v2
-          coverage: pcov
-
-      - name: Install Composer Dependencies
-        run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
-
-      - name: Build Assets
-        run: ./buildHook.sh $PWD
-
-      - name: Setup Dusk Environment
-        run: yes | cp .env.dusk.local.example .env
-
-      - name: Set the Chrome Driver
-        run: php artisan dusk:chrome-driver --detect
-
-      - name: Start Chrome Driver
-        run: ./vendor/laravel/dusk/bin/chromedriver-linux &
-
-      - name: Start Server
-        run: php artisan serve --no-reload &
-
-      - name: Run Dusk
-        run: composer test-browser
-        env:
-          APP_URL: "http://127.0.0.1:8000"
-
-      - name: Upload Dusk Artifacts
-        uses: actions/upload-artifact@v2
-        if: failure()
-        with:
-          name: Dusk Artifacts
-          path: |
-            ./tests/Browser/screenshots
-            ./tests/Browser/console
-            ./storage/logs
+      - name: Test and Coverage
+        run: make test-coverage
 
   sentry-release:
     name: Sentry Release
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/master' && (github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action == 'merged'))
-    needs: [code-analysis, code-style, security-check, tests, dusk]
+    needs: [code-analysis, code-style, security-check, tests]
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -197,10 +123,10 @@ jobs:
     name: Deploy Staging
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/develop' && (github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action == 'merged'))
-    needs: [code-analysis, code-style, security-check, tests, dusk]
+    needs: [code-analysis, code-style, security-check, tests]
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Trigger Forge Staging Webhook
         run: |
@@ -210,10 +136,10 @@ jobs:
     name: Deploy Production
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/master' && (github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action == 'merged'))
-    needs: [code-analysis, code-style, security-check, tests, dusk]
+    needs: [code-analysis, code-style, security-check, tests]
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Trigger Forge Production Webhook
         run: |

@@ -7,6 +7,7 @@ namespace Tests\Unit\Data\Project;
 use App\Data\Project;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\File;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class RecentlyUpdatedTest extends TestCase
@@ -18,7 +19,7 @@ class RecentlyUpdatedTest extends TestCase
         Carbon::setTestNow(Carbon::parse('10-10-1989 06:45:10'));
     }
 
-    /** @test */
+    #[Test]
     public function is_marked_if_updated_7_days_ago(): void
     {
         File::partialMock()
@@ -39,7 +40,7 @@ class RecentlyUpdatedTest extends TestCase
         $this->assertTrue($project['is_recently_updated']);
     }
 
-    /** @test */
+    #[Test]
     public function is_marked_if_updated_3_days_ago(): void
     {
         File::partialMock()
@@ -60,7 +61,7 @@ class RecentlyUpdatedTest extends TestCase
         $this->assertTrue($project['is_recently_updated']);
     }
 
-    /** @test */
+    #[Test]
     public function is_marked_if_updated_1_day_ago(): void
     {
         File::partialMock()
@@ -81,7 +82,7 @@ class RecentlyUpdatedTest extends TestCase
         $this->assertTrue($project['is_recently_updated']);
     }
 
-    /** @test */
+    #[Test]
     public function is_not_marked_if_updated_on_the_same_day_as_publishing(): void
     {
         File::partialMock()
@@ -102,7 +103,7 @@ class RecentlyUpdatedTest extends TestCase
         $this->assertFalse($project['is_recently_updated']);
     }
 
-    /** @test */
+    #[Test]
     public function is_not_marked_if_updated_8_days_ago(): void
     {
         File::partialMock()
@@ -123,7 +124,7 @@ class RecentlyUpdatedTest extends TestCase
         $this->assertFalse($project['is_recently_updated']);
     }
 
-    /** @test */
+    #[Test]
     public function is_not_marked_if_not_published(): void
     {
         File::partialMock()
@@ -144,7 +145,7 @@ class RecentlyUpdatedTest extends TestCase
         $this->assertFalse($project['is_recently_updated']);
     }
 
-    /** @test */
+    #[Test]
     public function is_not_marked_if_not_updated(): void
     {
         File::partialMock()

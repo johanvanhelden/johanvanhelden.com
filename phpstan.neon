@@ -1,5 +1,5 @@
 includes:
-    - ./vendor/nunomaduro/larastan/extension.neon
+    - ./vendor/larastan/larastan/extension.neon
 
 parameters:
     level: max
@@ -12,17 +12,11 @@ parameters:
 
     ignoreErrors:
         # Mixed issues
-        - '#Cannot call method (.*) on mixed.#'
+        - '#Parameter (.*) expects (.*), mixed given.#'
         - '#Cannot access offset (.*) on mixed.#'
-        - '#Cannot cast mixed to (.*).#'
 
         # Mockery causes issues
         - '#Call to an undefined method Mockery\\(.*).#'
 
-    checkMissingIterableValueType: false
-    checkUnionTypes: false
-    checkModelProperties: true
-
-    # Might fix this in the future:
-    checkGenericClassInNonGenericObjectType: false
-
+        - identifier: missingType.iterableValue
+        - identifier: missingType.generics

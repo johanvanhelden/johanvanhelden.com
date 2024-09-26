@@ -6,11 +6,12 @@ namespace Tests\Unit\Data\Project;
 
 use App\Data\Project;
 use Illuminate\Support\Facades\File;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class ContentDisplayTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function markdown_is_converted_to_html(): void
     {
         File::partialMock()

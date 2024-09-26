@@ -20,7 +20,7 @@ abstract class TestCase extends BaseTestCase
 
     protected function invokeMethod(object &$instance, string $methodName, mixed ...$parameters): mixed
     {
-        $reflection = new ReflectionClass(get_class($instance));
+        $reflection = new ReflectionClass($instance::class);
 
         $method = $reflection->getMethod($methodName);
         $method->setAccessible(true);
@@ -30,7 +30,7 @@ abstract class TestCase extends BaseTestCase
 
     protected function getProperty(object &$instance, string $property): mixed
     {
-        $reflection = new ReflectionClass(get_class($instance));
+        $reflection = new ReflectionClass($instance::class);
         $property = $reflection->getProperty($property);
         $property->setAccessible(true);
 

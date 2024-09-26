@@ -14,7 +14,10 @@ class HorizonServiceProvider extends HorizonApplicationServiceProvider
     {
         parent::boot();
 
-        Horizon::night();
+        $horizonEmail = config('constants.horizon-notify-email');
+        if (is_string($horizonEmail)) {
+            Horizon::routeMailNotificationsTo($horizonEmail);
+        }
     }
 
     protected function gate(): void

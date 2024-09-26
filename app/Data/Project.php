@@ -53,13 +53,10 @@ class Project extends BaseData
             return false;
         }
 
-        $daysSinceUpdate = Carbon::now()->diffInDays($project['updated_at']);
+        $updatedAt = Carbon::parse($project['updated_at']);
+        $consideredOldIfAfter = Carbon::now()->subDays(7);
 
-        if ($daysSinceUpdate <= 7) {
-            return true;
-        }
-
-        return false;
+        return $updatedAt->gte($consideredOldIfAfter);
     }
 
     private static function publishAtDisplay(array $project): ?string
