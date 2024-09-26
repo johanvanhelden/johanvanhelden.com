@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Data;
 
+use Exception;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\File;
 
@@ -33,6 +34,12 @@ abstract class BaseData
     {
         $items = static::all();
 
-        return $items->where('slug', $slug)->firstOrFail();
+        $item = $items->where('slug', $slug)->firstOrFail();
+
+        if (!is_array($item)) {
+            throw new Exception('Invalid: ' . $slug);
+        }
+
+        return $item;
     }
 }

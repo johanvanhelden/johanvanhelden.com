@@ -7,29 +7,25 @@
         "php": "^8.3",
         "guzzlehttp/guzzle": "^7.2",
         "laracasts/flash": "^3.0",
-        "laravel/framework": "^10.0",
+        "laravel/framework": "^11.0",
         "laravel/horizon": "^5.0",
         "league/commonmark": "^2.0",
-        "livewire/livewire": "^2.6",
-        "predis/predis": "^2.0",
-        "sentry/sentry-laravel": "^3.0",
+        "sentry/sentry-laravel": "^4.0",
         "spatie/laravel-queueable-action": "^2.6",
-        "symfony/http-client": "^6.0",
-        "symfony/mailgun-mailer": "^6.0"
+        "symfony/http-client": "^7.0",
+        "symfony/mailgun-mailer": "^7.0"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.5",
-        "barryvdh/laravel-ide-helper": "^2.8",
-        "brianium/paratest": "^7.0",
-        "fakerphp/faker": "^1.9.1",
+        "barryvdh/laravel-ide-helper": "^3.0",
+        "fakerphp/faker": "^1.16.0",
         "larastan/larastan": "^2.9",
-        "laravel/dusk": "^7.7",
         "laravel/tinker": "^2.8",
         "mockery/mockery": "^1.4.4",
-        "nunomaduro/collision": "^7.0",
-        "phpunit/phpunit": "^10.0",
+        "nunomaduro/collision": "^8.1",
+        "phpunit/phpunit": "^11.0",
         "spatie/laravel-ignition": "^2.0",
-        "spatie/laravel-web-tinker": "^1.7.5"
+        "spatie/laravel-web-tinker": "^1.9"
     },
     "autoload": {
         "psr-4": {
@@ -54,26 +50,8 @@
         ],
         "post-update-cmd": [
             "@php artisan vendor:publish --tag=laravel-assets --ansi --force",
-            "@php artisan horizon:publish --ansi",
-            "@php artisan vendor:publish --tag=web-tinker-assets --force --ansi",
-            "@php artisan vendor:publish --force --tag=livewire:assets --ansi"
-        ],
-        "test": [
-            "@php artisan test --parallel"
-        ],
-        "test-coverage": [
-            "@php -d pcov.enabled=1 ./vendor/bin/phpunit --coverage-html public/tests-report"
-        ],
-        "test-browser": [
-            "@php artisan dusk"
+            "@php artisan vendor:publish --tag=web-tinker-assets --force --ansi"
         ]
-    },
-    "extra": {
-        "laravel": {
-            "dont-discover": [
-                "laravel/dusk"
-            ]
-        }
     },
     "config": {
         "optimize-autoloader": true,

@@ -3,12 +3,9 @@
 declare(strict_types=1);
 
 return [
-    'date'      => 'd-m-Y',
-    'time'      => 'H:i',
-    'datetime'  => 'd-m-Y H:i',
-    'timestamp' => 'YmdHis',
+    'date'     => 'd-m-Y',
+    'time'     => 'H:i',
+    'datetime' => 'd-m-Y H:i',
 
-    'date_moment'     => 'DD-MM-YYYY',
-    'time_moment'     => 'HH:mm',
-    'datetime_moment' => 'DD-MM-YYYY HH:mm',
+    'timestamp' => 'YmdHis',
 ];

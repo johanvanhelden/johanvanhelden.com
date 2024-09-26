@@ -3,6 +3,7 @@ import typography from "@tailwindcss/typography";
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+    darkMode: "selector",
     theme: {
         extend: {
             colors: {

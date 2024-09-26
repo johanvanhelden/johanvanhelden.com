@@ -14,12 +14,9 @@
         gtag('js', new Date());
         gtag('config', 'G-P4S7PBBEQ4');
     </script>
-    @livewireStyles
 </head>
 <body class="body">
     {{ $slot }}
-
-    @livewireScripts
 
     @vite(['resources/src/main.js'])
 </body>

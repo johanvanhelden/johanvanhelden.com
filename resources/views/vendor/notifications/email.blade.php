@@ -1,12 +1,12 @@
-@component('mail::message')
+<x-mail::message>
 {{-- Greeting --}}
 @if (! empty($greeting))
 # {{ $greeting }}
 @else
 @if ($level === 'error')
-# {{ __('notification.error_greeting') }}
+# {{ trans('notification.error_greeting') }}
 @else
-# {{ __('notification.greeting') }}
+# {{ trans('notification.greeting') }}
 @endif
 @endif
 
@@ -17,20 +17,16 @@
 @endforeach
 
 {{-- Action Button --}}
-@isset ($actionText)
+@isset($actionText)
 <?php
-    switch ($level) {
-        case 'success':
-        case 'error':
-            $color = $level;
-            break;
-        default:
-            $color = 'primary';
-    }
+    $color = match ($level) {
+        'success', 'error' => $level,
+        default => 'primary',
+    };
 ?>
-@component('mail::button', ['url' => $actionUrl, 'color' => $color])
+<x-mail::button :url="$actionUrl" :color="$color">
 {{ $actionText }}
-@endcomponent
+</x-mail::button>
 @endisset
 
 {{-- Outro Lines --}}
@@ -43,13 +39,15 @@
 @if (! empty($salutation))
 {{ $salutation }}
 @else
-{{ __('notification.regards') }}<br>{{ config('app.name') }}
+{{ trans('notification.regards') }}<br>
+{{ config('app.name') }}
 @endif
 
 {{-- Subcopy --}}
-@isset ($actionText)
-@slot('subcopy')
-{{ __('notification.trouble_viewing', ['actionText' => $actionText]) }} [{{ $actionUrl }}]({{ $actionUrl }})
-@endslot
+@isset($actionText)
+<x-slot:subcopy>
+{{ trans('notification.trouble_viewing', ['actionText' => $actionText]) }}
+<span class="break-all">[{{ $displayableActionUrl }}]({{ $actionUrl }})</span>
+</x-slot:subcopy>
 @endisset
-@endcomponent
+</x-mail::message>

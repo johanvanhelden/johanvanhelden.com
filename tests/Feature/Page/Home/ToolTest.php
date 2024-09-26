@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature\Page\Home;
 
 use Carbon\Carbon;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\File;
 use Tests\TestCase;
 
@@ -44,8 +45,10 @@ class ToolTest extends TestCase
 
         $response = $this->get(route('page.home'));
 
+        /** @var \Illuminate\Support\Collection<int, array<string, mixed>> $viewTools */
         $viewTools = $response->viewData('tools');
 
+        $this->assertInstanceOf(Collection::class, $viewTools);
         $this->assertCount(1, $viewTools);
 
         $this->assertEquals(
