@@ -1,4 +1,9 @@
+import forms from "@tailwindcss/forms";
+import typography from "@tailwindcss/typography";
+
+/** @type {import('tailwindcss').Config} */
 module.exports = {
+    darkMode: "selector",
     theme: {
         extend: {
             colors: {
@@ -73,8 +78,7 @@ module.exports = {
         },
     },
     plugins: [
-        require('@tailwindcss/forms'),
-        require('@tailwindcss/typography'),
+        forms, typography
     ],
     content: [
         './resources/**/*.blade.php',

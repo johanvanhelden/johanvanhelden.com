@@ -7,11 +7,12 @@ namespace Tests\Feature\Page\Project;
 use App\Data\Project;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\File;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class ShowTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_works(): void
     {
         $project = Project::all()[0];
@@ -22,7 +23,7 @@ class ShowTest extends TestCase
             ->assertOk();
     }
 
-    /** @test */
+    #[Test]
     public function it_contains_the_project_data(): void
     {
         $project = Project::all()[0];
@@ -33,7 +34,7 @@ class ShowTest extends TestCase
             ->assertViewHas('project', $project);
     }
 
-    /** @test */
+    #[Test]
     public function an_unpublished_project_can_not_be_viewed(): void
     {
         File::partialMock()
@@ -57,7 +58,7 @@ class ShowTest extends TestCase
             ->assertStatus(403);
     }
 
-    /** @test */
+    #[Test]
     public function a_published_project_can_not_be_viewed_if_in_the_future(): void
     {
         File::partialMock()

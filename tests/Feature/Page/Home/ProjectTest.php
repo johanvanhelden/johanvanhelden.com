@@ -5,19 +5,21 @@ declare(strict_types=1);
 namespace Tests\Feature\Page\Home;
 
 use Carbon\Carbon;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\File;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class ProjectTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function has_projects(): void
     {
         $this->get(route('page.home'))
             ->assertViewHas('projects');
     }
 
-    /** @test */
+    #[Test]
     public function it_only_lists_published(): void
     {
         File::partialMock()
@@ -44,8 +46,10 @@ class ProjectTest extends TestCase
 
         $response = $this->get(route('page.home'));
 
+        /** @var \Illuminate\Support\Collection<int, array<string, mixed>> $viewProjects */
         $viewProjects = $response->viewData('projects');
 
+        $this->assertInstanceOf(Collection::class, $viewProjects);
         $this->assertCount(1, $viewProjects);
 
         $this->assertEquals(

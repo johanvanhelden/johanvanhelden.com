@@ -1,32 +1,26 @@
 import { defineConfig } from "vite";
 import laravel from "laravel-vite-plugin";
-import { splitVendorChunkPlugin } from "vite";
 
-const defaultConfig = {
+export default defineConfig({
     plugins: [
-        splitVendorChunkPlugin(),
         laravel({
-            input: ["resources/css/main.css", "resources/src/main.js"],
+            input: [
+                "resources/css/main.css",
+                "resources/src/main.js"
+            ],
             refresh: true,
         }),
     ],
     build: {
         chunkSizeWarningLimit: 1000,
-    },
-};
-
-export default defineConfig(({ command, mode }) => {
-    if (command === "serve" && mode === "test") {
-        return {
-            ...defaultConfig,
-            test: {
-                globals: true,
-                root: "resources/src/",
+        rollupOptions: {
+            output: {
+                manualChunks: function manualChunks(id) {
+                    if (id.includes("node_modules")) {
+                        return "vendor";
+                    }
+                },
             },
-        };
-    }
-
-    return {
-        ...defaultConfig,
-    };
+        },
+    },
 });

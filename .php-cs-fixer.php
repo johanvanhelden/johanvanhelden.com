@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-$config = new PhpCsFixer\Config();
-
-$config->setRules([
+return (new PhpCsFixer\Config())
+    ->setRiskyAllowed(true)
+    ->setRules([
         '@PSR12' => true,
 
         'array_syntax'           => ['syntax' => 'short'],
@@ -16,12 +16,13 @@ $config->setRules([
         ],
         'blank_line_before_statement'            => ['statements' => ['return']],
         'cast_spaces'                            => true,
-        'class_attributes_separation'            => ['elements' => ['const' => 'one', 'method' => 'one', 'property' => 'one']],
+        'class_attributes_separation'            => ['elements' => ['method' => 'one']],
         'concat_space'                           => ['spacing' => 'one'],
         'declare_strict_types'                   => true,
         'function_typehint_space'                => true,
         'include'                                => true,
         'increment_style'                        => ['style' => 'post'],
+        'modernize_strpos'                       => true,
         'multiline_whitespace_before_semicolons' => true,
         'native_function_casing'                 => true,
         'no_blank_lines_after_phpdoc'            => true,
@@ -66,6 +67,8 @@ $config->setRules([
         'phpdoc_trim'                                 => true,
         'phpdoc_types'                                => true,
         'phpdoc_var_without_name'                     => true,
+        'pow_to_exponentiation'                       => true,
+        'psr_autoloading'                             => true,
         'self_accessor'                               => true,
         'single_line_comment_style'                   => true,
         'single_quote'                                => true,
@@ -78,5 +81,3 @@ $config->setRules([
         'whitespace_after_comma_in_array'             => true,
     ])
     ->setLineEnding("\n");
-
-return $config;

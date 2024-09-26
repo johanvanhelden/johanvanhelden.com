@@ -7,6 +7,7 @@ namespace Tests\Unit\Data\Project;
 use App\Data\Project;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\File;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class IsUpdatedTest extends TestCase
@@ -18,7 +19,7 @@ class IsUpdatedTest extends TestCase
         Carbon::setTestNow(Carbon::parse('10-10-1989 06:45:10'));
     }
 
-    /** @test */
+    #[Test]
     public function is_marked_if_edited_the_day_after_being_published(): void
     {
         File::partialMock()
@@ -39,7 +40,7 @@ class IsUpdatedTest extends TestCase
         $this->assertTrue($project['is_updated']);
     }
 
-    /** @test */
+    #[Test]
     public function is_not_marked_if_not_published(): void
     {
         File::partialMock()
@@ -60,7 +61,7 @@ class IsUpdatedTest extends TestCase
         $this->assertFalse($project['is_updated']);
     }
 
-    /** @test */
+    #[Test]
     public function is_not_marked_if_edit_on_the_same_day_as_being_published(): void
     {
         File::partialMock()
@@ -81,7 +82,7 @@ class IsUpdatedTest extends TestCase
         $this->assertFalse($project['is_updated']);
     }
 
-    /** @test */
+    #[Test]
     public function is_not_marked_if_updated_before_the_day_of_publishing(): void
     {
         File::partialMock()

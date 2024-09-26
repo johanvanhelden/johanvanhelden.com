@@ -21,7 +21,7 @@
 {{-- Footer --}}
 @slot('footer')
 @component('mail::footer')
-© {{ date('Y') }} {{ config('app.name') }}. {{ __('mail.copyright') }}
+© {{ date('Y') }} {{ config('app.name') }}. {{ trans('mail.copyright') }}
 @endcomponent
 @endslot
 @endcomponent

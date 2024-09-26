@@ -33,6 +33,6 @@ abstract class BaseData
     {
         $items = static::all();
 
-        return $items->where('slug', $slug)->firstOrFail();
+        return (array) $items->where('slug', $slug)->sole();
     }
 }
