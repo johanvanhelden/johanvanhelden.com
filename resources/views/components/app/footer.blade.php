@@ -1,5 +1,5 @@
-<div class="bg-secondary text-white">
-    <div class="sm:flex max-w-6xl mx-auto px-6 py-8">
+<div class="bg-secondary text-white sm:text-sm">
+    <div class="sm:flex max-w-6xl mx-auto px-6 py-8 ">
         <div class="sm:flex-1 text-center sm:text-left mb-6 sm:mb-0">
             <a href="{{ route('page.home') }}">{{ config('app.name') }}</a> © {{ date('Y') }}
         </div>
@@ -11,7 +11,7 @@
                 class="mx-2"
                 title="Email"
             >
-                <i class="far fa-envelope"></i>
+                E-mail
             </a>
             <a
                 href="https://github.com/johanvanhelden"
@@ -20,7 +20,7 @@
                 class="mx-2"
                 title="GitHub"
             >
-                <i class="fab fa-github"></i>
+                GitHub
             </a>
             <a
                 href="https://www.linkedin.com/in/johanvhelden"
@@ -29,7 +29,7 @@
                 class="mx-2"
                 title="Linkedin"
             >
-                <i class="fab fa-linkedin"></i>
+                Linkedin
             </a>
         </div>
     </div>

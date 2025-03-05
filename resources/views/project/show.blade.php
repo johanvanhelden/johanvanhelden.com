@@ -3,7 +3,7 @@
         <div class="max-w-3xl px-6 mx-auto">
             <div class="mb-6">
                 <div class="flex items-center">
-                    <h1 class="text-4xl text-secondary font-bold leading-1">
+                    <h1 class="text-4xl/8 text-secondary font-bold">
                         {{ $project['name'] }}
                     </h1>
                 </div>
@@ -46,8 +46,7 @@
                         rel="noopener noreferrer"
                         class="font-semibold text-primary hover:underline"
                     >
-                        <i class="fas fa-external-link-alt"></i>
-                        Visit the project
+                        > Visit the project
                     </a>
                 </p>
             @endif
