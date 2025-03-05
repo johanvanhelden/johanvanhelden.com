@@ -25,6 +25,10 @@ class Tool extends BaseData
 
     private static function imageUrl(array $tool): string
     {
+        if (!is_string($tool['image'])) {
+            return '';
+        }
+
         return Vite::asset('resources/img/tools/' . $tool['image']);
     }
 

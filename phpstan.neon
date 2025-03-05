@@ -14,6 +14,8 @@ parameters:
         # Mixed issues
         - '#Parameter (.*) expects (.*), mixed given.#'
         - '#Cannot access offset (.*) on mixed.#'
+        - '#Cannot call (.*) on mixed.#'
+        - '#Method (.*) should return (.*) but returns mixed.#'
 
         # Mockery causes issues
         - '#Call to an undefined method Mockery\\(.*).#'

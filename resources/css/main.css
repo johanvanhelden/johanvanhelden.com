@@ -1,15 +1,43 @@
-/* Vendor */
-@import url('@fortawesome/fontawesome-free/css/fontawesome.css');
-@import url('@fortawesome/fontawesome-free/css/brands.css');
-@import url('@fortawesome/fontawesome-free/css/regular.css');
-@import url('@fortawesome/fontawesome-free/css/solid.css');
+/* stylelint-disable-next-line import-notation */
+@import 'tailwindcss' source('../../resources/');
 
-/* Main */
-@import url('tailwindcss/base');
+@plugin '@tailwindcss/forms';
+@plugin '@tailwindcss/typography';
 
-/* Components */
-@import url('tailwindcss/components');
-@import url('./components/button.css');
+@custom-variant dark (&:where(.dark, .dark *));
 
-/* Utilities */
-@import url('tailwindcss/utilities');
+@theme {
+    /* stylelint-disable-next-line value-keyword-case */
+    --font-sans: InterVariable, sans-serif;
+
+    /* -- */
+    --color-gray-100: #f7fafc;
+    --color-gray-200: #edf2f7;
+    --color-gray-300: #e2e8f0;
+    --color-gray-400: #cbd5e0;
+    --color-gray-500: #a0aec0;
+    --color-gray-600: #718096;
+    --color-gray-700: #4a5568;
+    --color-gray-800: #2d3748;
+    --color-gray-900: #1a202c;
+
+    /* -- */
+    --color-blue-100: #ebf8ff;
+    --color-blue-200: #bee3f8;
+    --color-blue-300: #90cdf4;
+    --color-blue-400: #63b3ed;
+    --color-blue-500: #4299e1;
+    --color-blue-600: #3182ce;
+    --color-blue-700: #2b6cb0;
+    --color-blue-800: #2c5282;
+    --color-blue-900: #2a4365;
+
+    /* -- */
+    --color-secondary: #2d3748;
+
+    /* -- */
+    --color-primary: #19639e;
+    --color-primary-lightest: #e8f3fc;
+    --color-primary-light: #1780d4;
+    --color-primary-dark: #08406e;
+}

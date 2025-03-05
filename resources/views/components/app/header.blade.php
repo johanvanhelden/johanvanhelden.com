@@ -1,7 +1,7 @@
 <div
     id="header"
     class="
-        relative text-lg bg-black bg-cover bg-no-repeat bg-center lg:bg-center-top
+        relative text-lg bg-black bg-cover bg-no-repeat bg-center lg:bg-[center_top]
         @if (!$expandedHeader) h-64 @endif
     "
     style="background-image: url('{{ Vite::asset('resources/img/header-narrow.jpg') }}');"
@@ -23,11 +23,11 @@
                     <p class="md:text-xl leading-snug mb-4">
                         Software Engineer at
                         <a
-                            href="https://paqt.com"
+                            href="https://newdays.nl"
                             rel="noopener noreferrer"
                             target="_blank"
                             class="underline decoration-dotted hover:decoration-solid"
-                        >PAQT.com</a>, creator of
+                        >newdays.nl</a>, creator of
                         <a
                             href="https://github.com/johanvanhelden/dockerhero"
                             rel="noopener noreferrer"
