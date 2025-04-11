@@ -24,6 +24,15 @@ class ShowTest extends TestCase
     }
 
     #[Test]
+    public function in_invalid_project_triggers_a_404(): void
+    {
+        $this
+            ->get(route('project.show', 'fake-project'))
+
+            ->assertNotFound();
+    }
+
+    #[Test]
     public function it_contains_the_project_data(): void
     {
         $project = Project::all()[0];
